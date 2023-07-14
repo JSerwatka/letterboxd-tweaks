@@ -1,14 +1,10 @@
 import { For, createSignal } from 'solid-js';
 import Option from '../components/Option';
-
-const options = [
-  { id: 0, title: 'test 0', description: 'description 0', checked: false },
-  { id: 1, title: 'test 1', description: 'description 1', checked: false },
-  { id: 2, title: 'test 2', description: 'description 2', checked: false }
-];
+import { useOptionsContext } from '../context/OptionsContext';
 
 const Popup = () => {
   const [searchText, setSearchText] = createSignal('');
+  const { options } = useOptionsContext();
 
   return (
     <main class="w-72 p-3">
