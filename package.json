@@ -1,0 +1,27 @@
+{
+  "name": "letterboxd-tweaks",
+  "displayName": "Letterboxd Tweaks",
+  "version": "0.0.0",
+  "description": "",
+  "license": "MIT",
+  "scripts": {
+    "dev": "vite build -w",
+    "build": "vite build"
+  },
+  "type": "module",
+  "dependencies": {
+    "solid-js": "^1.6.2"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "2.0.0-beta.7",
+    "@types/chrome": "0.0.203",
+    "@types/node": "18.11.10",
+    "autoprefixer": "^10.4.13",
+    "postcss": "^8.4.19",
+    "prettier": "2.8.0",
+    "tailwindcss": "^3.3.3",
+    "typescript": "4.9.3",
+    "vite": "3.2.4",
+    "vite-plugin-solid": "^2.4.0"
+  }
+}

@@ -1,0 +1,16 @@
+# dependencies
+/node_modules
+
+# testing
+/coverage
+
+# build
+/build
+
+# etc
+.DS_Store
+.env.local
+.idea
+
+#generated manifest
+public/manifest.json
