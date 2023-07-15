@@ -1,4 +1,4 @@
-import Switch from './Switch';
+import Switch from '@components/Switch';
 
 interface OptionProps {
   title: string;

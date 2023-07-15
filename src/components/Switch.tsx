@@ -1,4 +1,4 @@
-import { useOptionsContext } from '../pages/context/OptionsContext';
+import { useOptionsContext } from '@context/OptionsContext';
 
 interface SwitchProps {
   id: number;

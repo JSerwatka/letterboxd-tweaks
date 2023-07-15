@@ -1,7 +1,7 @@
 import { render } from 'solid-js/web';
-import '../../index.css';
+import '@src/index.css';
 import Popup from './Popup';
-import { OptionsProvider } from '../context/OptionsContext';
+import { OptionsProvider } from '@context/OptionsContext';
 
 const root = document.querySelector('#root');
 
