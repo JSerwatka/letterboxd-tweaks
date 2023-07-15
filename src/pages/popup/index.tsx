@@ -1,5 +1,5 @@
 import { render } from 'solid-js/web';
-import '@src/index.css';
+import '@tailwind';
 import Popup from './Popup';
 import { OptionsProvider } from '@context/OptionsContext';
 

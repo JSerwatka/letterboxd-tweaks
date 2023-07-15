@@ -1,4 +1,4 @@
-import '@src/index.css';
+import '@tailwind';
 
 console.info('content script');
 
