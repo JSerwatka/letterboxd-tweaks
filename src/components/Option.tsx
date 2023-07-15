@@ -1,10 +1,7 @@
 import Switch from '@components/Switch';
+import { Options } from '@options/defaultOptions';
 
-interface OptionProps {
-  title: string;
-  description: string;
-  id: number;
-}
+type OptionProps = Pick<Options, 'title' | 'description' | 'id'>;
 
 const Option = (props: OptionProps) => {
   return (

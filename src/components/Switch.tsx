@@ -1,12 +1,11 @@
 import { useOptionsContext } from '@context/OptionsContext';
+import { Options } from '@options/defaultOptions';
 
-interface SwitchProps {
-  id: number;
-}
+type SwitchProps = Pick<Options, 'id'>;
 
 const Switch = (props: SwitchProps) => {
   const { options, toggleChecked } = useOptionsContext();
-  const isChecked = () => options[props.id].checked;
+  const isChecked = () => options.find((option) => option.id === props.id)?.checked; // TODO add error handling
 
   return (
     <div class="flex h-6 items-center">

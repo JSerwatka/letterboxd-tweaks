@@ -9,7 +9,7 @@ interface OptionsProviderProps {
 const createOptionsStore = () => {
   const [options, setOptions] = createStore<Options[]>(defaultOptions);
 
-  const toggleChecked = (id: number) => {
+  const toggleChecked = (id: string) => {
     setOptions(
       (option) => option.id === id,
       'checked',
