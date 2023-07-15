@@ -1,5 +1,5 @@
 import { For, createSignal } from 'solid-js';
-import Option from '../components/Option';
+import Option from '../../components/Option';
 import { useOptionsContext } from '../context/OptionsContext';
 
 const Popup = () => {

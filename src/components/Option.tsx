@@ -1,4 +1,3 @@
-import { createUniqueId } from 'solid-js';
 import Switch from './Switch';
 
 interface OptionProps {

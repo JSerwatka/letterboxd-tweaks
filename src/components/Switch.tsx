@@ -1,6 +1,4 @@
-import { createEffect, createMemo, createSignal, createUniqueId } from 'solid-js';
-import { useOptionsContext } from '../context/OptionsContext';
-import { unwrap } from 'solid-js/store';
+import { useOptionsContext } from '../pages/context/OptionsContext';
 
 interface SwitchProps {
   id: number;
