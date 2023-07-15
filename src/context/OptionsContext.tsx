@@ -1,6 +1,6 @@
 import { JSX, createContext, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { type Options, defaultOptions } from '@options/defaultOptions';
+import { type Options, defaultOptions } from '@src/options/default-options';
 
 interface OptionsProviderProps {
   children: JSX.Element;

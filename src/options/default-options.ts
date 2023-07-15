@@ -4,6 +4,7 @@ export interface Options {
   description: string;
   section: string;
   checked: boolean;
+  function?: string;
 }
 
 export const defaultOptions: Options[] = [
@@ -11,56 +12,56 @@ export const defaultOptions: Options[] = [
     id: 'c28ab596-04eb-4247-b9b6-827cb85e0673',
     title: 'Hide home',
     description: 'Hide home option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '6808e452-0a35-4eb4-9c16-361e23d223fc',
     title: 'Hide diary',
     description: 'Hide diary option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '56a30745-7289-4743-ace9-9ac2f27c3a8a',
     title: 'Hide reviews',
     description: 'Hide reviews option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '26a16e37-3af2-48fb-a150-c970b3abd47a',
     title: 'Hide likes',
     description: 'Hide likes option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '93f8967e-fb6c-470e-9eab-98fcadf61fbb',
     title: 'Hide tags',
     description: 'Hide tags option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: 'a042f97e-14e4-49ea-ab8e-e7f75028d3f6',
     title: 'Hide network',
     description: 'Hide network option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '7f8aa1e7-4a62-4984-bd45-f8ebabbb378a',
     title: 'Hide subscriptions',
     description: 'Hide subscriptions option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
     id: '76bfe9a4-c15b-4150-9a8d-89f0cb670e08',
     title: 'Hide subscriptions',
     description: 'Hide subscriptions option from the main menu',
-    section: 'Main Menu',
+    section: 'Menu',
     checked: false
   },
   {
@@ -96,6 +97,7 @@ export const defaultOptions: Options[] = [
     title: 'Show films score',
     description: 'Show films score on its poster',
     section: 'Films',
+    function: 'showFilmsScore',
     checked: false
   },
   {

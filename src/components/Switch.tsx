@@ -1,5 +1,5 @@
 import { useOptionsContext } from '@context/OptionsContext';
-import { Options } from '@options/defaultOptions';
+import { Options } from '@src/options/default-options';
 
 type SwitchProps = Pick<Options, 'id'>;
 
