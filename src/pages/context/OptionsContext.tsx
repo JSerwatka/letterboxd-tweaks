@@ -1,24 +1,10 @@
 import { JSX, createContext, useContext } from 'solid-js';
-import { SetStoreFunction, createStore } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
+import { type Options, defaultOptions } from '../../options/defaultOptions';
 
 interface OptionsProviderProps {
   children: JSX.Element;
 }
-
-interface Options {
-  id: number;
-  title: string;
-  description: string;
-  section: string;
-  checked: boolean;
-}
-
-const defaultOptions: Options[] = [
-  { id: 0, title: 'hello', description: 'description', section: 'Main Menu', checked: false },
-  { id: 1, title: 'hello2', description: 'description2', section: 'Main Menu', checked: true },
-  { id: 2, title: 'hello3', description: 'description3', section: 'Main Menu', checked: true },
-  { id: 3, title: 'hello4', description: 'description4', section: 'Main Menu', checked: false }
-];
 
 const createOptionsStore = () => {
   const [options, setOptions] = createStore<Options[]>(defaultOptions);
