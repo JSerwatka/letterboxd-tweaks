@@ -19,7 +19,7 @@ const manifest = defineManifest({
   },
   content_scripts: [
     {
-      matches: ['http://*/*', 'https://*/*'],
+      matches: ['http://*.letterboxd.com/*', 'https://*.letterboxd.com/*'],
       js: ['src/pages/content/index.ts']
     }
   ],
