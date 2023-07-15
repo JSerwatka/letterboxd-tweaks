@@ -1,6 +1,7 @@
 import { JSX, createContext, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { type Options, defaultOptions } from '@src/options/default-options';
+import { type Options, defaultOptions } from '@options/default-options';
+import { modifyOptionChromeStorage } from '@utils/chrome-storage';
 
 interface OptionsProviderProps {
   children: JSX.Element;
@@ -9,15 +10,12 @@ interface OptionsProviderProps {
 const createOptionsStore = () => {
   const [options, setOptions] = createStore<Options[]>(defaultOptions);
 
-  const toggleChecked = (id: string) => {
-    setOptions(
-      (option) => option.id === id,
-      'checked',
-      (checked) => !checked
-    );
+  const handleCheckChange = (id: string, newValue: Options['checked']) => {
+    setOptions((option) => option.id === id, 'checked', newValue);
+    modifyOptionChromeStorage(id, newValue ? 'add' : 'remove');
   };
 
-  return { options, toggleChecked };
+  return { options, handleCheckChange };
 };
 
 type ContextType = ReturnType<typeof createOptionsStore>;
@@ -25,9 +23,9 @@ type ContextType = ReturnType<typeof createOptionsStore>;
 const OptionsContext = createContext<ContextType>();
 
 export function OptionsProvider(props: OptionsProviderProps) {
-  const { options, toggleChecked } = createOptionsStore();
+  const { options, handleCheckChange } = createOptionsStore();
 
-  return <OptionsContext.Provider value={{ options, toggleChecked }}>{props.children}</OptionsContext.Provider>;
+  return <OptionsContext.Provider value={{ options, handleCheckChange }}>{props.children}</OptionsContext.Provider>;
 }
 
 export function useOptionsContext() {

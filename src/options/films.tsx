@@ -1,7 +1,7 @@
-import FilmScore from '@src/components/FilmScore';
+import FilmScore from '@components/FilmScore';
 import { render } from 'solid-js/web';
 
-export function showFilmsScore() {
+export const showFilmsScore = () => {
   const films = document.querySelectorAll('.poster-container') as NodeListOf<HTMLElement>;
   console.log(films);
   if (films.length) {
@@ -13,4 +13,4 @@ export function showFilmsScore() {
       render(() => <FilmScore score={'hello'} />, film);
     });
   }
-}
+};

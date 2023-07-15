@@ -1,10 +1,10 @@
 import { useOptionsContext } from '@context/OptionsContext';
-import { Options } from '@src/options/default-options';
+import { Options } from '@options/default-options';
 
 type SwitchProps = Pick<Options, 'id'>;
 
 const Switch = (props: SwitchProps) => {
-  const { options, toggleChecked } = useOptionsContext();
+  const { options, handleCheckChange } = useOptionsContext();
   const isChecked = () => options.find((option) => option.id === props.id)?.checked; // TODO add error handling
 
   return (
@@ -18,7 +18,7 @@ const Switch = (props: SwitchProps) => {
         }}
         role="switch"
         aria-checked="false" // TODO
-        onClick={[toggleChecked, props.id]}
+        onClick={() => handleCheckChange(props.id, !isChecked())}
       >
         <span
           aria-hidden="true"

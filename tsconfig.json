@@ -21,7 +21,8 @@
       "@pages/*": ["./src/pages/*"],
       "@options/*": ["./src/options/*"],
       "@components/*": ["./src/components/*"],
-      "@context/*": ["./src/context/*"]
+      "@context/*": ["./src/context/*"],
+      "@utils/*": ["./src/utils/*"]
     }
   },
   "include": ["src", "vite.config.ts"]

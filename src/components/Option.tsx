@@ -1,5 +1,5 @@
 import Switch from '@components/Switch';
-import { Options } from '@src/options/default-options';
+import { Options } from '@options/default-options';
 
 type OptionProps = Pick<Options, 'title' | 'description' | 'id'>;
 
