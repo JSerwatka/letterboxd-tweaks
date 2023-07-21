@@ -1,4 +1,4 @@
-import { For, createSignal } from 'solid-js';
+import { For, createEffect, createSignal, onCleanup, onMount } from 'solid-js';
 import Option from '@components/Option';
 import { useOptionsContext } from '@context/OptionsContext';
 
@@ -19,10 +19,7 @@ const Popup = () => {
       <div class="max-h-80 h-auto overflow-auto pr-3">
         <For each={options}>
           {(option) => (
-            <>
-              <Option id={option.id} title={option.title} description={option.description} />
-              <div>{option.checked}</div>
-            </>
+            <Option id={option.id} title={option.title} description={option.description} checked={option.checked} />
           )}
         </For>
       </div>

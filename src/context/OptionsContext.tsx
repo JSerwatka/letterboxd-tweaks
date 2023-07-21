@@ -1,7 +1,7 @@
-import { JSX, createContext, useContext } from 'solid-js';
+import { JSX, createContext, createEffect, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { type Options, defaultOptions } from '@options/default-options';
-import { modifyOptionChromeStorage } from '@utils/chrome-storage';
+import { modifyOptionChromeStorage, syncWithOptionChromeStorage } from '@utils/chrome-storage';
 
 interface OptionsProviderProps {
   children: JSX.Element;
@@ -9,6 +9,11 @@ interface OptionsProviderProps {
 
 const createOptionsStore = () => {
   const [options, setOptions] = createStore<Options[]>(defaultOptions);
+
+  // Sync with Chrome Storage
+  createEffect(() => {
+    syncWithOptionChromeStorage(defaultOptions, setOptions);
+  });
 
   const handleCheckChange = (id: string, newValue: Options['checked']) => {
     setOptions((option) => option.id === id, 'checked', newValue);

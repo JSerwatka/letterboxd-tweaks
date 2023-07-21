@@ -1,18 +1,27 @@
 import { Options } from '@options/default-options';
+import { SetStoreFunction } from 'solid-js/store';
 
-export type ModifyChromeStoregeTasks = 'add' | 'remove';
+export const modifyOptionChromeStorage = (id: Options['id'], task: 'add' | 'remove') => {
+  if (task === 'add') {
+    chrome.storage.sync.set({ [id]: true });
+  } else {
+    chrome.storage.sync.remove(id);
+  }
+};
 
-export const modifyOptionChromeStorage = (id: Options['id'], task: ModifyChromeStoregeTasks) => {
-  chrome.storage.sync.get('selectedOptions').then((storage) => {
-    let newSelectedOptions = storage['selectedOptions'] as string[];
+export const syncWithOptionChromeStorage = (
+  defaultOptions: Options[],
+  setStoreFunction: SetStoreFunction<Options[]>
+) => {
+  const defaultOptionsCopy = JSON.parse(JSON.stringify(defaultOptions)) as Options[];
 
-    if (task === 'add') {
-      newSelectedOptions.push(id);
-    } else {
-      newSelectedOptions = newSelectedOptions.filter((selectedOptionId) => selectedOptionId !== id);
-    }
+  chrome.storage.sync.get(null, (setOptionsIds: Record<string, boolean>) => {
+    Object.keys(setOptionsIds).forEach((optionId) => {
+      const checkedOptionIndex = defaultOptionsCopy.findIndex((option) => option.id === optionId);
 
-    console.log(newSelectedOptions);
-    chrome.storage.sync.set({ selectedOptions: newSelectedOptions });
+      defaultOptionsCopy[checkedOptionIndex].checked = true;
+    });
+
+    setStoreFunction(defaultOptionsCopy);
   });
 };

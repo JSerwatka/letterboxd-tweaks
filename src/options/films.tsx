@@ -10,7 +10,7 @@ export const showFilmsScore = () => {
       if (!score) return;
       film.style.position = 'relative';
 
-      render(() => <FilmScore score={'hello'} />, film);
+      render(() => <FilmScore score={score} />, film);
     });
   }
 };
