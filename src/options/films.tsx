@@ -1,4 +1,4 @@
-import FilmScore from '@components/FilmScore';
+import FilmData from '@components/FilmData';
 import { render } from 'solid-js/web';
 
 const getScore = async (film: HTMLElement) => {
@@ -40,11 +40,12 @@ export const showFilmsScore = () => {
     if (films.length) {
         films.forEach(async (film) => {
             const score = await getScore(film);
-            if (!score) return;
+
+            const releaseYear = film.dataset.filmReleaseYear;
+            const title = film.dataset.filmName;
 
             film.style.position = 'relative';
-
-            render(() => <FilmScore score={score} />, film);
+            render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
         });
     }
 };
