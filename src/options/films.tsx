@@ -1,5 +1,6 @@
 import FilmData from '@components/FilmData';
 import { render } from 'solid-js/web';
+import { observeElement } from '@utils/elementObservers';
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -34,18 +35,15 @@ const getScore = async (film: HTMLElement) => {
     return score;
 };
 
-export const showFilmsScore = () => {
-    const films = document.querySelectorAll('[data-film-name]') as NodeListOf<HTMLElement>;
+export const showFilmsScore = async () => {
+    await observeElement(document, '[data-film-name]', async (element) => {
+        const film = element as HTMLElement;
+        const score = await getScore(film);
 
-    if (films.length) {
-        films.forEach(async (film) => {
-            const score = await getScore(film);
+        const releaseYear = film.dataset.filmReleaseYear;
+        const title = film.dataset.filmName;
 
-            const releaseYear = film.dataset.filmReleaseYear;
-            const title = film.dataset.filmName;
-
-            film.style.position = 'relative';
-            render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
-        });
-    }
+        film.style.position = 'relative';
+        render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
+    });
 };
