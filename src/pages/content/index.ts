@@ -17,3 +17,14 @@ async function main() {
 }
 
 main();
+
+// TODO https://stackoverflow.com/a/73276111
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+    if (request.message.listPage) {
+        console.log('got message', request, sender);
+        const selectedListOption = document.querySelector("[name='sharing'] > option[selected]");
+        const privateListOption = document.querySelector("[name='sharing'] > option[value='You']");
+        selectedListOption?.removeAttribute('selected');
+        privateListOption?.setAttribute('selected', 'selected');
+    }
+});

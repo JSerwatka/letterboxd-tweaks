@@ -5,7 +5,7 @@ const manifest = defineManifest({
     name: 'Letterboxd Tweaks',
     version: '0.0.1',
     description: '',
-    permissions: ['storage'],
+    permissions: ['storage', 'tabs', 'activeTab'],
     icons: {
         '128': 'icons/128x128.png'
     },
