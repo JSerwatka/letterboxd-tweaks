@@ -2,7 +2,7 @@ export function observeElement(
     baseElement: HTMLElement | Document,
     selector: string,
     callback: (element: Element) => void,
-    timeout = 8000
+    timeout?: number
 ) {
     // Run the callback for all existing elements
     baseElement.querySelectorAll(selector).forEach(callback);
@@ -20,9 +20,11 @@ export function observeElement(
 
     observer.observe(baseElement, { childList: true, subtree: true });
 
-    setTimeout(() => {
-        observer.disconnect();
-    }, timeout);
+    if (timeout) {
+        setTimeout(() => {
+            observer.disconnect();
+        }, timeout);
+    }
 }
 
 export async function waitForElement(baseElement: HTMLElement | Document, selector: string, timeout = 5000) {
