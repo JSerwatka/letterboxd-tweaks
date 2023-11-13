@@ -27,7 +27,7 @@ export function observeElement(
     }
 }
 
-export async function waitForElement(baseElement: HTMLElement | Document, selector: string, timeout = 5000) {
+export async function waitForElement(baseElement: HTMLElement | Document, selector: string, timeout = 5000): Promise<Element | null | undefined> {
     let timeoutId: NodeJS.Timeout;
 
     return new Promise((resolve) => {

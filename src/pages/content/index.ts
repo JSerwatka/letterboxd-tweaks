@@ -13,7 +13,7 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 async function main() {
     const file = await import('@options/films');
-    file['showFilmsScore']();
+    file['showFilmData']();
 }
 
 main();

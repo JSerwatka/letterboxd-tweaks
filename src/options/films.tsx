@@ -1,6 +1,6 @@
 import FilmData from '@components/FilmData';
 import { render } from 'solid-js/web';
-import { observeElement } from '@utils/elementObservers';
+import { observeElement } from '@utils/element-observers';
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -35,7 +35,7 @@ const getScore = async (film: HTMLElement) => {
     return score;
 };
 
-export const showFilmsScore = async () => {
+export const showFilmData = async () => {
     await observeElement(document, '[data-film-name]', async (element) => {
         const film = element as HTMLElement;
         const score = await getScore(film);
