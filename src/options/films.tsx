@@ -1,6 +1,6 @@
-import FilmData from '@components/FilmData';
-import { render } from 'solid-js/web';
-import { observeElement } from '@utils/element-observers';
+import FilmData from "@components/FilmData";
+import { render } from "solid-js/web";
+import { observeElement } from "@utils/element-observers";
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -28,22 +28,22 @@ const getScore = async (film: HTMLElement) => {
             });
         if (!ratingHistogramDom) return;
 
-        const htmlDocument = parser.parseFromString(ratingHistogramDom, 'text/html');
-        score = htmlDocument.querySelector('.average-rating > a.display-rating')?.textContent ?? undefined;
+        const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
+        score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
     }
 
     return score;
 };
 
 export const showFilmData = async () => {
-    await observeElement(document, '[data-film-name]', async (element) => {
+    await observeElement(document, "[data-film-name]", async (element) => {
         const film = element as HTMLElement;
         const score = await getScore(film);
 
         const releaseYear = film.dataset.filmReleaseYear;
         const title = film.dataset.filmName;
 
-        film.style.position = 'relative';
+        film.style.position = "relative";
         render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
     });
 };

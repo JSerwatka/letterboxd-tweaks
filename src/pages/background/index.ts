@@ -4,9 +4,9 @@ chrome.runtime.onInstalled.addListener(() => {
 
 chrome.tabs.onUpdated.addListener(function (tabId, changeInfo, tab) {
     const { status, url } = tab;
-    if (status !== 'complete' || !url) return;
+    if (status !== "complete" || !url) return;
 
-    if (url.includes('letterboxd.com/list/new/')) {
+    if (url.includes("letterboxd.com/list/new/")) {
         chrome.tabs.sendMessage(tabId, { message: { listPage: true } });
     }
 });

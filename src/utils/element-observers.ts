@@ -69,15 +69,15 @@ export async function waitForElementData(
 
     const countObservedData = [dataAttribute, textContent, titleAttribute].filter((data) => Boolean(data));
     if (countObservedData.length > 1) {
-        throw new Error('only one attribute can be observed');
+        throw new Error("only one attribute can be observed");
     }
     if (countObservedData.length < 1) {
-        throw new Error('at least one attribute has to be observed');
+        throw new Error("at least one attribute has to be observed");
     }
 
     const attributeFilter = [];
     dataAttribute && attributeFilter.push(dataAttribute);
-    titleAttribute && attributeFilter.push('title');
+    titleAttribute && attributeFilter.push("title");
 
     const observerOptions = {
         childList: true,
@@ -92,7 +92,7 @@ export async function waitForElementData(
     const getValue = () => {
         const element = baseElement.querySelector(selector) as HTMLElement;
         if (dataAttribute) {
-            const dataAttributeNameParts = dataAttribute.split('-').slice(1);
+            const dataAttributeNameParts = dataAttribute.split("-").slice(1);
             if (dataAttributeNameParts.length === 1) {
                 return element?.dataset[dataAttributeNameParts[0]];
             }
@@ -101,11 +101,11 @@ export async function waitForElementData(
                 const dataAttributeCapitalizedNameParts = dataAttributeNameParts
                     .slice(1)
                     .map((item) => item.charAt(0).toUpperCase() + item.substr(1).toLowerCase());
-                const dataAttributeMapped = [dataAttributeNameParts[0], ...dataAttributeCapitalizedNameParts].join('');
+                const dataAttributeMapped = [dataAttributeNameParts[0], ...dataAttributeCapitalizedNameParts].join("");
                 return element?.dataset[dataAttributeMapped];
             }
 
-            throw new Error('Incorrect data attribute');
+            throw new Error("Incorrect data attribute");
         }
 
         if (titleAttribute && element?.title) {

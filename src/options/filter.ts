@@ -16,7 +16,6 @@
 
 import { waitForElement } from "@utils/element-observers";
 
-// TODO: use camelCase for objects
 const accountFilters = {
     "Fade watched movies": "li.js-account-filters > label.js-fade-toggle",
     "Show custom posters": "li.js-account-filters > label.js-custom-poster-toggle"
