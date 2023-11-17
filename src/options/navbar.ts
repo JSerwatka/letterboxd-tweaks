@@ -1,22 +1,17 @@
-// const accountNav = await waitForElement(document, ".main-nav .nav-account");
-// console.log(accountNav);
-// let liElement = accountNav?.querySelector('li a[href*="/films/reviews"]')?.parentNode;
-// console.log(liElement)
-
-import { waitForElement } from '@utils/element-observers';
+import { waitForElement } from "@utils/element-observers";
 
 export async function hideAccountMenuLinks() {
     const MenuLinks = {
-        Home: '/',
-        Diary: '/diary',
-        Reviews: '/reviews',
-        Likes: '/likes',
-        Tags: '/tags',
-        Networks: '/following',
-        Subscriptions: '/subscriptions'
+        Home: "/",
+        Diary: "/diary",
+        Reviews: "/reviews",
+        Likes: "/likes",
+        Tags: "/tags",
+        Networks: "/following",
+        Subscriptions: "/subscriptions"
     } as const;
 
-    const accountMenu = await waitForElement(document, '.main-nav .js-nav-account .subnav');
+    const accountMenu = await waitForElement(document, ".main-nav .js-nav-account .subnav");
 
     if (accountMenu) {
         for (const [title, link] of Object.entries(MenuLinks)) {
@@ -28,15 +23,15 @@ export async function hideAccountMenuLinks() {
 
 export async function hideProfileMenuLinks() {
     const ProfileLinks = {
-        Diary: '/diary',
-        Reviews: '/reviews',
-        Likes: '/likes',
-        Tags: '/tags',
-        Networks: '/following',
-        Invitations: '/invitations'
+        Diary: "/diary",
+        Reviews: "/reviews",
+        Likes: "/likes",
+        Tags: "/tags",
+        Networks: "/following",
+        Invitations: "/invitations"
     } as const;
 
-    const profileMenu = await waitForElement(document, 'nav.profile-navigation');
+    const profileMenu = await waitForElement(document, "nav.profile-navigation");
 
     if (profileMenu) {
         for (const [title, link] of Object.entries(ProfileLinks)) {
@@ -48,12 +43,12 @@ export async function hideProfileMenuLinks() {
 
 export async function hideNavbarLinks() {
     const NavbarLinks = {
-        Activity: '/activity',
-        Members: '/members',
-        Journal: '/journal'
+        Activity: "/activity",
+        Members: "/members",
+        Journal: "/journal"
     } as const;
 
-    const accountMenu = await waitForElement(document, '.main-nav .navitems');
+    const accountMenu = await waitForElement(document, ".main-nav .navitems");
 
     if (accountMenu) {
         for (const [title, link] of Object.entries(NavbarLinks)) {

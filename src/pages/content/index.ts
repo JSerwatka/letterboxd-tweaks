@@ -1,13 +1,13 @@
-import { makeNewListPrivate } from '@options/lists';
-import '@tailwind';
+import { makeNewListPrivate } from "@options/lists";
+import "@tailwind";
 
 // TODO run functions of all options in storage
-console.log('options');
+console.log("options");
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     console.log(changes, areaName);
-    if (areaName === 'sync') {
-        console.log('local storage has changed', changes);
+    if (areaName === "sync") {
+        console.log("local storage has changed", changes);
         // TODO run given option's function
     }
 });
@@ -19,8 +19,8 @@ async function main() {
     // file['hideAccountMenuLinks']();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-    const file = await import('@options/filter');
-    file['hideFilters']();
+    const file = await import("@options/sort");
+    file["hideSort"]();
 }
 
 main();
@@ -28,7 +28,7 @@ main();
 // TODO https://stackoverflow.com/a/73276111
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message.listPage) {
-        console.log('got message', request, sender);
+        console.log("got message", request, sender);
         // makeNewListPrivate();
     }
 });

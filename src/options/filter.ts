@@ -16,13 +16,13 @@
 
 import { waitForElement } from "@utils/element-observers";
 
-const AccountFilters = {
+const accountFilters = {
     "Fade watched movies": "li.js-account-filters > label.js-fade-toggle",
     "Show custom posters": "li.js-account-filters > label.js-custom-poster-toggle"
 } as const;
 
 // for every filter there are 2 subfilters
-const FilmFilters = {
+const filmFilters = {
     "Show/hide watched movies": "li.js-film-filter[data-category='watched']",
     "Show/hide liked movies": "li.js-film-filter[data-category='liked']",
     "Show/hide reviewed films": "li.js-film-filter[data-category='reviewed']",
@@ -32,7 +32,7 @@ const FilmFilters = {
     "Show/hide films in watchlist": "li.js-film-filter[data-category='watchlisted']"
 } as const;
 
-const ContentFilters = {
+const contentFilters = {
     "Hide documentaries": "li.js-film-filter[data-category='docs']",
     "Hide unreleased titles": "li.js-film-filter[data-category='unreleased']"
 } as const;
@@ -40,28 +40,28 @@ const ContentFilters = {
 export async function hideFilters() {
     const filterMenu = (await waitForElement(document, "ul.smenu-menu > li[class$='filters']"))?.parentElement;
 
-    if (filterMenu) {
-        for (const [title, selector] of Object.entries(AccountFilters)) {
-            const element = await waitForElement(filterMenu, selector);
-            if (element) {
-                const parent = element.parentElement;
-                parent?.remove();
-            }
-        }
-        // remove only if both AccountFilters elements are removed
-        const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
-        elementWithDivider?.classList.remove("divider-line");
+    if (!filterMenu) return;
 
-        for (const [title, selector] of Object.entries(FilmFilters)) {
-            const showElement = await waitForElement(document, selector + "[data-type='show");
-            const hideElement = await waitForElement(document, selector + "[data-type='hide");
-            showElement?.remove();
-            hideElement?.remove();
+    for (const [option, selector] of Object.entries(accountFilters)) {
+        const element = await waitForElement(filterMenu, selector);
+        if (element) {
+            const parent = element.parentElement;
+            parent?.remove();
         }
+    }
+    // remove only if both accountFilters elements are removed
+    const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
+    elementWithDivider?.classList.remove("divider-line");
 
-        for (const [title, selector] of Object.entries(ContentFilters)) {
-            const element = await waitForElement(filterMenu, selector);
-            element?.remove();
-        }
+    for (const [option, selector] of Object.entries(filmFilters)) {
+        const showElement = await waitForElement(document, selector + "[data-type='show");
+        const hideElement = await waitForElement(document, selector + "[data-type='hide");
+        showElement?.remove();
+        hideElement?.remove();
+    }
+
+    for (const [option, selector] of Object.entries(contentFilters)) {
+        const element = await waitForElement(filterMenu, selector);
+        element?.remove();
     }
 }
