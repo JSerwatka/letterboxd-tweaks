@@ -19,10 +19,8 @@ async function main() {
     // file['hideAccountMenuLinks']();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-    // const file = await import('@options/filter');
-    // file['hideAccountMenuLinks']();
-    // file['hideProfileMenuLinks']();
-    // file['hideNavbarLinks']();
+    const file = await import('@options/filter');
+    file['hideFilters']();
 }
 
 main();
