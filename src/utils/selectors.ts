@@ -1,10 +1,10 @@
 // :has selector is not fully supported - this is it's polyfill
 export function findParentByChild(
-    childElement: HTMLElement,
+    childElement: Element,
     parentSelector: string,
     hasChildSelector: string,
     maxTraversals = 5
-): HTMLElement | undefined {
+): Element | undefined {
     let parent = childElement.parentElement;
     let traversalsCount = 0;
 

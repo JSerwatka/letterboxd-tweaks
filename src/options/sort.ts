@@ -1,40 +1,33 @@
-// all: - Film name - (li a[href*='films/by/name']).parent()
-// user/watchlist - Shuffle - (li a[href*='films/by/shuffle']).parent()
-// user - When Rated - (li a[href*='films/by/rated-date/']) -> smenu-label -> li
-// films/watchlist - Your Rating - 'a[href*="films/by/entry-rating"]' -> smenu-label -> li
-// all - Your interests - 'a[href*="films/by/your-interest"]' -> smenu-label -> li
-// all - Film length -> a[href*="films/by/shortest"] -> smenu-label -> li
-// films - Film Popularity with Friends a[href*="films/popular/with/friends"] -> smenu-label -> li
-
 import { waitForElement } from "@utils/element-observers";
+import { findParentByChild } from "@utils/selectors";
 
 const sortOptionsSelectors = {
     "Film name": {
-        selector: 'a[href*="films/by/name"]',
+        selector: 'a[href*="by/name"]',
         isNested: false
     },
     "Your interests": {
-        selector: 'a[href*="films/by/your-interest"]',
+        selector: 'a[href*="by/your-interest"]',
         isNested: true
     },
     "Film length": {
-        selector: 'a[href*="films/by/shortest"]',
+        selector: 'a[href*="by/shortest"]',
         isNested: true
     },
     "When Rated": {
-        selector: 'a[href*="films/by/rated-date/"]',
+        selector: 'a[href*="by/rated-date/"]',
         isNested: true
     },
     Shuffle: {
-        selector: 'a[href*="films/by/shuffle"]',
+        selector: 'a[href*="by/shuffle"]',
         isNested: false
     },
     "Your Rating": {
-        selector: 'a[href*="films/by/entry-rating"]',
+        selector: 'a[href*="by/your-rating/"]',
         isNested: true
     },
     "Film Popularity with Friends": {
-        selector: 'a[href*="films/popular/with/friends"]',
+        selector: 'a[href*="popular/with/friends"]',
         isNested: true
     }
 } as const;
@@ -49,6 +42,29 @@ const sortOptionPerPage: Record<string, SortOptionName[]> = {
 };
 
 export async function hideSort() {
-    const sortMenu = (await waitForElement(document, "ul.smenu-menu a[href*='films/by/']"))?.closest("ul.smenu-menu");
-    console.log(sortMenu);
+    const sortMenu = (await waitForElement(document, "ul.smenu-menu a[href*='/by/']"))?.closest("ul.smenu-menu") as
+        | HTMLElement
+        | undefined
+        | null;
+
+    if (!sortMenu) return;
+
+    for (const [option, { selector, isNested }] of Object.entries(sortOptionsSelectors)) {
+        const aTagElement = (await waitForElement(sortMenu, selector)) as HTMLElement | undefined | null;
+        let targetElement: Element | undefined | null;
+
+        if (!aTagElement) {
+            console.log(`Error(SORT): option "${option}" with selector ${selector} not found`);
+            continue;
+        }
+
+        if (isNested) {
+            targetElement = findParentByChild(aTagElement, "li", "span.smenu-sublabel");
+        } else {
+            targetElement = aTagElement.parentElement;
+        }
+        console.log("Parent ", targetElement);
+
+        targetElement?.remove();
+    }
 }
