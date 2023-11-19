@@ -17,6 +17,7 @@ async function main() {
     // file['showFilmData']();
     const file = await import("@options/navbar");
     file["renameAndRedirect"]();
+    file["redirect"]();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
     // const file = await import("@options/sort");

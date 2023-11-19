@@ -1,5 +1,6 @@
 import { waitForElement } from "@utils/element-observers";
 import { findParentByChild } from "@utils/selectors";
+// TODO use navbar/getNavbarItemByHref for selectors
 
 const sortOptionsSelectors = {
     "Film name": {

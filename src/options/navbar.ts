@@ -66,9 +66,10 @@ export async function hideNavbarLinks() {
 function getNavbarItemByHref(
     navbarElement: Element,
     hrefSubstrig: string,
-    getParent: boolean
+    getParent: boolean,
+    parentSelector = "li"
 ): Element | null | undefined {
-    const linkElement = navbarElement.querySelector(`li a[href*="${hrefSubstrig}"]`);
+    const linkElement = navbarElement.querySelector(`${parentSelector} a[href*="${hrefSubstrig}"]`);
 
     if (getParent) {
         return linkElement?.parentElement;
@@ -87,7 +88,7 @@ export async function renameAndRedirect() {
         if (accountFilmsLink) {
             accountFilmsLink.textContent = "Watched";
             const originalHref = accountFilmsLink.getAttribute("href");
-            accountFilmsLink.setAttribute("href", originalHref + "/size/large");
+            accountFilmsLink.setAttribute("href", originalHref + "size/large");
         }
     }
 
@@ -97,16 +98,21 @@ export async function renameAndRedirect() {
         if (profileFilmsLink) {
             profileFilmsLink.textContent = "Watched";
             const originalHref = profileFilmsLink.getAttribute("href");
-            profileFilmsLink.setAttribute("href", originalHref + "/size/large");
+            profileFilmsLink.setAttribute("href", originalHref + "size/large");
         }
     }
 }
 
-// AccountMenu
-// TODO: podmień link do watchlist na link do films z filtrem - show films in watchlist (pozwala to na użycie ocen, dużych card i więcej opcji filtrowania) - bardzo problematyczne, bo filtry są robione w cookies a nie w film url
-// TODO: Rename “Films” na “Watched” i przenieś od razu na /size/large (https://letterboxd.com/__wichrzyciel__/films/size/large/)
+export async function redirect() {
+    const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
 
-// ProfileMenu - to co powyżej
+    if (navbar) {
+        const navbarFilmsLink = getNavbarItemByHref(navbar, "/films", false, "li.films-page");
+        console.log(navbarFilmsLink);
 
-// Navbar
-// TODO: Films → przekierowanie do /films/popular/this/week/ + /size/large/ lub inny default target
+        if (navbarFilmsLink) {
+            const originalHref = navbarFilmsLink.getAttribute("href");
+            navbarFilmsLink.setAttribute("href", originalHref + "size/large");
+        }
+    }
+}
