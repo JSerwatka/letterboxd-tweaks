@@ -89,8 +89,8 @@ const NavbarLinks = {
 
 interface NavbarActionsConfig<T extends keyof NavLinksSelectors> {
     toHide?: T[];
-    toRedirect?: Record<T, { redirectTo: string }>;
-    toRename?: Record<T, { renameTo: string }>;
+    toRedirect?: Partial<Record<T, { redirectTo: string }>>;
+    toRename?: Partial<Record<T, { renameTo: string }>>;
 }
 
 export async function accountMenuActions(config: NavbarActionsConfig<keyof typeof MenuLinks>): Promise<void> {
@@ -110,7 +110,7 @@ export async function accountMenuActions(config: NavbarActionsConfig<keyof typeo
             .map(([linkName, linkSelectorConfig]) => {
                 return {
                     linkSelectorConfig: linkSelectorConfig,
-                    redirectTo: config.toRedirect![linkName as keyof typeof MenuLinks].redirectTo
+                    redirectTo: config.toRedirect![linkName as keyof typeof MenuLinks]?.redirectTo ?? ""
                 };
             });
 
@@ -123,7 +123,7 @@ export async function accountMenuActions(config: NavbarActionsConfig<keyof typeo
             .map(([linkName, linkSelectorConfig]) => {
                 return {
                     linkSelectorConfig: linkSelectorConfig,
-                    renameTo: config.toRename![linkName as keyof typeof MenuLinks].renameTo
+                    renameTo: config.toRename![linkName as keyof typeof MenuLinks]?.renameTo ?? ""
                 };
             });
 
