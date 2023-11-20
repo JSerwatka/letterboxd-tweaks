@@ -1,118 +1,161 @@
 import { waitForElement } from "@utils/element-observers";
-import { profile } from "console";
 
 const ACCOUNT_MENU_SELECTOR = ".main-nav .js-nav-account .subnav";
 const PROFILE_MENU_SELECTOR = "nav.profile-navigation";
 const NAVBAR_MENU_SELECTOR = ".main-nav .navitems";
 
-export async function hideAccountMenuLinks() {
+// TODO config for every function should be passed through arguments, structure like this { toHide: ["Home", ...], toRedirect: { <name>: <redirect> }, toRename: { <name>: <new_name> } }
+
+export async function accountMenuActions(): Promise<void> {
     const MenuLinks = {
-        Home: "/",
-        Diary: "/diary",
-        Reviews: "/reviews",
-        Likes: "/likes",
-        Tags: "/tags",
-        Networks: "/following",
-        Subscriptions: "/subscriptions"
+        Home: {
+            linkSelector: "/",
+            menuItemSelector: "li"
+        },
+        Diary: {
+            linkSelector: "/diary",
+            menuItemSelector: "li"
+        },
+        Reviews: {
+            linkSelector: "/reviews",
+            menuItemSelector: "li"
+        },
+        Likes: {
+            linkSelector: "/likes",
+            menuItemSelector: "li"
+        },
+        Tags: {
+            linkSelector: "/tags",
+            menuItemSelector: "li"
+        },
+        Networks: {
+            linkSelector: "/following",
+            menuItemSelector: "li"
+        },
+        Subscriptions: {
+            linkSelector: "/subscriptions",
+            menuItemSelector: "li"
+        }
     } as const;
 
     const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
 
     if (accountMenu) {
+        // remove
         for (const [title, link] of Object.entries(MenuLinks)) {
-            const element = getNavbarItemByHref(accountMenu, link, true);
-            element?.remove();
+            removeNavbarItem(accountMenu, link);
         }
-    }
-}
 
-export async function hideProfileMenuLinks() {
-    const ProfileLinks = {
-        Diary: "/diary",
-        Reviews: "/reviews",
-        Likes: "/likes",
-        Tags: "/tags",
-        Networks: "/following",
-        Invitations: "/invitations"
-    } as const;
-
-    const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
-
-    if (profileMenu) {
-        for (const [title, link] of Object.entries(ProfileLinks)) {
-            const element = getNavbarItemByHref(profileMenu, link, true);
-            element?.remove();
-        }
-    }
-}
-
-export async function hideNavbarLinks() {
-    const NavbarLinks = {
-        Activity: "/activity",
-        Members: "/members",
-        Journal: "/journal"
-    } as const;
-
-    const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
-
-    if (navbar) {
-        for (const [title, link] of Object.entries(NavbarLinks)) {
-            const element = getNavbarItemByHref(navbar, link, true);
-            element?.remove();
-        }
-    }
-}
-
-function getNavbarItemByHref(
-    navbarElement: Element,
-    hrefSubstrig: string,
-    getParent: boolean,
-    parentSelector = "li"
-): Element | null | undefined {
-    const linkElement = navbarElement.querySelector(`${parentSelector} a[href*="${hrefSubstrig}"]`);
-
-    if (getParent) {
-        return linkElement?.parentElement;
-    }
-
-    return linkElement;
-}
-
-export async function renameAndRedirect() {
-    const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
-    const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
-
-    if (accountMenu) {
-        const accountFilmsLink = getNavbarItemByHref(accountMenu, "/films", false);
+        // redirect + rename
+        const accountFilmsLink = getLinkByHref(accountMenu, "li", "/films");
 
         if (accountFilmsLink) {
             accountFilmsLink.textContent = "Watched";
-            const originalHref = accountFilmsLink.getAttribute("href");
-            accountFilmsLink.setAttribute("href", originalHref + "size/large");
-        }
-    }
-
-    if (profileMenu) {
-        const profileFilmsLink = getNavbarItemByHref(profileMenu, "/films", false);
-
-        if (profileFilmsLink) {
-            profileFilmsLink.textContent = "Watched";
-            const originalHref = profileFilmsLink.getAttribute("href");
-            profileFilmsLink.setAttribute("href", originalHref + "size/large");
+            redirectNavLink(accountFilmsLink, "size/large");
         }
     }
 }
 
-export async function redirect() {
+export async function profileMenuActions(): Promise<void> {
+    const ProfileLinks = {
+        Diary: {
+            linkSelector: "/diary",
+            menuItemSelector: "li"
+        },
+        Reviews: {
+            linkSelector: "/reviews",
+            menuItemSelector: "li"
+        },
+        Likes: {
+            linkSelector: "/likes",
+            menuItemSelector: "li"
+        },
+        Tags: {
+            linkSelector: "/tags",
+            menuItemSelector: "li"
+        },
+        Networks: {
+            linkSelector: "/following",
+            menuItemSelector: "li"
+        },
+        Invitations: {
+            linkSelector: "/invitations",
+            menuItemSelector: "li"
+        }
+    } as const;
+
+    const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
+
+    if (profileMenu) {
+        // remove
+        for (const [title, link] of Object.entries(ProfileLinks)) {
+            removeNavbarItem(profileMenu, link);
+        }
+
+        // redirect + rename
+        const profileFilmsLink = getLinkByHref(profileMenu, "li", "/films");
+
+        if (profileFilmsLink) {
+            profileFilmsLink.textContent = "Watched";
+            redirectNavLink(profileFilmsLink, "size/large");
+        }
+    }
+}
+
+export async function navbarMenuActions(): Promise<void> {
+    const NavbarLinks = {
+        Activity: {
+            linkSelector: "/activity",
+            menuItemSelector: "li.main-nav-activity"
+        },
+        Members: {
+            linkSelector: "/members",
+            menuItemSelector: "li.main-nav-people"
+        },
+        Journal: {
+            linkSelector: "/journal",
+            menuItemSelector: "li.main-nav-journal"
+        },
+        Films: {
+            linkSelector: "/films",
+            menuItemSelector: "li.films-page"
+        }
+    } as const;
+
     const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
 
     if (navbar) {
-        const navbarFilmsLink = getNavbarItemByHref(navbar, "/films", false, "li.films-page");
-        console.log(navbarFilmsLink);
+        // remove
+        for (const [title, link] of Object.entries(NavbarLinks)) {
+            removeNavbarItem(navbar, link);
+        }
+
+        // redirect
+        const navbarFilmsLink = getLinkByHref(navbar, "li.films-page", "/films");
 
         if (navbarFilmsLink) {
-            const originalHref = navbarFilmsLink.getAttribute("href");
-            navbarFilmsLink.setAttribute("href", originalHref + "size/large");
+            redirectNavLink(navbarFilmsLink, "size/large");
         }
     }
+}
+
+function removeNavbarItem(baseMenuElement: Element, hrefSubstrig: string): void {
+    const menuItem = getLinkByHref(baseMenuElement, "li", hrefSubstrig)?.parentElement;
+    menuItem?.remove();
+}
+
+function getLinkByHref(
+    baseElement: Element,
+    parentSelector: string,
+    hrefSubstrig: string
+): HTMLAnchorElement | null | undefined {
+    return baseElement.querySelector(`${parentSelector} a[href*="${hrefSubstrig}"]`) as
+        | HTMLAnchorElement
+        | null
+        | undefined;
+}
+
+function redirectNavLink(linkElement: HTMLAnchorElement, redirectPath: string): void {
+    const originalHref = linkElement.getAttribute("href");
+    linkElement.setAttribute("href", originalHref + redirectPath);
 }
