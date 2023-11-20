@@ -6,6 +6,9 @@ const NAVBAR_MENU_SELECTOR = ".main-nav .navitems";
 
 // TODO config for every function should be passed through arguments, structure like this { toHide: ["Home", ...], toRedirect: { <name>: <redirect> }, toRename: { <name>: <new_name> } }
 
+type LinkSelectorConfig = { linkSelector: string; menuItemSelector: string };
+type NavLinksSelectors = Record<string, LinkSelectorConfig>;
+
 export async function accountMenuActions(): Promise<void> {
     const MenuLinks = {
         Home: {
@@ -36,15 +39,13 @@ export async function accountMenuActions(): Promise<void> {
             linkSelector: "/subscriptions",
             menuItemSelector: "li"
         }
-    } as const;
+    } as const satisfies NavLinksSelectors;
 
     const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
 
     if (accountMenu) {
         // remove
-        for (const [title, link] of Object.entries(MenuLinks)) {
-            removeNavbarItem(accountMenu, link);
-        }
+        removeNavbarItems(accountMenu, Object.values(MenuLinks));
 
         // redirect + rename
         const accountFilmsLink = getLinkByHref(accountMenu, "li", "/films");
@@ -82,15 +83,13 @@ export async function profileMenuActions(): Promise<void> {
             linkSelector: "/invitations",
             menuItemSelector: "li"
         }
-    } as const;
+    } as const satisfies NavLinksSelectors;
 
     const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
 
     if (profileMenu) {
         // remove
-        for (const [title, link] of Object.entries(ProfileLinks)) {
-            removeNavbarItem(profileMenu, link);
-        }
+        removeNavbarItems(profileMenu, Object.values(ProfileLinks));
 
         // redirect + rename
         const profileFilmsLink = getLinkByHref(profileMenu, "li", "/films");
@@ -120,15 +119,13 @@ export async function navbarMenuActions(): Promise<void> {
             linkSelector: "/films",
             menuItemSelector: "li.films-page"
         }
-    } as const;
+    } as const satisfies NavLinksSelectors;
 
     const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
 
     if (navbar) {
         // remove
-        for (const [title, link] of Object.entries(NavbarLinks)) {
-            removeNavbarItem(navbar, link);
-        }
+        removeNavbarItems(navbar, Object.values(NavbarLinks));
 
         // redirect
         const navbarFilmsLink = getLinkByHref(navbar, "li.films-page", "/films");
@@ -139,9 +136,15 @@ export async function navbarMenuActions(): Promise<void> {
     }
 }
 
-function removeNavbarItem(baseMenuElement: Element, hrefSubstrig: string): void {
-    const menuItem = getLinkByHref(baseMenuElement, "li", hrefSubstrig)?.parentElement;
-    menuItem?.remove();
+function removeNavbarItems(baseMenuElement: Element, linkSelectorConfigs: LinkSelectorConfig[]): void {
+    for (const linkSelectoConfig of linkSelectorConfigs) {
+        const menuItem = getLinkByHref(
+            baseMenuElement,
+            linkSelectoConfig.menuItemSelector,
+            linkSelectoConfig.linkSelector
+        )?.parentElement;
+        menuItem?.remove();
+    }
 }
 
 function getLinkByHref(
