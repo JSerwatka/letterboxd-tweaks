@@ -15,12 +15,15 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 async function main() {
     // const file = await import('@options/films');
     // file['showFilmData']();
-    // const file = await import('@options/navbar');
-    // file['hideAccountMenuLinks']();
+    const file = await import("@options/navbar");
+    file["accountMenuActions"]();
+    // file["navbarMenuActions"]();
+    // file["profileMenuActions"]();
+    // file["redirect"]();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-    const file = await import("@options/sort");
-    file["hideSort"]();
+    // const file = await import("@options/sort");
+    // file["hideSort"]();
 }
 
 main();
