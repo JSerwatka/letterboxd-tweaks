@@ -1,12 +1,16 @@
 import { waitForElement } from "@utils/element-observers";
-import { link } from "fs";
 
 type LinkSelectorConfig = { linkSelector: string; menuItemSelector: string };
 type NavLinksSelectors = Record<string, LinkSelectorConfig>;
+interface NavbarActionsConfig<T extends keyof NavLinksSelectors> {
+    toHide?: T[];
+    toRedirect?: { [K in T]?: { redirectTo: string } };
+    toRename?: { [K in T]?: { renameTo: string } };
+}
 
 // MenuLinks
 const ACCOUNT_MENU_SELECTOR = ".main-nav .js-nav-account .subnav";
-const MenuLinks = {
+const MENU_LINKS = {
     Home: {
         linkSelector: "/",
         menuItemSelector: "li"
@@ -34,12 +38,16 @@ const MenuLinks = {
     Subscriptions: {
         linkSelector: "/subscriptions",
         menuItemSelector: "li"
+    },
+    Films: {
+        linkSelector: "/films",
+        menuItemSelector: "li"
     }
 } as const satisfies NavLinksSelectors;
 
 // ProfileLinks
 const PROFILE_MENU_SELECTOR = "nav.profile-navigation";
-const ProfileLinks = {
+const PROFILE_LINKS = {
     Diary: {
         linkSelector: "/diary",
         menuItemSelector: "li"
@@ -63,12 +71,16 @@ const ProfileLinks = {
     Invitations: {
         linkSelector: "/invitations",
         menuItemSelector: "li"
+    },
+    Films: {
+        linkSelector: "/films",
+        menuItemSelector: "li"
     }
 } as const satisfies NavLinksSelectors;
 
 // NavbarLinks
 const NAVBAR_MENU_SELECTOR = ".main-nav .navitems";
-const NavbarLinks = {
+const NAVBAR_LINKS = {
     Activity: {
         linkSelector: "/activity",
         menuItemSelector: "li.main-nav-activity"
@@ -87,80 +99,85 @@ const NavbarLinks = {
     }
 } as const satisfies NavLinksSelectors;
 
-interface NavbarActionsConfig<T extends keyof NavLinksSelectors> {
-    toHide?: T[];
-    toRedirect?: Partial<Record<T, { redirectTo: string }>>;
-    toRename?: Partial<Record<T, { renameTo: string }>>;
-}
+// TODO: only for testing, don't use for prod
+const ACCOUNT_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof MENU_LINKS> = {
+    toHide: ["Diary", "Home", "Likes", "Networks", "Reviews", "Reviews", "Subscriptions", "Tags"],
+    toRedirect: { Films: { redirectTo: "size/large" } },
+    toRename: { Films: { renameTo: "Watched" } }
+};
 
-export async function accountMenuActions(config: NavbarActionsConfig<keyof typeof MenuLinks>): Promise<void> {
+const PROFILE_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof PROFILE_LINKS> = {
+    toHide: ["Diary", "Invitations", "Likes", "Networks", "Reviews", "Tags"],
+    toRedirect: { Films: { redirectTo: "size/large" } },
+    toRename: { Films: { renameTo: "Watched" } }
+};
+
+const NAVBAR_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof NAVBAR_LINKS> = {
+    toHide: ["Activity", "Journal", "Members"],
+    toRedirect: { Films: { redirectTo: "size/large" } }
+};
+
+export async function accountMenuActions(
+    config: NavbarActionsConfig<keyof typeof MENU_LINKS> = ACCOUNT_CONFIG_DEFAULT
+): Promise<void> {
     const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
     if (!accountMenu) return;
 
+    performAllActions<typeof MENU_LINKS, keyof typeof MENU_LINKS>(config, MENU_LINKS, accountMenu);
+}
+export async function profileMenuActions(
+    config: NavbarActionsConfig<keyof typeof PROFILE_LINKS> = PROFILE_CONFIG_DEFAULT
+): Promise<void> {
+    const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
+    if (!profileMenu) return;
+
+    performAllActions<typeof PROFILE_LINKS, keyof typeof PROFILE_LINKS>(config, PROFILE_LINKS, profileMenu);
+}
+export async function navbarMenuActions(
+    config: NavbarActionsConfig<keyof typeof NAVBAR_LINKS> = NAVBAR_CONFIG_DEFAULT
+): Promise<void> {
+    const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
+    if (!navbar) return;
+
+    performAllActions<typeof NAVBAR_LINKS, keyof typeof NAVBAR_LINKS>(config, NAVBAR_LINKS, navbar);
+}
+
+function performAllActions<T extends NavLinksSelectors, K extends keyof NavLinksSelectors>(
+    config: NavbarActionsConfig<K>,
+    navLinksSelectorsObject: T,
+    menuElement: Element
+) {
     if (config.toHide && config.toHide.length >= 1) {
-        const linksFilteredToHide = Object.entries(MenuLinks)
-            .filter(([linkName, linkSelectorConfig]) => config.toHide!.includes(linkName as keyof typeof MenuLinks))
+        const linksFilteredToHide = Object.entries(navLinksSelectorsObject)
+            .filter(([linkName, linkSelectorConfig]) => config.toHide!.includes(linkName as K))
             .map(([linkName, linkSelectorConfig]) => linkSelectorConfig);
-        removeNavbarItems(accountMenu, linksFilteredToHide);
+        removeNavbarItems(menuElement, linksFilteredToHide);
     }
 
     if (config.toRedirect && Object.keys(config.toRedirect)) {
-        const linksFilteredToRedirect = Object.entries(MenuLinks)
+        const linksFilteredToRedirect = Object.entries(navLinksSelectorsObject)
             .filter(([linkName, linkSelectorConfig]) => Object.keys(config.toRedirect!).includes(linkName))
             .map(([linkName, linkSelectorConfig]) => {
                 return {
                     linkSelectorConfig: linkSelectorConfig,
-                    redirectTo: config.toRedirect![linkName as keyof typeof MenuLinks]?.redirectTo ?? ""
+                    redirectTo: config.toRedirect![linkName as keyof T]?.redirectTo ?? ""
                 };
             });
 
-        redirectNavbarItems(accountMenu, linksFilteredToRedirect);
+        redirectNavbarItems(menuElement, linksFilteredToRedirect);
     }
 
     if (config.toRename && Object.keys(config.toRename).length >= 1) {
-        const linksFilteredToRename = Object.entries(MenuLinks)
+        const linksFilteredToRename = Object.entries(navLinksSelectorsObject)
             .filter(([linkName, linkSelectorConfig]) => Object.keys(config.toRename!).includes(linkName))
             .map(([linkName, linkSelectorConfig]) => {
                 return {
                     linkSelectorConfig: linkSelectorConfig,
-                    renameTo: config.toRename![linkName as keyof typeof MenuLinks]?.renameTo ?? ""
+                    renameTo: config.toRename![linkName as keyof T]?.renameTo ?? ""
                 };
             });
 
-        renameNavbarItems(accountMenu, linksFilteredToRename);
-    }
-}
-
-export async function profileMenuActions(config: NavbarActionsConfig<keyof typeof ProfileLinks>): Promise<void> {
-    const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
-
-    if (profileMenu) {
-        // remove
-        removeNavbarItems(profileMenu, Object.values(ProfileLinks));
-
-        // redirect + rename
-        const profileFilmsLink = getLinkByHref(profileMenu, "li", "/films");
-
-        if (profileFilmsLink) {
-            profileFilmsLink.textContent = "Watched";
-            redirectNavLink(profileFilmsLink, "size/large");
-        }
-    }
-}
-
-export async function navbarMenuActions(config: NavbarActionsConfig<keyof typeof NavbarLinks>): Promise<void> {
-    const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
-
-    if (navbar) {
-        // remove
-        removeNavbarItems(navbar, Object.values(NavbarLinks));
-
-        // redirect
-        const navbarFilmsLink = getLinkByHref(navbar, "li.films-page", "/films");
-
-        if (navbarFilmsLink) {
-            redirectNavLink(navbarFilmsLink, "size/large");
-        }
+        renameNavbarItems(menuElement, linksFilteredToRename);
     }
 }
 
