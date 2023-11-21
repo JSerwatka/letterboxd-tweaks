@@ -1,6 +1,7 @@
 import FilmData from "@components/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
+import GenreBadge from "@components/GenreBadge";
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -57,4 +58,39 @@ export async function hideService() {
         serviceElement?.remove();
     }
     
+}
+
+export async function moveMovieDataToHeader() {
+    const filmHeaderSection = await waitForElement(document, "#featured-film-header");
+    
+    const durationSection = (await waitForElement(document, "p.text-footer"));
+
+    if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDb']"))) {
+        const durationSectionText = durationSection?.textContent?.trim();
+        const minutesFilmDuration = durationSectionText?.match(/^\d+/)?.map(Number)?.at(0);
+
+        if (!minutesFilmDuration) return;
+
+        const formattedFilmDuration = `${Math.floor(minutesFilmDuration / 60)}h ${minutesFilmDuration % 60}min`;
+
+        const p = document.createElement("p");
+        p.style.marginRight = "5px";
+        p.style.display = "block";
+        p.textContent = formattedFilmDuration;
+        filmHeaderSection?.appendChild(p);
+    }
+
+
+
+    const genreSection = (await waitForElement(document, "#tab-genres a[href*='/films/genre']"))?.parentElement;
+
+    if (genreSection) {
+        const genreLinks = Array.from(genreSection.children);
+        const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);
+
+        genreNames.forEach((genreName) => {
+            if(!genreName || !filmHeaderSection) return;
+            render(() => <GenreBadge genreName={genreName} />, filmHeaderSection)
+        })
+    }
 }
