@@ -30,7 +30,24 @@ const sortOptionsSelectors = {
     "Film Popularity with Friends": {
         selector: 'a[href*="popular/with/friends"]',
         isNested: true
-    }
+    },
+    "Reverse Order": {
+        selector: 'a[href*="by/reverse"]',
+        isNested: false
+    },
+    "Your Diary Date": {
+        selector: 'a[href*="by/your-diary"]',
+        isNested: true
+    },
+    "Owner Diary Date": {
+        selector: 'a[href*="by/owner-diary"]',
+        isNested: true
+    },
+    "Owner Rating": {
+        selector: 'a[href*="by/owner-rating"]',
+        isNested: true
+    },
+
 } as const;
 
 type SortOptionName = keyof typeof sortOptionsSelectors;
@@ -39,7 +56,9 @@ const sortOptionPerPage: Record<string, SortOptionName[]> = {
     all: ["Film name", "Your interests", "Film length"],
     userFilms: ["When Rated", "Shuffle"],
     watchlist: ["Shuffle", "Your Rating"],
-    films: ["Film Popularity with Friends", "Your Rating"]
+    films: ["Film Popularity with Friends", "Your Rating"],
+    listUser: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date"],
+    listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"],
 };
 
 export async function hideSort() {
@@ -64,8 +83,24 @@ export async function hideSort() {
         } else {
             targetElement = aTagElement.parentElement;
         }
-        console.log("Parent ", targetElement);
 
         targetElement?.remove();
     }
+
+    cleanEmptyDescriptionLabels(sortMenu);
+}
+
+function cleanEmptyDescriptionLabels(sortMenu: HTMLElement) {
+    const sortDescriptionLabelElements = sortMenu.querySelectorAll("span.smenu-sublabel.-uppercase");
+
+    sortDescriptionLabelElements.forEach((labelElement) => {
+        const labelParent = labelElement.parentElement;
+        const parentSibling = labelParent?.nextElementSibling;
+
+        if(parentSibling?.querySelector("span.smenu-sublabel.-uppercase") || parentSibling === null) {
+            labelParent?.remove()
+        }
+    })
+
+
 }
