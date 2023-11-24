@@ -23,7 +23,7 @@ async function main() {
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
     const file = await import("@options/search");
-    file["addSearchAutocomplete"]();
+    file["renderSearch"]();
 }
 
 main();
