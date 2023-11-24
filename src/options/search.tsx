@@ -1,4 +1,4 @@
-import { Show, createEffect, createResource, createSignal, on, onMount } from "solid-js";
+import { For, Show, createEffect, createResource, createSignal, on, onMount } from "solid-js";
 import { onCleanup } from "solid-js";
 import { waitForElement } from "@utils/element-observers";
 import { render } from "solid-js/web";
@@ -6,10 +6,15 @@ import { Divider } from "@components/Divider";
 
 interface MovieSearchResult {
     url: string;
-    name: string;
+    title: string;
     releaseYear: number;
     directors: string[];
     poster: string;
+}
+
+interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "title"> {
+    name: string;
+    directors: Array<{ name: string }>;
 }
 
 const [controller, setController] = createSignal<AbortController | null>(null);
@@ -30,10 +35,9 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
     let response;
 
     try {
-        response = await fetch(
-            `https://letterboxd.com/s/autocompletefilm?q=${userInput}&limit=10&timestamp=1700657512497&adult=false`,
-            { signal }
-        );
+        response = await fetch(`https://letterboxd.com/s/autocompletefilm?q=${userInput}&limit=10&adult=false`, {
+            signal
+        });
     } catch (err) {
         // ignore abort error
         if (err instanceof Error && err.name !== "AbortError") {
@@ -47,7 +51,7 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
     const movieList = await response.json();
 
     return Promise.all(
-        movieList.data.map(async (movie: any) => {
+        movieList.data.map(async (movie: MovieSearchResponse) => {
             const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${movie.url}std/110x165/`, {
                 signal
             });
@@ -63,9 +67,9 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
 
             return {
                 url: movie.url,
-                name: movie.name,
+                title: movie.name,
                 releaseYear: movie.releaseYear,
-                directors: movie.directors,
+                directors: movie.directors.map((directorObject) => directorObject.name),
                 poster: posterImgElement?.src
             };
         })
@@ -73,24 +77,21 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
 }
 export function SearchAutocomplete({
     searchFieldForm,
-    searchActionButton
+    searchActionButton,
+    searchInputField
 }: {
     searchFieldForm: HTMLElement;
+    searchInputField: HTMLElement;
     searchActionButton: HTMLAnchorElement | null | undefined;
 }) {
     let timeoutId: NodeJS.Timeout | null = null;
     const [searchValue, setSearchValue] = createSignal<string | null>(null);
     const [isFieldFocused, setIsFieldFocused] = createSignal(false);
     const [data] = createResource(searchValue, fetchMovies);
-    const searchInputField = searchFieldForm.querySelector("input#search-q") as HTMLElement | undefined;
     const searchIcon = searchFieldForm.querySelector("input[type='submit']") as HTMLElement | undefined;
     let searchAutocompleteRef: HTMLDivElement | undefined;
 
     const handleSearchFocus = () => {
-        if (!searchInputField) return;
-
-        searchInputField.style.backgroundColor = "#2c3440";
-        searchFieldForm.style.width = "400px";
         setIsFieldFocused(true);
     };
 
@@ -102,17 +103,17 @@ export function SearchAutocomplete({
     };
 
     const handleMouseClickOutsideClosesSearchBar = (event: MouseEvent) => {
-        const isWithinInputField = searchInputField?.contains(event.target as Node);
+        const isWithinForm = searchFieldForm?.contains(event.target as Node);
         const isWithinSearchResults = searchAutocompleteRef?.contains(event.target as Node);
-        console.log({ isWithinInputField, isWithinSearchResults, isFieldFocused: isFieldFocused() });
-        if (!isWithinInputField && !isWithinSearchResults && isFieldFocused()) {
+
+        if (!isWithinForm && !isWithinSearchResults && isFieldFocused()) {
             searchActionButton?.click();
             setIsFieldFocused(false);
         }
     };
 
     onMount(async () => {
-        searchInputField?.addEventListener("keyup", async (event: Event) => {
+        searchInputField.addEventListener("keyup", async (event: Event) => {
             const searchField = event.target as HTMLInputElement;
 
             if (timeoutId) {
@@ -125,9 +126,9 @@ export function SearchAutocomplete({
     });
 
     onMount(() => {
-        searchInputField?.addEventListener("focus", handleSearchFocus);
-        document?.addEventListener("keydown", handleEscapeClosesSearchBar);
-        document?.addEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
+        searchInputField.addEventListener("focus", handleSearchFocus);
+        document.addEventListener("keydown", handleEscapeClosesSearchBar);
+        document.addEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
     });
 
     onCleanup(() => {
@@ -139,14 +140,9 @@ export function SearchAutocomplete({
             controller()?.abort();
         }
 
-        searchInputField?.removeEventListener("focus", handleSearchFocus);
+        searchInputField.removeEventListener("focus", handleSearchFocus);
         document.removeEventListener("keydown", handleEscapeClosesSearchBar);
         document.removeEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
-    });
-
-    createEffect(() => {
-        console.log(data());
-        console.log(searchAutocompleteRef);
     });
 
     createEffect(() => {
@@ -165,27 +161,27 @@ export function SearchAutocomplete({
     });
 
     return (
-        <Show when={true}>
-            <div ref={searchAutocompleteRef}>
-                {/* <Show when={!data.loading && searchValue()}> */}
-                <div class="bg-[#2c3440] -mt-4 py-6 px-3 rounded-b-lg">
-                    <div class="flex flex-row">
-                        <img
-                            src="https://a.ltrbxd.com/resized/sm/upload/78/y5/zg/ej/oefdD26aey8GPdx7Rm45PNncJdU-0-110-0-165-crop.jpg?v=2d0ce4be25"
-                            class="w-1/2 object-contain"
-                        />
-                        <div class="flex flex-col">
-                            <div>He has left us alone but shaft of line sometimes beaming through the curtains</div>
-                            <div>1990</div>
-                            <div>Ilya Hello, Melon Vaoru, Test Toajas</div>
+        <Show when={!data.loading && searchValue()}>
+            <div class="bg-[#2c3440] -mt-4 py-6 rounded-b-lg" ref={searchAutocompleteRef}>
+                <For each={data()}>
+                    {(movie) => (
+                        <div class="hover:bg-[#4d5b70] px-3">
+                            <a class="w-90% no-underline text-current hover:text-current" href={movie.url}>
+                                <div class="flex flex-row py-3 gap-5">
+                                    <div class="w-[75px] h-[112.5px]">
+                                        <img src={movie.poster} class="w-full object-contain" />
+                                    </div>
+                                    <div class="flex flex-col ">
+                                        <div class="text-lg mb-3 text-white">{movie.title}</div>
+                                        <div class="mb-3 italic">{movie.releaseYear}</div>
+                                        <div class="">{movie.directors.join(", ")}</div>
+                                    </div>
+                                </div>
+                                <Divider />
+                            </a>
                         </div>
-                    </div>
-                    <Divider />
-                </div>
-                {/* <div>{console.log(data())}</div> */}
-                {/* <input id="search-q" type="text" placeholder="Search movies..." /> */}
-                {/* {loading() && <div>Loading...</div>} */}
-                {/* Render movies here */}
+                    )}
+                </For>
             </div>
         </Show>
     );
@@ -193,22 +189,29 @@ export function SearchAutocomplete({
 
 export async function renderSearch() {
     const searchFieldForm = (await waitForElement(document, "form#search")) as HTMLElement | null | undefined;
+    if (!searchFieldForm) return;
+
     // btn for closing and opening a search bar
     const searchActionButton = (await waitForElement(document, ".main-nav .js-nav-search-toggle > a")) as
         | HTMLAnchorElement
         | null
         | undefined;
 
-    if (!searchFieldForm) return;
+    const searchInputField = (await waitForElement(searchFieldForm, "input#search-q")) as HTMLElement | undefined;
+    if (!searchInputField) return;
+
+    // update styles before mounting the component to prevent delay
+    searchInputField.style.backgroundColor = "#2c3440";
+    searchFieldForm.style.width = "400px";
 
     return render(
-        () => <SearchAutocomplete searchFieldForm={searchFieldForm} searchActionButton={searchActionButton} />,
+        () => (
+            <SearchAutocomplete
+                searchFieldForm={searchFieldForm}
+                searchInputField={searchInputField}
+                searchActionButton={searchActionButton}
+            />
+        ),
         searchFieldForm
     );
 }
-
-// position: absolute;
-// width: 298px;
-// left: 50%;
-// transform: translateX(-50%);
-// background-color: #2c3440;
