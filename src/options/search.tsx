@@ -7,14 +7,16 @@ import { Divider } from "@components/Divider";
 interface MovieSearchResult {
     url: string;
     title: string;
+    originalTitle: string | null;
     releaseYear: number;
     directors: string[];
     poster: string;
 }
 
-interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "title"> {
+interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "title" | "originalTitle"> {
     name: string;
     directors: Array<{ name: string }>;
+    originalName: string | null;
 }
 
 const [controller, setController] = createSignal<AbortController | null>(null);
@@ -68,6 +70,7 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
             return {
                 url: movie.url,
                 title: movie.name,
+                originalTitle: movie.originalName,
                 releaseYear: movie.releaseYear,
                 directors: movie.directors.map((directorObject) => directorObject.name),
                 poster: posterImgElement?.src
@@ -193,13 +196,34 @@ export function SearchAutocomplete({
                         <div class="hover:bg-[#4d5b70] px-3">
                             <a class="w-90% no-underline text-current hover:text-current" href={movie.url}>
                                 <div class="flex flex-row py-3 gap-5">
-                                    <div class="w-[75px] h-[112.5px]">
+                                    <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px]">
                                         <img src={movie.poster} class="w-full object-contain" />
                                     </div>
-                                    <div class="flex flex-col ">
-                                        <div class="text-lg mb-3 text-white">{movie.title}</div>
-                                        <div class="mb-3 italic">{movie.releaseYear}</div>
-                                        <div class="">{movie.directors.join(", ")}</div>
+                                    <div class="flex flex-col justify-between">
+                                        <div>
+                                            <div
+                                                class="text-lg text-white line-clamp-2"
+                                                classList={{
+                                                    "mb-1": !!movie.originalTitle,
+                                                    "mb-3": !movie.originalTitle
+                                                }}
+                                                title={movie.title}
+                                            >
+                                                {movie.title}
+                                            </div>
+                                            {movie.originalTitle && (
+                                                <div
+                                                    class="mb-3 italic text-gray-300 line-clamp-2"
+                                                    title={movie.originalTitle}
+                                                >
+                                                    {movie.originalTitle}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <div class="mb-3 italic">{movie.releaseYear}</div>
+                                            <div class="">{movie.directors.join(", ")}</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <Divider />
