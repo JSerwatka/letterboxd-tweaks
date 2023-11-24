@@ -12,7 +12,7 @@ export async function addSearchAutocomplete() {
             clearTimeout(timeoutId);
         }
 
-        // timeout for request throrrling
+        // timeout for request throttling
         timeoutId = setTimeout(async () => {
             // abort the previous request if it's still ongoing
             if (controller && !controller.signal.aborted) {
@@ -26,9 +26,14 @@ export async function addSearchAutocomplete() {
             let response;
 
             try {
-                response = await fetch(`https://letterboxd.com/s/autocompletefilm?q=${userInput}&limit=10&timestamp=1700657512497&adult=false`, { signal });
+                response = await fetch(
+                    `https://letterboxd.com/s/autocompletefilm?q=${userInput}&limit=10&timestamp=1700657512497&adult=false`,
+                    { signal }
+                );
             } catch (err) {
-                if (err instanceof Error && err.name !== 'AbortError') {}
+                // ignore abort error
+                if (err instanceof Error && err.name !== "AbortError") {
+                }
             }
 
             if (!response) {
@@ -37,23 +42,35 @@ export async function addSearchAutocomplete() {
 
             const movieList = await response.json();
 
-            const movieListMapped = movieList.data.map(async (movie: any) => {
-                const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${movie.url}std/110x165/`, { signal });
-                const posterPageText = await posterPageResponse.text();
+            const movieListMapped = await Promise.all(
+                movieList.data.map(async (movie: any) => {
+                    const posterPageResponse = await fetch(
+                        `https://letterboxd.com/ajax/poster${movie.url}std/110x165/`,
+                        {
+                            signal
+                        }
+                    );
+                    const posterPageText = await posterPageResponse.text();
 
-                const parser = new DOMParser();
-                const posterPageHTML = parser.parseFromString(posterPageText, 'text/html');
+                    const parser = new DOMParser();
+                    const posterPageHTML = parser.parseFromString(posterPageText, "text/html");
 
-                const posterImgElement = posterPageHTML.querySelector("img.image:not(.empty-poster-image)") as HTMLImageElement | null | undefined;
-                
-                return {
-                    url: movie.url,
-                    name: movie.name,
-                    releaseYear: movie.releaseYear,
-                    directors: movie.directors,
-                    poster: posterImgElement?.src,
-                };
-            })
+                    const posterImgElement = posterPageHTML.querySelector("img.image:not(.empty-poster-image)") as
+                        | HTMLImageElement
+                        | null
+                        | undefined;
+
+                    return {
+                        url: movie.url,
+                        name: movie.name,
+                        releaseYear: movie.releaseYear,
+                        directors: movie.directors,
+                        poster: posterImgElement?.src
+                    };
+                })
+            );
+
+            console.log(movieListMapped);
         }, 200);
     });
 }
