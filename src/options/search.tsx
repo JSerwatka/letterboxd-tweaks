@@ -162,7 +162,32 @@ export function SearchAutocomplete({
 
     return (
         <Show when={!data.loading && searchValue()}>
-            <div class="bg-[#2c3440] -mt-4 py-6 rounded-b-lg" ref={searchAutocompleteRef}>
+            <style>{`
+              /* Firefox */
+              .scrollbar {
+                scrollbar-width: auto;
+                scrollbar-color: #73dd9c rgba(0, 0, 0, 0.1);
+              }
+
+              /* Chrome, Edge, and Safari */
+              .scrollbar::-webkit-scrollbar {
+                width: 7px;
+              }
+
+              .scrollbar::-webkit-scrollbar-track {
+                background:  rgba(0, 0, 0, 0.1);
+                border-radius: 10px;
+              }
+
+              .scrollbar::-webkit-scrollbar-thumb {
+                background-color: #73dd9c;
+                border-radius: 10px;
+              }
+           `}</style>
+            <div
+                class="bg-[#2c3440] -mt-4 py-6 rounded-b-lg max-h-[560px] overflow-auto scrollbar"
+                ref={searchAutocompleteRef}
+            >
                 <For each={data()}>
                     {(movie) => (
                         <div class="hover:bg-[#4d5b70] px-3">
