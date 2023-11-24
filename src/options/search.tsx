@@ -86,6 +86,31 @@ export function SearchAutocomplete({
     const searchIcon = searchFieldForm.querySelector("input[type='submit']") as HTMLElement | undefined;
     let searchAutocompleteRef: HTMLDivElement | undefined;
 
+    const handleSearchFocus = () => {
+        if (!searchInputField) return;
+
+        searchInputField.style.backgroundColor = "#2c3440";
+        searchFieldForm.style.width = "400px";
+        setIsFieldFocused(true);
+    };
+
+    const handleEscapeClosesSearchBar = (event: KeyboardEvent) => {
+        if (event.key === "Escape" && isFieldFocused()) {
+            searchActionButton?.click();
+            setIsFieldFocused(false);
+        }
+    };
+
+    const handleMouseClickOutsideClosesSearchBar = (event: MouseEvent) => {
+        const isWithinInputField = searchInputField?.contains(event.target as Node);
+        const isWithinSearchResults = searchAutocompleteRef?.contains(event.target as Node);
+        console.log({ isWithinInputField, isWithinSearchResults, isFieldFocused: isFieldFocused() });
+        if (!isWithinInputField && !isWithinSearchResults && isFieldFocused()) {
+            searchActionButton?.click();
+            setIsFieldFocused(false);
+        }
+    };
+
     onMount(async () => {
         searchInputField?.addEventListener("keyup", async (event: Event) => {
             const searchField = event.target as HTMLInputElement;
@@ -100,28 +125,9 @@ export function SearchAutocomplete({
     });
 
     onMount(() => {
-        searchInputField?.addEventListener("focus", () => {
-            searchInputField.style.backgroundColor = "#2c3440";
-            searchFieldForm.style.width = "400px";
-            setIsFieldFocused(true);
-        });
-
-        document?.addEventListener("keydown", (event: KeyboardEvent) => {
-            if (event.key === "Escape" && isFieldFocused()) {
-                searchActionButton?.click();
-                setIsFieldFocused(false);
-            }
-        });
-
-        document?.addEventListener("mousedown", (event) => {
-            const isWithinInputField = searchInputField?.contains(event.target as Node);
-            const isWithinSearchResults = searchInputField?.contains(event.target as Node);
-
-            if (!isWithinInputField && !isWithinSearchResults && isFieldFocused()) {
-                searchActionButton?.click();
-                setIsFieldFocused(false);
-            }
-        });
+        searchInputField?.addEventListener("focus", handleSearchFocus);
+        document?.addEventListener("keydown", handleEscapeClosesSearchBar);
+        document?.addEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
     });
 
     onCleanup(() => {
@@ -132,6 +138,10 @@ export function SearchAutocomplete({
         if (!controller()?.signal.aborted) {
             controller()?.abort();
         }
+
+        searchInputField?.removeEventListener("focus", handleSearchFocus);
+        document.removeEventListener("keydown", handleEscapeClosesSearchBar);
+        document.removeEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
     });
 
     createEffect(() => {
