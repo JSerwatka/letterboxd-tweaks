@@ -21,6 +21,9 @@ interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "tit
 
 const [controller, setController] = createSignal<AbortController | null>(null);
 
+// TODO: add top rouned botoom not for search bar
+// TODO: refactor to component
+
 async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[] | undefined> {
     if (!userInput) {
         return;
@@ -188,7 +191,7 @@ export function SearchAutocomplete({
               }
            `}</style>
             <div
-                class="bg-[#2c3440] -mt-4 py-6 rounded-b-lg max-h-[560px] overflow-auto scrollbar"
+                class="bg-[#2c3440] py-6 rounded-b-lg max-h-[560px] overflow-auto scrollbar"
                 ref={searchAutocompleteRef}
             >
                 <For each={data()}>
@@ -197,7 +200,7 @@ export function SearchAutocomplete({
                             <a class="w-90% no-underline text-current hover:text-current" href={movie.url}>
                                 <div class="flex flex-row py-3 gap-5">
                                     <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px]">
-                                        <img src={movie.poster} class="w-full object-contain" />
+                                        <img src={movie.poster} class="w-full object-contain rounded-md" />
                                     </div>
                                     <div class="flex flex-col justify-between">
                                         <div>
