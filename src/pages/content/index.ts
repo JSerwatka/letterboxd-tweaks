@@ -22,8 +22,8 @@ async function main() {
     // file["redirect"]();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-    const file = await import("@options/sort");
-    file["hideSort"]();
+    const file = await import("@options/search");
+    file["renderSearch"]();
 }
 
 main();
