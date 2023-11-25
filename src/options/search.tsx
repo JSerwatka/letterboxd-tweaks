@@ -21,7 +21,6 @@ interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "tit
 
 const [controller, setController] = createSignal<AbortController | null>(null);
 
-// TODO: add top rouned botoom not for search bar
 // TODO: refactor to component
 
 async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[] | undefined> {
@@ -255,6 +254,7 @@ export async function renderSearch() {
     // update styles before mounting the component to prevent delay
     searchInputField.style.backgroundColor = "#2c3440";
     searchFieldForm.style.width = "400px";
+    searchInputField.style.borderRadius = "10px 10px 0 0";
 
     return render(
         () => (
