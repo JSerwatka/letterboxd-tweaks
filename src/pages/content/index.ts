@@ -13,8 +13,8 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 });
 
 async function main() {
-    // const file = await import("@options/films");
-    // file["moveMovieDataToHeader"]();
+    const file = await import("@options/films");
+    file["showFilmData"]();
     // const file = await import("@options/navbar");
     // file["accountMenuActions"]();
     // file["navbarMenuActions"]();
@@ -22,8 +22,6 @@ async function main() {
     // file["redirect"]();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-    const file = await import("@options/search");
-    file["renderSearch"]();
 }
 
 main();
