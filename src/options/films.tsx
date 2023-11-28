@@ -43,7 +43,7 @@ export const showFilmData = async () => {
 
         const releaseYear = film.dataset.filmReleaseYear;
         const title = film.dataset.filmName;
-        
+
         film.style.position = "relative";
 
         // const actionMenu = film.querySelector(".overlay-actions") as HTMLElement;
@@ -53,7 +53,7 @@ export const showFilmData = async () => {
         // actionMenu.style.left = "0px";
         // actionMenu.style.bottom = "0px"; 
 
-        render(() => <FilmBadge score={score} />, film)
+        render(() => <FilmBadge score={score} isColorfulBadge={false} />, film)
         render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
     });
 };
@@ -67,12 +67,12 @@ export async function hideService() {
     if (labelElement?.textContent?.trim() === "Service") {
         serviceElement?.remove();
     }
-    
+
 }
 
 export async function moveMovieDataToHeader() {
     const filmHeaderSection = await waitForElement(document, "#featured-film-header");
-    
+
     const durationSection = (await waitForElement(document, "p.text-footer"));
 
     if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDb']"))) {
@@ -99,7 +99,7 @@ export async function moveMovieDataToHeader() {
         const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);
 
         genreNames.forEach((genreName) => {
-            if(!genreName || !filmHeaderSection) return;
+            if (!genreName || !filmHeaderSection) return;
             render(() => <GenreBadge genreName={genreName} />, filmHeaderSection)
         })
     }

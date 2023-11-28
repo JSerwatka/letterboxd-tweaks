@@ -1,5 +1,6 @@
 interface FilmDataProps {
     score?: string;
+    isColorfulBadge: boolean
 }
 
 function getScoreColor(score: FilmDataProps["score"]) {
@@ -22,10 +23,11 @@ function getScoreColor(score: FilmDataProps["score"]) {
     if (scoreNumber >= 4) {
         return 'bg-green-500/80';
     }
+    return "bg-gray-400/80"
 }
 
-const FilmBadge = ({ score }: FilmDataProps) => {
-    const scoreColor = getScoreColor(score);
+const FilmBadge = ({ score, isColorfulBadge }: FilmDataProps) => {
+    const scoreColor = isColorfulBadge ? getScoreColor(score) : "bg-gray-400/80";
 
     return (
         <div class={`absolute text-black px-[4px] py-[2px] rounded-br-md top-0 ${scoreColor}`}>{score ?? "?"}</div>
