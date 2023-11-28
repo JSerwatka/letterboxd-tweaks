@@ -6,11 +6,9 @@ interface FilmDataProps {
 
 const FilmData = (props: FilmDataProps) => {
     return (
-        <div class="absolute text-black h-1/4 bg-white/40 w-full left-0 bottom-0 z-10 rounded-lg backdrop-blur-[2px]	 text-lg">
-            <div>{props.title}</div>
-            <div>
-                <span>{props.releaseYear}</span>
-            </div>
+        <div class="absolute text-black bg-white/40 w-full px-2 py-1 left-0 bottom-0 z-10 rounded-md backdrop-blur-[4px] text-lg">
+            <div class="line-clamp-1" title={props.title}>{props.title}</div>
+            <div class="text-sm leading-tight">{props.releaseYear}</div>
         </div>
     );
 };
