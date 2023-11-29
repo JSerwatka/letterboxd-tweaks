@@ -30,8 +30,13 @@ const FilmBadge = ({ score, isColorfulBadge }: FilmDataProps) => {
     const scoreColor = isColorfulBadge ? getScoreColor(score) : "bg-gray-400/80";
 
     return (
-        <div class={`absolute text-black px-[4px] py-[2px] rounded-br-md top-0 ${scoreColor}`}>{score ?? "?"}</div>
+        <div class={`absolute text-black flex flex-col items-center gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${scoreColor}`}>
+            {score ?? "?"}
+        </div>
     );
+    // return (
+    //     <div class={`absolute text-black px-[4px] py-[2px] rounded-br-md top-0 ${scoreColor}`}>{score ?? "?"}</div>
+    // );
 }
 
 export default FilmBadge;
