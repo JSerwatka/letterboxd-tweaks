@@ -54,6 +54,14 @@ export const showFilmData = async () => {
             z-index: -10;
             border-radius: 50%;
         }
+        .poster .blurred-img-overlay-large {
+            position: absolute;
+            top: 0;
+            left: 0;
+            filter: blur(40px);
+            z-index: -10;
+            border-radius: 50%;
+        }
     `;
     document.head.appendChild(styleElement);
     filmListContainer?.classList?.add("no-after");
@@ -69,7 +77,7 @@ export const showFilmData = async () => {
         const yourRatingStars = yourRatingElement?.textContent;
         yourRatingElement?.remove();
 
-        const isSmallCard = true;
+        const isSmallCard = false;
 
 
         if (isSmallCard) {
@@ -91,7 +99,6 @@ export const showFilmData = async () => {
             overlay.style.boxShadow = "none";
 
             const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
-            // console.log(overlayActions, overlay, aTag);
             overlayActions.style.zIndex = "20";
 
             let imgElement = film.querySelector('img.image') as HTMLElement;
@@ -104,26 +111,42 @@ export const showFilmData = async () => {
                 imgElement.after(clonedImg);
             }
 
-
-            // render(() => <div class="relative h-full w-full overflow-hidden rounded-md">
-            //     <div class="absolute inset-0 blur-3xl bg-white/30 expand-blur"></div>
-            // </div>, film)
-            // render(() => <div class="absolute blur-3xl rounded-md h-full w-full scale-150 left-0 top-0 -z-10 overflow-hidden bg-white"></div>, film)
             render(() => <FilmBadge score={score} isColorfulBadge={true} />, film)
             render(() => <FilmDataSmall title={title} releaseYear={releaseYear} yourRating={yourRatingStars} />, film);
         } else {
-            render(() => <FilmBadge score={score} isColorfulBadge={false} />, film)
-            render(() => <FilmDataLarge title={title} releaseYear={releaseYear} score={score} />, film);
+            film.style.padding = "12px";
+            film.style.boxShadow = "none";
+            film.style.borderRadius = "8px";
+            film.style.background = "#7eb4f121";
+            film.style.backdropFilter = "blur(10px)"
+            film.style.height = "auto";
+
+            const aTag = film.querySelector("a.frame") as HTMLElement;
+            aTag.style.boxShadow = "none";
+            aTag.style.backgroundImage = "none";
+
+            const overlay = film.querySelector("span.overlay") as HTMLElement;
+            overlay.style.borderColor = "none";
+            overlay.style.zIndex = "10";
+            overlay.style.borderRadius = "8px";
+            overlay.style.boxShadow = "none";
+
+            const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
+            overlayActions.style.zIndex = "20";
+
+            let imgElement = film.querySelector('img.image') as HTMLElement;
+            if (imgElement) {
+                imgElement.style.boxShadow = "0px 0px 7px 0px rgb(0 0 0 / 50%)"
+                imgElement.style.borderRadius = "6px";
+
+                let clonedImg = imgElement.cloneNode(true) as HTMLElement;
+                clonedImg.classList.add("blurred-img-overlay-large")
+                imgElement.after(clonedImg);
+            }
+
+            render(() => <FilmBadge score={score} isColorfulBadge={true} />, film)
+            render(() => <FilmDataLarge title={title} releaseYear={releaseYear} score={score} yourRating={yourRatingStars} />, film);
         }
-
-
-        // const actionMenu = film.querySelector(".overlay-actions") as HTMLElement;
-        // actionMenu.style.display = "block !important";
-        // actionMenu.style.margin = "0";
-        // actionMenu.style.width  = "100%";
-        // actionMenu.style.left = "0px";
-        // actionMenu.style.bottom = "0px"; 
-
     });
 };
 
