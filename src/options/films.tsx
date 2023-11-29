@@ -65,6 +65,9 @@ export const showFilmData = async () => {
         const title = film.dataset.filmName;
 
         film.style.position = "relative";
+        const yourRatingElement = film?.parentElement?.querySelector("p.poster-viewingdata > span.rating");
+        const yourRatingStars = yourRatingElement?.textContent;
+        yourRatingElement?.remove();
 
         const isSmallCard = true;
 
@@ -107,7 +110,7 @@ export const showFilmData = async () => {
             // </div>, film)
             // render(() => <div class="absolute blur-3xl rounded-md h-full w-full scale-150 left-0 top-0 -z-10 overflow-hidden bg-white"></div>, film)
             render(() => <FilmBadge score={score} isColorfulBadge={true} />, film)
-            render(() => <FilmDataSmall title={title} releaseYear={releaseYear} />, film);
+            render(() => <FilmDataSmall title={title} releaseYear={releaseYear} yourRating={yourRatingStars} />, film);
         } else {
             render(() => <FilmBadge score={score} isColorfulBadge={false} />, film)
             render(() => <FilmDataLarge title={title} releaseYear={releaseYear} score={score} />, film);
