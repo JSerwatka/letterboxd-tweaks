@@ -77,11 +77,14 @@ export const showFilmData = async () => {
 
         film.style.position = "relative";
         const viewingDataElement = film?.parentElement?.querySelector("p.poster-viewingdata");
-        const yourRatingStars = viewingDataElement?.querySelector("span.rating")?.textContent;
+        // classes are use to build stars ui element
+        const yourRatingElement = viewingDataElement?.querySelector("span.rating");
+        const yourRatingElementClasses = yourRatingElement ? Array.from(yourRatingElement.classList).join(" ") : null;
         const dateOfView = viewingDataElement?.querySelector("time")?.textContent; //only large cards
         const commentsIcon = viewingDataElement?.querySelector(".review-small > span.icon"); //only large cards
-        const likedIcon = viewingDataElement?.querySelector(".icon-liked > span.icon"); //only large cards
-        viewingDataElement?.remove();
+        const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked")); //only large cards
+        // (likedIcon?.querySelector("span.icon") as HTMLElement).style.backgroundPosition = "-390px -70px";
+        // viewingDataElement?.remove();
 
         const isSmallCard = false;
 
@@ -117,7 +120,16 @@ export const showFilmData = async () => {
             }
 
             render(() => <FilmBadge score={score} isColorfulBadge={true} />, film);
-            render(() => <FilmDataSmall title={title} releaseYear={releaseYear} yourRating={yourRatingStars} />, film);
+            render(
+                () => (
+                    <FilmDataSmall
+                        title={title}
+                        releaseYear={releaseYear}
+                        yourRatingElementClasses={yourRatingElementClasses}
+                    />
+                ),
+                film
+            );
         } else {
             film.style.padding = "12px";
             film.style.boxShadow = "none";
@@ -157,9 +169,9 @@ export const showFilmData = async () => {
                         title={title}
                         releaseYear={releaseYear}
                         score={score}
-                        yourRating={yourRatingStars}
+                        yourRatingElementClasses={yourRatingElementClasses}
                         dateOfView={dateOfView}
-                        likedIcon={likedIcon}
+                        isLiked={isLiked}
                     />
                 ),
                 film

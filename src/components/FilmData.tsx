@@ -2,12 +2,12 @@ interface FilmDataProps {
     score?: string;
     title?: string;
     releaseYear?: string;
-    yourRating?: string | null;
+    yourRatingElementClasses?: string | null;
 }
 
 interface FilmDataLargeProps extends FilmDataProps {
     dateOfView?: string | null;
-    likedIcon?: Element | null;
+    isLiked?: boolean | null;
 }
 
 export const FilmDataLarge = (props: FilmDataLargeProps) => {
@@ -18,10 +18,23 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
             </div>
             <div>
                 <div class="text-gray-400">{props.releaseYear}</div>
-                {props.yourRating && (
+                {props.yourRatingElementClasses && (
                     <div class="flex flex-row justify-between items-end mt-3">
-                        <div title="your rating" class="rating -tiny -darker rated-9">
-                            {props.yourRating}
+                        <div class="flex items-center">
+                            {props.isLiked && (
+                                <>
+                                    <svg
+                                        class="w-4 h-4 mr-1 pb-[1px] text-red-500/70"
+                                        aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="currentColor"
+                                        viewBox="0 0 20 18"
+                                    >
+                                        <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z" />
+                                    </svg>
+                                </>
+                            )}
+                            <div title="your rating" class={props.yourRatingElementClasses}></div>
                         </div>
                         <div title="viewing date" class="text-gray-400 text-sm">
                             {props.dateOfView}
@@ -41,10 +54,8 @@ export const FilmDataSmall = (props: FilmDataProps) => {
             </div>
             <div>
                 <div class="text-gray-400">{props.releaseYear}</div>
-                {props.yourRating && (
-                    <div title="your rating" class="rating -tiny -darker rated-9 mt-3">
-                        {props.yourRating}
-                    </div>
+                {props.yourRatingElementClasses && (
+                    <div title="your rating" class={props.yourRatingElementClasses}></div>
                 )}
             </div>
         </div>
