@@ -3,6 +3,7 @@ import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
 import FilmBadge from "@components/FilmBadge";
+import FilmReviewComments from "@components/FilmReviewComments";
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -81,9 +82,8 @@ export const showFilmData = async () => {
         const yourRatingElement = viewingDataElement?.querySelector("span.rating");
         const yourRatingElementClasses = yourRatingElement ? Array.from(yourRatingElement.classList).join(" ") : null;
         const dateOfView = viewingDataElement?.querySelector("time")?.textContent; //only large cards
-        const commentsIcon = viewingDataElement?.querySelector(".review-small > span.icon"); //only large cards
+        const commentsLink = viewingDataElement?.querySelector("a.icon-review") as HTMLAnchorElement | undefined; //only large cards
         const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked")); //only large cards
-        // (likedIcon?.querySelector("span.icon") as HTMLElement).style.backgroundPosition = "-390px -70px";
         // viewingDataElement?.remove();
 
         const isSmallCard = false;
@@ -150,7 +150,10 @@ export const showFilmData = async () => {
 
             const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
             overlayActions.style.zIndex = "20";
-            // overlayActions.appendChild(commentsIcon as Node);
+            overlay.style.display = "flex";
+            overlay.style.width = "auto";
+
+            // overlayActions.appendChild(commentsIcon as HTMLElement);
 
             let imgElement = film.querySelector("img.image") as HTMLElement;
             if (imgElement) {
@@ -160,6 +163,17 @@ export const showFilmData = async () => {
                 let clonedImg = imgElement.cloneNode(true) as HTMLElement;
                 clonedImg.classList.add("blurred-img-overlay-large");
                 imgElement.after(clonedImg);
+            }
+            if (commentsLink && commentsLink.href) {
+                render(
+                    () => (
+                        <FilmReviewComments
+                            href={commentsLink.href}
+                            title={commentsLink.dataset.originalTitle ?? "reviews"}
+                        />
+                    ),
+                    film
+                );
             }
 
             render(() => <FilmBadge score={score} isColorfulBadge={true} />, film);
