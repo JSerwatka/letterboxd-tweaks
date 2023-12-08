@@ -4,6 +4,7 @@ import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
 import FilmBadge from "@components/FilmBadge";
 import FilmReviewComments from "@components/FilmReviewComments";
+import CSS from "csstype";
 
 const getScore = async (film: HTMLElement) => {
     const filmContainer = film.parentElement;
@@ -37,38 +38,94 @@ const getScore = async (film: HTMLElement) => {
     return score;
 };
 
+type CardType = "small" | "large";
+
+function getStylesByCard(cardType: CardType) {
+    let filmStyles: CSS.Properties = {
+        position: "relative",
+        boxShadow: "none",
+        borderRadius: "8px",
+        background: "#7eb4f121",
+        backdropFilter: "blur(10px)"
+    };
+
+    let aTagStyles: CSS.Properties = {
+        boxShadow: "none",
+        backgroundImage: "none"
+    };
+
+    let overlayStyles: CSS.Properties = {
+        borderColor: "none",
+        zIndex: "10",
+        borderRadius: "8px",
+        boxShadow: "none"
+    };
+
+    let overlayActionsStyles: CSS.Properties = {
+        zIndex: "20"
+    };
+
+    let blurredImgStyles: CSS.Properties = {
+        position: "absolute",
+        filter: "blur(40px)",
+        zIndex: "-10",
+        borderRadius: "50%"
+    };
+
+    let imgStyles: CSS.Properties = {
+        boxShadow: "0px 0px 7px 0px rgb(0 0 0 / 50%)",
+        borderRadius: "6px"
+    };
+
+    if (cardType === "small") {
+        filmStyles = {
+            ...filmStyles,
+            display: "flex",
+            padding: "10px"
+        };
+
+        blurredImgStyles = {
+            ...blurredImgStyles,
+            width: "90px",
+            top: "10px",
+            left: "10px",
+            transform: "translate(-15%, -15%)"
+        };
+    } else {
+        filmStyles = {
+            ...filmStyles,
+            padding: "12px",
+            height: "auto"
+        };
+
+        overlayStyles = {
+            ...overlayStyles,
+            display: "flex",
+            width: "auto"
+        };
+
+        blurredImgStyles = {
+            ...blurredImgStyles,
+            top: "0",
+            left: "0"
+        };
+    }
+
+    return { filmStyles, aTagStyles, overlayStyles, overlayActionsStyles, imgStyles, blurredImgStyles };
+}
+
 export const showFilmData = async () => {
     // TODO: refactor
-    // TODO: in watched there is also a date of watch - move to card
-    // TODO: in new from friends (home) there is also type of watch and who watched that
     const filmListContainer = await waitForElement(document, "ul.poster-list");
     let styleElement = document.createElement("style");
     styleElement.innerHTML = `
         ul.poster-list.no-after::after {
             content: none !important;
         }
-
-        .poster .blurred-img-overlay {
-            width: 90px;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            transform: translate(-15%, -15%);
-            filter: blur(40px);
-            z-index: -10;
-            border-radius: 50%;
-        }
-        .poster .blurred-img-overlay-large {
-            position: absolute;
-            top: 0;
-            left: 0;
-            filter: blur(40px);
-            z-index: -10;
-            border-radius: 50%;
-        }
     `;
     document.head.appendChild(styleElement);
     filmListContainer?.classList?.add("no-after");
+
     await observeElement(document, "[data-film-name]", async (element) => {
         const film = element as HTMLElement;
         const score = await getScore(film);
@@ -76,49 +133,34 @@ export const showFilmData = async () => {
         const releaseYear = film.dataset.filmReleaseYear;
         const title = film.dataset.filmName;
 
-        film.style.position = "relative";
         const viewingDataElement = film?.parentElement?.querySelector("p.poster-viewingdata");
-        // classes are use to build stars ui element
+        // classes are used to build stars ui element
         const yourRatingElement = viewingDataElement?.querySelector("span.rating");
         const yourRatingElementClasses = yourRatingElement ? Array.from(yourRatingElement.classList).join(" ") : null;
-        const dateOfView = viewingDataElement?.querySelector("time")?.textContent; //only large cards
-        const commentsLink = viewingDataElement?.querySelector("a.icon-review") as HTMLAnchorElement | undefined; //only large cards
-        const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked")); //only large cards
+
+        // TODO: apply when finished
         // viewingDataElement?.remove();
 
-        const isSmallCard = false;
+        const cardType = "small" as CardType;
 
-        if (isSmallCard) {
-            film.style.display = "flex";
-            film.style.padding = "10px";
-            film.style.boxShadow = "none";
-            film.style.borderRadius = "8px";
-            film.style.background = "#7eb4f121";
-            film.style.backdropFilter = "blur(10px)";
+        const aTag = film.querySelector("a.frame") as HTMLElement;
+        const overlay = film.querySelector("span.overlay") as HTMLElement;
+        const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
+        const imgElement = film.querySelector("img.image") as HTMLElement;
+        const clonedImg = imgElement.cloneNode(true) as HTMLElement;
 
-            const aTag = film.querySelector("a.frame") as HTMLElement;
-            aTag.style.boxShadow = "none";
-            aTag.style.backgroundImage = "none";
+        const { filmStyles, aTagStyles, overlayStyles, overlayActionsStyles, imgStyles, blurredImgStyles } =
+            getStylesByCard(cardType);
+        Object.assign(film.style, filmStyles);
+        Object.assign(aTag.style, aTagStyles);
+        Object.assign(overlay.style, overlayStyles);
+        Object.assign(overlayActions.style, overlayActionsStyles);
+        Object.assign(imgElement.style, imgStyles);
+        Object.assign(clonedImg.style, blurredImgStyles);
 
-            const overlay = film.querySelector("span.overlay") as HTMLElement;
-            overlay.style.borderColor = "none";
-            overlay.style.zIndex = "10";
-            overlay.style.borderRadius = "8px";
-            overlay.style.boxShadow = "none";
+        imgElement.after(clonedImg);
 
-            const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
-            overlayActions.style.zIndex = "20";
-
-            let imgElement = film.querySelector("img.image") as HTMLElement;
-            if (imgElement) {
-                imgElement.style.boxShadow = "0px 0px 7px 0px rgb(0 0 0 / 50%)";
-                imgElement.style.borderRadius = "6px";
-
-                let clonedImg = imgElement.cloneNode(true) as HTMLElement;
-                clonedImg.classList.add("blurred-img-overlay");
-                imgElement.after(clonedImg);
-            }
-
+        if (cardType == "small") {
             render(() => <FilmBadge score={score} isColorfulBadge={true} />, film);
             render(
                 () => (
@@ -131,39 +173,11 @@ export const showFilmData = async () => {
                 film
             );
         } else {
-            film.style.padding = "12px";
-            film.style.boxShadow = "none";
-            film.style.borderRadius = "8px";
-            film.style.background = "#7eb4f121";
-            film.style.backdropFilter = "blur(10px)";
-            film.style.height = "auto";
+            // data only on large cards
+            const dateOfView = viewingDataElement?.querySelector("time")?.textContent;
+            const commentsLink = viewingDataElement?.querySelector("a.icon-review") as HTMLAnchorElement | undefined;
+            const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked"));
 
-            const aTag = film.querySelector("a.frame") as HTMLElement;
-            aTag.style.boxShadow = "none";
-            aTag.style.backgroundImage = "none";
-
-            const overlay = film.querySelector("span.overlay") as HTMLElement;
-            overlay.style.borderColor = "none";
-            overlay.style.zIndex = "10";
-            overlay.style.borderRadius = "8px";
-            overlay.style.boxShadow = "none";
-
-            const overlayActions = film.querySelector("span.overlay-actions") as HTMLElement;
-            overlayActions.style.zIndex = "20";
-            overlay.style.display = "flex";
-            overlay.style.width = "auto";
-
-            // overlayActions.appendChild(commentsIcon as HTMLElement);
-
-            let imgElement = film.querySelector("img.image") as HTMLElement;
-            if (imgElement) {
-                imgElement.style.boxShadow = "0px 0px 7px 0px rgb(0 0 0 / 50%)";
-                imgElement.style.borderRadius = "6px";
-
-                let clonedImg = imgElement.cloneNode(true) as HTMLElement;
-                clonedImg.classList.add("blurred-img-overlay-large");
-                imgElement.after(clonedImg);
-            }
             if (commentsLink && commentsLink.href) {
                 render(
                     () => (
