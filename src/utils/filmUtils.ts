@@ -83,7 +83,7 @@ export class Film {
     private setCardType() {
         const containerToCardTypeMap: Record<CardType, string[]> = {
             large: [
-                "ul.-p150",
+                "ul.-p150:not(.-overlapped)",
                 "body.list-page ul.js-list-entries.-p125",
                 "section.js-watchlist-main-content ul.-p125",
                 "section#popular-films ul.-p230"

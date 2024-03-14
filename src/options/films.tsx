@@ -8,7 +8,7 @@ import { Film } from "@utils/filmUtils";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
-    // TODO: What is this for????
+    // TODO: stop using this code - it is to fix in https://letterboxd.com/films/popular/this/week/ the last line in small card view
     const filmListContainer = await waitForElement(document, "ul.poster-list");
 
     let styleElement = document.createElement("style");
