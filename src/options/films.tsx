@@ -29,7 +29,9 @@ export const showFilmData = async () => {
         }
         film.setExtraData();
         film.applyStylesToFilmPoster();
-
+        if (film.posterCardType == "micro") {
+            render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
+        }
         if (film.posterCardType == "small") {
             render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
             render(
@@ -42,7 +44,8 @@ export const showFilmData = async () => {
                 ),
                 film.filmElement
             );
-        } else {
+        }
+        if (film.posterCardType == "large") {
             if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
                 render(
                     () => (

@@ -183,7 +183,16 @@ export class Film {
                 };
                 break;
             case "micro":
-            // TODO implement
+                filmStyles = {
+                    ...filmStyles,
+                    padding: "0px"
+                };
+
+                blurredImgStyles = {
+                    ...blurredImgStyles,
+                    top: "0",
+                    left: "0"
+                };
             default:
                 break;
         }
