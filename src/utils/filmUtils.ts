@@ -76,13 +76,16 @@ export class Film {
      */
     private setCardType() {
         const containerToCardTypeMap: Record<CardType, string[]> = {
-            large: ["ul.-p150", "section.js-watchlist-main-content ul.-p125", "section#popular-films ul.-p230"],
+            large: [
+                "ul.-p150",
+                "body.list-page ul.js-list-entries.-p125",
+                "section.js-watchlist-main-content ul.-p125",
+                "section#popular-films ul.-p230"
+            ],
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70",
-                "div.likes-page-content ul.-p70",
-                "body.films-watched ul.-p70"
+                "div.likes-page-content ul.-p70"
             ],
             micro: [
                 "[data-object-name='review']",
