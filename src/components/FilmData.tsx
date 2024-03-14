@@ -1,23 +1,28 @@
+import { FriendData } from "@utils/filmUtils";
+
 interface FilmDataProps {
     score?: string;
     title?: string;
     releaseYear?: string;
-    ratingElementClasses?: string | null;
+    ratingElementClasses?: string;
 }
 
 interface FilmDataLargeProps extends FilmDataProps {
     dateOfView?: string;
     isLiked?: boolean;
+    friendData?: FriendData;
 }
 
 export const FilmDataLarge = (props: FilmDataLargeProps) => {
+    const cardHight = props.friendData ? "h-36" : "h-28";
+
     return (
-        <div class="text-white w-full rounded-md text-lg mt-4 flex flex-col h-28  justify-between">
-            <div class="line-clamp-2 text-lg leading-tight" title={props.title}>
+        <div class={`text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}>
+            <div class="line-clamp-2 text-lg leading-tight text-white" title={props.title}>
                 {props.title}
             </div>
             <div>
-                <div class="text-gray-400">{props.releaseYear}</div>
+                <div>{props.releaseYear}</div>
                 {props.ratingElementClasses && (
                     <div class="flex flex-row justify-between items-end mt-3">
                         <div class="flex items-center">
@@ -34,11 +39,21 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
                                     </svg>
                                 </>
                             )}
-                            <div title="your rating" class={props.ratingElementClasses}></div>
+                            <div title="rating" class={props.ratingElementClasses}></div>
                         </div>
-                        <div title="viewing date" class="text-gray-400 text-sm">
+                        <div title="viewing date" class="text-sm">
                             {props.dateOfView}
                         </div>
+                    </div>
+                )}
+                {props.friendData && (
+                    <div class="text-sm mt-4 flex flex-row items-center">
+                        <img
+                            src={props.friendData.avatarLink}
+                            title={`${props.friendData.name}'s profile picture`}
+                            class="w-6 rounded-full inline mr-3"
+                        />
+                        <span>{props.friendData.name}</span>
                     </div>
                 )}
             </div>

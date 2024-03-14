@@ -68,6 +68,7 @@ export const showFilmData = async () => {
                         ratingElementClasses={film.extraData.ratingElementClasses}
                         dateOfView={film.extraData.dateOfView}
                         isLiked={film.extraData.isLiked}
+                        friendData={film.extraData.friendData}
                     />
                 ),
                 film.filmElement

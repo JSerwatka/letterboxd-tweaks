@@ -2,11 +2,17 @@ import CSS from "csstype";
 
 export type CardType = "large" | "small" | "micro";
 
+export interface FriendData {
+    name: string;
+    avatarLink: string;
+}
+
 interface ExtraFilmData {
     ratingElementClasses?: string;
     commentsLink?: HTMLAnchorElement;
     isLiked?: boolean;
     dateOfView?: string;
+    friendData?: FriendData;
 }
 
 export class Film {
@@ -214,11 +220,25 @@ export class Film {
         const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked"));
         const dateOfView = viewingDataElement?.querySelector("time")?.textContent ?? undefined;
 
+        const friendElement = this.filmElement.querySelector("div.js-poster-attribution");
+        const friendAvatarLink = (friendElement?.querySelector(".avatar > img") as HTMLImageElement | undefined)?.src;
+        const friendName = friendElement?.querySelector(".name > a")?.textContent ?? undefined;
+
+        let friendData: FriendData | undefined;
+        if (friendAvatarLink && friendName) {
+            friendElement?.remove();
+            friendData = {
+                name: friendName,
+                avatarLink: friendAvatarLink
+            };
+        }
+
         this.extraData = {
             ratingElementClasses,
             commentsLink,
             isLiked,
-            dateOfView
+            dateOfView,
+            friendData
         };
 
         // TODO: apply for production
