@@ -2,18 +2,26 @@ import CSS from "csstype";
 
 export type CardType = "large" | "small" | "micro";
 
+interface ExtraFilmData {
+    ratingElementClasses?: string;
+    commentsLink?: HTMLAnchorElement;
+    isLiked?: boolean;
+    dateOfView?: string;
+}
+
 export class Film {
     filmElement: HTMLElement;
     score: string | undefined;
     releaseYear: string | undefined;
     title: string | undefined;
     posterCardType: CardType | undefined;
-    yourRatingElementClasses: string | undefined;
+    extraData: ExtraFilmData;
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
         this.releaseYear = filmElement.dataset.filmReleaseYear;
         this.title = filmElement.dataset.filmName;
+        this.extraData = {};
     }
 
     /**
@@ -184,18 +192,25 @@ export class Film {
     }
     //
 
-    /**
-     * Sets yourRatingElementClasses property. These classes are used to build stars ui element (only for rated movies)
-     */
-    setRatingClasses() {
+    setExtraData() {
         const viewingDataElement = this.filmElement.parentElement?.querySelector("p.poster-viewingdata");
-        const yourRatingElement = viewingDataElement?.querySelector("span.rating");
-        this.yourRatingElementClasses = yourRatingElement
-            ? Array.from(yourRatingElement.classList).join(" ")
-            : undefined;
+
+        const ratingElement = viewingDataElement?.querySelector("span.rating");
+        const ratingElementClasses = ratingElement ? Array.from(ratingElement.classList).join(" ") : undefined;
+
+        const commentsLink = viewingDataElement?.querySelector("a.icon-review") as HTMLAnchorElement | undefined;
+        const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked"));
+        const dateOfView = viewingDataElement?.querySelector("time")?.textContent ?? undefined;
+
+        this.extraData = {
+            ratingElementClasses,
+            commentsLink,
+            isLiked,
+            dateOfView
+        };
 
         // TODO: apply for production
-        // viewingDataElement?.remove();
+        viewingDataElement?.remove();
     }
 
     /**

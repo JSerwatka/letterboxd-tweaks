@@ -2,12 +2,12 @@ interface FilmDataProps {
     score?: string;
     title?: string;
     releaseYear?: string;
-    yourRatingElementClasses?: string | null;
+    ratingElementClasses?: string | null;
 }
 
 interface FilmDataLargeProps extends FilmDataProps {
-    dateOfView?: string | null;
-    isLiked?: boolean | null;
+    dateOfView?: string;
+    isLiked?: boolean;
 }
 
 export const FilmDataLarge = (props: FilmDataLargeProps) => {
@@ -18,7 +18,7 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
             </div>
             <div>
                 <div class="text-gray-400">{props.releaseYear}</div>
-                {props.yourRatingElementClasses && (
+                {props.ratingElementClasses && (
                     <div class="flex flex-row justify-between items-end mt-3">
                         <div class="flex items-center">
                             {props.isLiked && (
@@ -34,7 +34,7 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
                                     </svg>
                                 </>
                             )}
-                            <div title="your rating" class={props.yourRatingElementClasses}></div>
+                            <div title="your rating" class={props.ratingElementClasses}></div>
                         </div>
                         <div title="viewing date" class="text-gray-400 text-sm">
                             {props.dateOfView}
@@ -54,9 +54,7 @@ export const FilmDataSmall = (props: FilmDataProps) => {
             </div>
             <div>
                 <div class="text-gray-400">{props.releaseYear}</div>
-                {props.yourRatingElementClasses && (
-                    <div title="your rating" class={props.yourRatingElementClasses}></div>
-                )}
+                {props.ratingElementClasses && <div title="your rating" class={props.ratingElementClasses}></div>}
             </div>
         </div>
     );

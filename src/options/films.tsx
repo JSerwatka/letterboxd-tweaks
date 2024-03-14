@@ -27,9 +27,8 @@ export const showFilmData = async () => {
         if (!film.posterCardType) {
             return;
         }
-        film.setRatingClasses();
+        film.setExtraData();
         film.applyStylesToFilmPoster();
-        const viewingDataElement = film.filmElement.parentElement?.querySelector("p.poster-viewingdata");
 
         if (film.posterCardType == "small") {
             render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
@@ -38,23 +37,18 @@ export const showFilmData = async () => {
                     <FilmDataSmall
                         title={film.title}
                         releaseYear={film.releaseYear}
-                        yourRatingElementClasses={film.yourRatingElementClasses}
+                        ratingElementClasses={film.extraData.ratingElementClasses}
                     />
                 ),
                 film.filmElement
             );
         } else {
-            // data only on large cards
-            const dateOfView = viewingDataElement?.querySelector("time")?.textContent;
-            const commentsLink = viewingDataElement?.querySelector("a.icon-review") as HTMLAnchorElement | undefined;
-            const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked"));
-
-            if (commentsLink && commentsLink.href) {
+            if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
                 render(
                     () => (
                         <FilmReviewComments
-                            href={commentsLink.href}
-                            title={commentsLink.dataset.originalTitle ?? "reviews"}
+                            href={film.extraData.commentsLink!.href}
+                            title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
                         />
                     ),
                     film.filmElement
@@ -68,9 +62,9 @@ export const showFilmData = async () => {
                         title={film.title}
                         releaseYear={film.releaseYear}
                         score={film.score}
-                        yourRatingElementClasses={film.yourRatingElementClasses}
-                        dateOfView={dateOfView}
-                        isLiked={isLiked}
+                        ratingElementClasses={film.extraData.ratingElementClasses}
+                        dateOfView={film.extraData.dateOfView}
+                        isLiked={film.extraData.isLiked}
                     />
                 ),
                 film.filmElement
