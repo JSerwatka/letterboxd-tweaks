@@ -34,16 +34,7 @@ export const showFilmData = async () => {
         }
         if (film.posterCardType == "small") {
             render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-            render(
-                () => (
-                    <FilmDataSmall
-                        title={film.title}
-                        releaseYear={film.releaseYear}
-                        ratingElementClasses={film.extraData.ratingElementClasses}
-                    />
-                ),
-                film.filmElement
-            );
+            render(() => <FilmDataSmall film={film} />, film.filmElement);
         }
         if (film.posterCardType == "large") {
             if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
@@ -57,22 +48,8 @@ export const showFilmData = async () => {
                     film.filmElement
                 );
             }
-
             render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-            render(
-                () => (
-                    <FilmDataLarge
-                        title={film.title}
-                        releaseYear={film.releaseYear}
-                        score={film.score}
-                        ratingElementClasses={film.extraData.ratingElementClasses}
-                        dateOfView={film.extraData.dateOfView}
-                        isLiked={film.extraData.isLiked}
-                        friendData={film.extraData.friendData}
-                    />
-                ),
-                film.filmElement
-            );
+            render(() => <FilmDataLarge film={film} />, film.filmElement);
         }
     });
 };

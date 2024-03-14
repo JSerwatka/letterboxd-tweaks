@@ -1,32 +1,25 @@
-import { FriendData } from "@utils/filmUtils";
+import { Film, FriendData } from "@utils/filmUtils";
 
 interface FilmDataProps {
-    score?: string;
-    title?: string;
-    releaseYear?: string;
-    ratingElementClasses?: string;
+    film: Film;
 }
 
-interface FilmDataLargeProps extends FilmDataProps {
-    dateOfView?: string;
-    isLiked?: boolean;
-    friendData?: FriendData;
-}
+export const FilmDataLarge = ({ film }: FilmDataProps) => {
+    const { title: filmTitle, releaseYear: filmReleaseYear, extraData: filmExtraData } = film;
 
-export const FilmDataLarge = (props: FilmDataLargeProps) => {
-    const cardHight = props.friendData ? "h-36" : "h-28";
+    const cardHight = film.extraData.friendData ? "h-36" : "h-28";
 
     return (
         <div class={`text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}>
-            <div class="line-clamp-2 text-lg leading-tight text-white" title={props.title}>
-                {props.title}
+            <div class="line-clamp-2 text-lg leading-tight text-white" title={filmTitle}>
+                {filmTitle}
             </div>
             <div>
-                <div>{props.releaseYear}</div>
-                {props.ratingElementClasses && (
+                <div>{film.releaseYear}</div>
+                {film.extraData.ratingElementClasses && (
                     <div class="flex flex-row justify-between items-end mt-3">
                         <div class="flex items-center">
-                            {props.isLiked && (
+                            {film.extraData.isLiked && (
                                 <>
                                     <svg
                                         class="w-4 h-4 mr-1 pb-[1px] text-red-500/70"
@@ -39,21 +32,21 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
                                     </svg>
                                 </>
                             )}
-                            <div title="rating" class={props.ratingElementClasses}></div>
+                            <div title="rating" class={filmExtraData.ratingElementClasses}></div>
                         </div>
                         <div title="viewing date" class="text-sm">
-                            {props.dateOfView}
+                            {filmExtraData.dateOfView}
                         </div>
                     </div>
                 )}
-                {props.friendData && (
+                {filmExtraData.friendData && (
                     <div class="text-sm mt-4 flex flex-row items-center">
                         <img
-                            src={props.friendData.avatarLink}
-                            title={`${props.friendData.name}'s profile picture`}
+                            src={filmExtraData.friendData.avatarLink}
+                            title={`${filmExtraData.friendData.name}'s profile picture`}
                             class="w-6 rounded-full inline mr-3"
                         />
-                        <span>{props.friendData.name}</span>
+                        <span>{filmExtraData.friendData.name}</span>
                     </div>
                 )}
             </div>
@@ -61,15 +54,19 @@ export const FilmDataLarge = (props: FilmDataLargeProps) => {
     );
 };
 
-export const FilmDataSmall = (props: FilmDataProps) => {
+export const FilmDataSmall = ({ film }: FilmDataProps) => {
+    const { title: filmTitle, releaseYear: filmReleaseYear, extraData: filmExtraData } = film;
+
     return (
         <div class="text-white px-8 w-[200px] left-0 bottom-0 rounded-md text-lg flex flex-col  justify-between">
-            <div class="line-clamp-2 text-lg leading-tigh mt-2" title={props.title}>
-                {props.title}
+            <div class="line-clamp-2 text-lg leading-tigh mt-2" title={filmTitle}>
+                {filmTitle}
             </div>
             <div>
-                <div class="text-gray-400">{props.releaseYear}</div>
-                {props.ratingElementClasses && <div title="your rating" class={props.ratingElementClasses}></div>}
+                <div class="text-gray-400">{filmReleaseYear}</div>
+                {filmExtraData.ratingElementClasses && (
+                    <div title="your rating" class={filmExtraData.ratingElementClasses}></div>
+                )}
             </div>
         </div>
     );
