@@ -1,4 +1,5 @@
 import { Film, FriendData } from "@utils/filmUtils";
+import { HeartIcon } from "./FilmIcons";
 
 interface FilmDataProps {
     film: Film;
@@ -16,29 +17,28 @@ export const FilmDataLarge = ({ film }: FilmDataProps) => {
             </div>
             <div>
                 <div>{film.releaseYear}</div>
-                {film.extraData.ratingElementClasses && (
-                    <div class="flex flex-row justify-between items-end mt-3">
+                <div
+                    class="flex flex-row justify-between items-end mt-3"
+                    classList={{
+                        "justify-between": Boolean(film.extraData.ratingElementClasses),
+                        "justify-end": !Boolean(film.extraData.ratingElementClasses)
+                    }}
+                >
+                    {film.extraData.ratingElementClasses && (
                         <div class="flex items-center">
                             {film.extraData.isLiked && (
-                                <>
-                                    <svg
-                                        class="w-4 h-4 mr-1 pb-[1px] text-red-500/70"
-                                        aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="currentColor"
-                                        viewBox="0 0 20 18"
-                                    >
-                                        <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z" />
-                                    </svg>
-                                </>
+                                <div class="m-1">
+                                    <HeartIcon />
+                                </div>
                             )}
                             <div title="rating" class={filmExtraData.ratingElementClasses}></div>
                         </div>
-                        <div title="viewing date" class="text-sm">
-                            {filmExtraData.dateOfView}
-                        </div>
+                    )}
+                    <div title="viewing date" class="text-sm">
+                        {filmExtraData.dateOfView}
                     </div>
-                )}
+                </div>
+
                 {filmExtraData.friendData && (
                     <div class="text-sm mt-4 flex flex-row items-center">
                         <img
@@ -64,8 +64,15 @@ export const FilmDataSmall = ({ film }: FilmDataProps) => {
             </div>
             <div>
                 <div class="text-gray-400">{filmReleaseYear}</div>
-                {filmExtraData.ratingElementClasses && (
-                    <div title="your rating" class={filmExtraData.ratingElementClasses}></div>
+                {film.extraData.ratingElementClasses && (
+                    <div class="flex items-center">
+                        {film.extraData.isLiked && (
+                            <div class="mr-1">
+                                <HeartIcon />
+                            </div>
+                        )}
+                        <div title="rating" class={filmExtraData.ratingElementClasses}></div>
+                    </div>
                 )}
             </div>
         </div>

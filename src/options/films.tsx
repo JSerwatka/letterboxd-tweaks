@@ -1,9 +1,9 @@
-import { FilmDataLarge, FilmDataSmall } from "@components/FilmData";
+import { FilmDataLarge, FilmDataSmall } from "@components/Film/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
-import FilmBadge from "@components/FilmBadge";
-import FilmReviewComments from "@components/FilmReviewComments";
+import FilmBadge from "@components/Film/FilmBadge";
+import { FilmReviewComments } from "@components/Film/FilmIcons";
 import { Film } from "@utils/filmUtils";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
