@@ -6,7 +6,7 @@ interface FilmReviewCommentsProps {
 export const FilmReviewComments = ({ href, title }: FilmReviewCommentsProps) => {
     // TODO: don't use hardcoded top left values, maybe as place to render us imgs parent
     return (
-        <a href={href} title={title} class="absolute top-[15px] left-[15px] z-30">
+        <a href={href} title={title} class="absolute rounded-full p-3 top-[3px] left-[3px] z-30 bg-slate-900/75">
             <svg
                 class="w-4 h-4 text-white hover:text-white/70"
                 aria-hidden="true"
