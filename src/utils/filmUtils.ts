@@ -71,7 +71,7 @@ export class Film {
             large: ["ul.-p150", "section.js-watchlist-main-content ul.-p125", "section#popular-films ul.-p230"],
             small: [
                 "body.films-watched ul.-p70",
-                "div.films-browser-list-container ul.-p70",
+                "div#films-browser-list-container ul.-p70",
                 "div.likes-page-content ul.-p70",
                 "div.likes-page-content ul.-p70",
                 "body.films-watched ul.-p70"
@@ -87,12 +87,8 @@ export class Film {
         for (const [cardType, selectors] of Object.entries(containerToCardTypeMap)) {
             if (selectors.some((selector) => this.filmElement.closest(selector))) {
                 this.posterCardType = cardType as CardType;
-                break;
+                return;
             }
-        }
-
-        if (!this.posterCardType) {
-            throw Error("setCardType:: Card type could not be determined.");
         }
     }
 
@@ -102,7 +98,7 @@ export class Film {
      * @returns An object containing the styles for the film container, anchor tag, overlay, overlay actions, image element, and blurred image element.
      * @throws {Error} - If the card type is not defined.
      */
-    static getStylesByCard(cardType: CardType | undefined) {
+    static getStylesByCard(cardType: CardType) {
         if (!cardType) {
             throw Error("getStylesByCard:: Card type is not defined");
         }
@@ -206,8 +202,12 @@ export class Film {
      * Applies styles to the film poster.
      *
      * This method applies various styles to different elements of the film poster, such as the film container, the anchor tag, the overlay, the overlay actions, the image element, and a cloned blurred image element. The styles are determined based on the card type of the film poster.
+     * @throws {Error} - If the card type is not defined.
      */
     applyStylesToFilmPoster() {
+        if (!this.posterCardType) {
+            throw Error("applyStylesToFilmPoster:: Card type is not defined");
+        }
         const aTag = this.filmElement.querySelector("a.frame") as HTMLElement;
         const overlay = this.filmElement.querySelector("span.overlay") as HTMLElement;
         const overlayActions = this.filmElement.querySelector("span.overlay-actions") as HTMLElement;

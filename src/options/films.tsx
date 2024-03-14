@@ -22,6 +22,11 @@ export const showFilmData = async () => {
 
     observeElement(document, "[data-film-name]", async (element) => {
         const film = await Film.build(element as HTMLElement);
+
+        // If no card type - it means changing styles is disabled for this film element
+        if (!film.posterCardType) {
+            return;
+        }
         film.setRatingClasses();
         film.applyStylesToFilmPoster();
         const viewingDataElement = film.filmElement.parentElement?.querySelector("p.poster-viewingdata");
