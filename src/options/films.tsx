@@ -4,7 +4,8 @@ import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
 import FilmBadge from "@components/Film/FilmBadge";
 import { FilmReviewComments } from "@components/Film/FilmIcons";
-import { Film } from "@utils/filmUtils";
+import { CardTypeNotDefinedError, Film } from "@utils/filmUtils";
+import { exec } from "child_process";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
@@ -21,46 +22,46 @@ export const showFilmData = async () => {
     filmListContainer?.classList?.add("no-after");
 
     observeElement(document, "[data-film-name]", async (element) => {
-        const film = await Film.build(element as HTMLElement);
+        try {
+            const film = await Film.build(element as HTMLElement);
+            if (!film) return;
 
-        // If no card type - it means changing styles is disabled for this film element
-        if (!film.posterCardType) {
-            return;
-        }
-        film.setExtraData();
-        film.applyStylesToFilmPoster();
-        if (film.posterCardType == "micro") {
-            render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
-        }
-        if (film.posterCardType == "small") {
-            if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
-                render(
-                    () => (
-                        <FilmReviewComments
-                            href={film.extraData.commentsLink!.href}
-                            title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
-                        />
-                    ),
-                    film.filmElement
-                );
+            if (film.posterCardType == "micro") {
+                render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
             }
-            render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-            render(() => <FilmDataSmall film={film} />, film.filmElement);
-        }
-        if (film.posterCardType == "large") {
-            if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
-                render(
-                    () => (
-                        <FilmReviewComments
-                            href={film.extraData.commentsLink!.href}
-                            title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
-                        />
-                    ),
-                    film.filmElement
-                );
+            if (film.posterCardType == "small") {
+                if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                    render(
+                        () => (
+                            <FilmReviewComments
+                                href={film.extraData.commentsLink!.href}
+                                title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                            />
+                        ),
+                        film.filmElement
+                    );
+                }
+                render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                render(() => <FilmDataSmall film={film} />, film.filmElement);
             }
-            render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-            render(() => <FilmDataLarge film={film} />, film.filmElement);
+            if (film.posterCardType == "large") {
+                if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                    render(
+                        () => (
+                            <FilmReviewComments
+                                href={film.extraData.commentsLink!.href}
+                                title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                            />
+                        ),
+                        film.filmElement
+                    );
+                }
+                render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                render(() => <FilmDataLarge film={film} />, film.filmElement);
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
         }
     });
 };

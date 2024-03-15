@@ -15,6 +15,13 @@ interface ExtraFilmData {
     friendData?: FriendData;
 }
 
+export class CardTypeNotDefinedError extends Error {
+    constructor(location: string) {
+        super(`${location}::  Card type is not defined`);
+        this.name = "CardTypeNotDefinedError";
+    }
+}
+
 export class Film {
     filmElement: HTMLElement;
     score: string | undefined;
@@ -31,12 +38,22 @@ export class Film {
     }
 
     /**
-        Used to init an object, to prevent using the object without film rating or card type set
+     *  Used to init an object, to prevent using the object without film rating or card type set
+     * @throws {Error} If the card type could not be determined.
      */
-    static async build(filmElement: HTMLElement): Promise<Film> {
+    static async build(filmElement: HTMLElement): Promise<Film | undefined> {
         const filmInstance = new Film(filmElement);
-        await filmInstance.setFilmRating();
         filmInstance.setCardType();
+
+        // If no card type - it means changing styles is disabled for this film element
+        if (!filmInstance.posterCardType) {
+            return;
+        }
+
+        await filmInstance.setFilmRating();
+        filmInstance.setExtraData();
+        filmInstance.applyStylesToFilmPoster();
+
         return filmInstance;
     }
 
@@ -117,7 +134,7 @@ export class Film {
      */
     static getStylesByCard(cardType: CardType) {
         if (!cardType) {
-            throw Error("getStylesByCard:: Card type is not defined");
+            throw new CardTypeNotDefinedError("getStylesByCard");
         }
 
         let filmStyles: CSS.Properties = {
@@ -208,7 +225,6 @@ export class Film {
 
         return { filmStyles, aTagStyles, overlayStyles, overlayActionsStyles, imgStyles, blurredImgStyles };
     }
-    //
 
     setExtraData() {
         const viewingDataElement = this.filmElement.parentElement?.querySelector("p.poster-viewingdata");
@@ -241,7 +257,6 @@ export class Film {
             friendData
         };
 
-        // TODO: apply for production
         viewingDataElement?.remove();
     }
 
@@ -253,7 +268,7 @@ export class Film {
      */
     applyStylesToFilmPoster() {
         if (!this.posterCardType) {
-            throw Error("applyStylesToFilmPoster:: Card type is not defined");
+            throw new CardTypeNotDefinedError("applyStylesToFilmPoster");
         }
         const aTag = this.filmElement.querySelector("a.frame") as HTMLElement;
         const overlay = this.filmElement.querySelector("span.overlay") as HTMLElement;
@@ -272,5 +287,11 @@ export class Film {
         Object.assign(clonedImg.style, blurredImgStyles);
 
         imgElement.after(clonedImg);
+    }
+
+    handleSpecialCases() {
+        // let case: string;
+        // if(this.filmElement.closest("section#popular-films ul.-p230")) {
+        // }
     }
 }
