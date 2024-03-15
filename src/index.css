@@ -3,6 +3,13 @@
 @tailwind utilities;
 
 /* Fixes for issues with styling of some component because of taiwlind forced styles */
-.js-button-following {
+.js-button-following,
+.micro-button,
+.film-poster-popmenu,
+.fm-rateit.instant-rating {
     box-sizing: content-box;
+}
+
+body.profile .js-metadatum > svg {
+    display: inline-block;
 }
