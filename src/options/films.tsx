@@ -33,6 +33,17 @@ export const showFilmData = async () => {
             render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
         }
         if (film.posterCardType == "small") {
+            if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                render(
+                    () => (
+                        <FilmReviewComments
+                            href={film.extraData.commentsLink!.href}
+                            title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                        />
+                    ),
+                    film.filmElement
+                );
+            }
             render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
             render(() => <FilmDataSmall film={film} />, film.filmElement);
         }
