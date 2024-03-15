@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Fixes for issues with styling of some component because of taiwlind forced styles */
+.js-button-following {
+    box-sizing: content-box;
+}
