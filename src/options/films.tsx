@@ -4,27 +4,20 @@ import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
 import FilmBadge from "@components/Film/FilmBadge";
 import { FilmReviewComments } from "@components/Film/FilmIcons";
-import { CardTypeNotDefinedError, Film } from "@utils/filmUtils";
-import { exec } from "child_process";
+import { Film } from "@utils/filmUtils";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
-    // TODO: stop using this code - it is to fix in https://letterboxd.com/films/popular/this/week/ the last line in small card view
-    const filmListContainer = await waitForElement(document, "ul.poster-list");
-
-    let styleElement = document.createElement("style");
-    styleElement.innerHTML = `
-        ul.poster-list.no-after::after {
-            content: none !important;
-        }
-    `;
-    document.head.appendChild(styleElement);
-    filmListContainer?.classList?.add("no-after");
-
+    let specialCaseHandled = false;
     observeElement(document, "[data-film-name]", async (element) => {
         try {
             const film = await Film.build(element as HTMLElement);
             if (!film) return;
+
+            // special cases should run only once, because thay change containers
+            if (!specialCaseHandled) {
+                specialCaseHandled = film.handleSpecialCases() ?? false;
+            }
 
             if (film.posterCardType == "micro") {
                 render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);

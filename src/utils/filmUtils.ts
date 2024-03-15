@@ -290,8 +290,48 @@ export class Film {
     }
 
     handleSpecialCases() {
-        // let case: string;
-        // if(this.filmElement.closest("section#popular-films ul.-p230")) {
-        // }
+        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID";
+        const getSpecialCase = (): SpecialCases | undefined => {
+            if (this.filmElement.closest("section#popular-films ul.-p230")) {
+                return "POPULAR_THIS_WEEK";
+            }
+
+            const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
+            if (gridContainer && gridContainer.childElementCount > 3) {
+                return "SMALL_GRID";
+            }
+
+            return;
+        };
+
+        switch (getSpecialCase()) {
+            case "POPULAR_THIS_WEEK":
+                const carouselMask = this.filmElement.closest("section#popular-films div.carousel-mask") as
+                    | HTMLElement
+                    | undefined;
+                const posterList = this.filmElement.closest("section#popular-films ul.poster-list.-p230") as
+                    | HTMLElement
+                    | undefined;
+
+                if (carouselMask && posterList) {
+                    carouselMask.style.height = "465px";
+                    posterList.style.height = "500px";
+                }
+                return true;
+            case "SMALL_GRID":
+                let styleElement = document.createElement("style");
+                styleElement.innerHTML = `
+                    ul.poster-list.no-after::after {
+                        content: none !important;
+                    }
+                `;
+                document.head.appendChild(styleElement);
+
+                const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
+                gridContainer?.classList?.add("no-after");
+                return true;
+            default:
+                break;
+        }
     }
 }
