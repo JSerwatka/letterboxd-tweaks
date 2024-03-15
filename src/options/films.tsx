@@ -1,69 +1,83 @@
-import FilmData from "@components/FilmData";
+import { FilmDataLarge, FilmDataSmall } from "@components/Film/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
 import GenreBadge from "@components/GenreBadge";
+import FilmBadge from "@components/Film/FilmBadge";
+import { FilmReviewComments } from "@components/Film/FilmIcons";
+import { Film } from "@utils/filmUtils";
 
-const getScore = async (film: HTMLElement) => {
-    const filmContainer = film.parentElement;
-    // It works only on movie database page
-    let score = filmContainer?.dataset.averageRating;
-    if (score) return score;
-
-    // For all other pages - watched, watchlist, list
-    const filmSlug = film.dataset.filmSlug;
-    if (!filmSlug) return;
-
-    const parser = new DOMParser();
-    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
-
-    const ratingHistogramDom = await fetch(movieRatingUrl)
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error(`No score found`);
-            }
-            return response.text();
-        })
-        .catch((error) => {
-            console.log(error);
-            return;
-        });
-    if (!ratingHistogramDom) return;
-
-    const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
-    score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
-
-    return score;
-};
-
+// --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
-    await observeElement(document, "[data-film-name]", async (element) => {
-        const film = element as HTMLElement;
-        const score = await getScore(film);
+    let specialCaseHandled = false;
+    observeElement(document, "[data-film-name]", async (element) => {
+        try {
+            const film = await Film.build(element as HTMLElement);
+            if (!film) return;
 
-        const releaseYear = film.dataset.filmReleaseYear;
-        const title = film.dataset.filmName;
-        
-        film.style.position = "relative";
-        render(() => <FilmData title={title} releaseYear={releaseYear} score={score} />, film);
+            // special cases should run only once, because they change containers
+            if (!specialCaseHandled) {
+                specialCaseHandled = film.handleSpecialCases() ?? false;
+            }
+
+            switch (film.posterCardType) {
+                case "micro":
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
+                    break;
+                case "small":
+                    if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                        render(
+                            () => (
+                                <FilmReviewComments
+                                    href={film.extraData.commentsLink!.href}
+                                    title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                                />
+                            ),
+                            film.filmElement
+                        );
+                    }
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmDataSmall film={film} />, film.filmElement);
+                case "large":
+                    if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                        render(
+                            () => (
+                                <FilmReviewComments
+                                    href={film.extraData.commentsLink!.href}
+                                    title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                                />
+                            ),
+                            film.filmElement
+                        );
+                    }
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmDataLarge film={film} />, film.filmElement);
+                default:
+                    break;
+            }
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
     });
 };
 
-// WARNING: because there is no other selector, I have to doublecheck if the lable inside is "Service", 
+// --- DESC: Hides service tab on films list ---
+// WARNING: because there is no other selector, I have to doublecheck if the lable inside is "Service",
 // which means that this code will no work if the page is translated
 export async function hideService() {
-    const serviceElement = await waitForElement(document, "div.sorting-selects > section.smenu-wrapper:nth-child(4)")
+    const serviceElement = await waitForElement(document, "div.sorting-selects > section.smenu-wrapper:nth-child(4)");
     const labelElement = serviceElement?.querySelector("label");
 
     if (labelElement?.textContent?.trim() === "Service") {
         serviceElement?.remove();
     }
-    
 }
 
+// --- DESC: Shows duration and genre on top of film details page ---
 export async function moveMovieDataToHeader() {
     const filmHeaderSection = await waitForElement(document, "#featured-film-header");
-    
-    const durationSection = (await waitForElement(document, "p.text-footer"));
+
+    const durationSection = await waitForElement(document, "p.text-footer");
 
     if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDb']"))) {
         const durationSectionText = durationSection?.textContent?.trim();
@@ -80,8 +94,6 @@ export async function moveMovieDataToHeader() {
         filmHeaderSection?.appendChild(p);
     }
 
-
-
     const genreSection = (await waitForElement(document, "#tab-genres a[href*='/films/genre']"))?.parentElement;
 
     if (genreSection) {
@@ -89,8 +101,8 @@ export async function moveMovieDataToHeader() {
         const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);
 
         genreNames.forEach((genreName) => {
-            if(!genreName || !filmHeaderSection) return;
-            render(() => <GenreBadge genreName={genreName} />, filmHeaderSection)
-        })
+            if (!genreName || !filmHeaderSection) return;
+            render(() => <GenreBadge genreName={genreName} />, filmHeaderSection);
+        });
     }
 }
