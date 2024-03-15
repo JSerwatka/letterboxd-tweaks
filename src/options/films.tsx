@@ -14,43 +14,45 @@ export const showFilmData = async () => {
             const film = await Film.build(element as HTMLElement);
             if (!film) return;
 
-            // special cases should run only once, because thay change containers
+            // special cases should run only once, because they change containers
             if (!specialCaseHandled) {
                 specialCaseHandled = film.handleSpecialCases() ?? false;
             }
 
-            if (film.posterCardType == "micro") {
-                render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
-            }
-            if (film.posterCardType == "small") {
-                if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
-                    render(
-                        () => (
-                            <FilmReviewComments
-                                href={film.extraData.commentsLink!.href}
-                                title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
-                            />
-                        ),
-                        film.filmElement
-                    );
-                }
-                render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-                render(() => <FilmDataSmall film={film} />, film.filmElement);
-            }
-            if (film.posterCardType == "large") {
-                if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
-                    render(
-                        () => (
-                            <FilmReviewComments
-                                href={film.extraData.commentsLink!.href}
-                                title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
-                            />
-                        ),
-                        film.filmElement
-                    );
-                }
-                render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
-                render(() => <FilmDataLarge film={film} />, film.filmElement);
+            switch (film.posterCardType) {
+                case "micro":
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
+                    break;
+                case "small":
+                    if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                        render(
+                            () => (
+                                <FilmReviewComments
+                                    href={film.extraData.commentsLink!.href}
+                                    title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                                />
+                            ),
+                            film.filmElement
+                        );
+                    }
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmDataSmall film={film} />, film.filmElement);
+                case "large":
+                    if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
+                        render(
+                            () => (
+                                <FilmReviewComments
+                                    href={film.extraData.commentsLink!.href}
+                                    title={film.extraData.commentsLink!.dataset.originalTitle ?? "reviews"}
+                                />
+                            ),
+                            film.filmElement
+                        );
+                    }
+                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmDataLarge film={film} />, film.filmElement);
+                default:
+                    break;
             }
         } catch (error) {
             console.error(error);
