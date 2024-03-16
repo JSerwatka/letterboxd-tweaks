@@ -37,6 +37,7 @@ export const showFilmData = async () => {
                     }
                     render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
                     render(() => <FilmDataSmall film={film} />, film.filmElement);
+                    break;
                 case "large":
                     if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
                         render(

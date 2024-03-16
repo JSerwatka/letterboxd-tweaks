@@ -108,7 +108,7 @@ export class Film {
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70"
+                "div.likes-page-content ul.-p70:not(.-overlapped)"
             ],
             micro: [
                 "[data-object-name='review']",
