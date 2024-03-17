@@ -2,7 +2,7 @@ import { For, Show, createEffect, createResource, createSignal, on, onMount } fr
 import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
 
-interface MovieSearchResult {
+interface FilmSearchResult {
     url: string;
     title: string;
     originalTitle: string | null;
@@ -11,7 +11,7 @@ interface MovieSearchResult {
     poster: string;
 }
 
-interface MovieSearchResponse extends Omit<MovieSearchResult, "directors" | "title" | "originalTitle"> {
+interface FilmSearchResponse extends Omit<FilmSearchResult, "directors" | "title" | "originalTitle"> {
     name: string;
     directors: Array<{ name: string }>;
     originalName: string | null;
@@ -31,7 +31,7 @@ export function SearchAutoComplete({
     let timeoutId: NodeJS.Timeout | null = null;
     const [searchValue, setSearchValue] = createSignal<string | null>(null);
     const [isFieldFocused, setIsFieldFocused] = createSignal(false);
-    const [data] = createResource(searchValue, fetchMovies);
+    const [data] = createResource(searchValue, fetchFilms);
     const searchIcon = searchFieldForm.querySelector("input[type='submit']") as HTMLElement | undefined;
     let searchAutocompleteRef: HTMLDivElement | undefined;
 
@@ -133,37 +133,37 @@ export function SearchAutoComplete({
                 ref={searchAutocompleteRef}
             >
                 <For each={data()}>
-                    {(movie) => (
+                    {(film) => (
                         <div class="hover:bg-[#4d5b70] px-3">
-                            <a class="w-90% no-underline text-current hover:text-current" href={movie.url}>
+                            <a class="w-90% no-underline text-current hover:text-current" href={film.url}>
                                 <div class="flex flex-row py-3 gap-5">
                                     <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px]">
-                                        <img src={movie.poster} class="w-full object-contain rounded-md" />
+                                        <img src={film.poster} class="w-full object-contain rounded-md" />
                                     </div>
                                     <div class="flex flex-col justify-between">
                                         <div>
                                             <div
                                                 class="text-lg text-white line-clamp-2"
                                                 classList={{
-                                                    "mb-1": !!movie.originalTitle,
-                                                    "mb-3": !movie.originalTitle
+                                                    "mb-1": !!film.originalTitle,
+                                                    "mb-3": !film.originalTitle
                                                 }}
-                                                title={movie.title}
+                                                title={film.title}
                                             >
-                                                {movie.title}
+                                                {film.title}
                                             </div>
-                                            {movie.originalTitle && (
+                                            {film.originalTitle && (
                                                 <div
                                                     class="mb-3 italic text-gray-300 line-clamp-2"
-                                                    title={movie.originalTitle}
+                                                    title={film.originalTitle}
                                                 >
-                                                    {movie.originalTitle}
+                                                    {film.originalTitle}
                                                 </div>
                                             )}
                                         </div>
                                         <div>
-                                            <div class="mb-3 italic">{movie.releaseYear}</div>
-                                            <div class="">{movie.directors.join(", ")}</div>
+                                            <div class="mb-3 italic">{film.releaseYear}</div>
+                                            <div class="">{film.directors.join(", ")}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@ export function SearchAutoComplete({
     );
 }
 
-async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[] | undefined> {
+async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] | undefined> {
     if (!userInput) {
         return;
     }
@@ -206,11 +206,11 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
         return;
     }
 
-    const movieList = await response.json();
+    const filmList = await response.json();
 
     return Promise.all(
-        movieList.data.map(async (movie: MovieSearchResponse) => {
-            const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${movie.url}std/110x165/`, {
+        filmList.data.map(async (film: FilmSearchResponse) => {
+            const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${film.url}std/110x165/`, {
                 signal
             });
             const posterPageText = await posterPageResponse.text();
@@ -224,11 +224,11 @@ async function fetchMovies(userInput: string | null): Promise<MovieSearchResult[
                 | undefined;
 
             return {
-                url: movie.url,
-                title: movie.name,
-                originalTitle: movie.originalName,
-                releaseYear: movie.releaseYear,
-                directors: movie.directors.map((directorObject) => directorObject.name),
+                url: film.url,
+                title: film.name,
+                originalTitle: film.originalName,
+                releaseYear: film.releaseYear,
+                directors: film.directors.map((directorObject) => directorObject.name),
                 poster: posterImgElement?.src
             };
         })
