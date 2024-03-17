@@ -1,39 +1,39 @@
-interface FilmDataProps {
-    score?: string;
+interface FilmBadgeProps {
+    rating?: string;
     isColorfulBadge: boolean;
 }
 
-function getScoreColor(score: FilmDataProps["score"]) {
-    if (!score) return "bg-gray-400";
+function getRatingColor(rating: FilmBadgeProps["rating"]) {
+    if (!rating) return "bg-gray-400";
 
-    const scoreNumber = Number(score);
+    const ratingNumber = Number(rating);
 
-    if (scoreNumber <= 2) {
+    if (ratingNumber <= 2) {
         return "bg-red-500/80";
     }
-    if (scoreNumber >= 2 && scoreNumber < 3) {
+    if (ratingNumber >= 2 && ratingNumber < 3) {
         return "bg-orange-600/80";
     }
-    if (scoreNumber >= 3 && scoreNumber < 3.5) {
+    if (ratingNumber >= 3 && ratingNumber < 3.5) {
         return "bg-yellow-500/80";
     }
-    if (scoreNumber >= 3.5 && scoreNumber < 4) {
+    if (ratingNumber >= 3.5 && ratingNumber < 4) {
         return "bg-[#b7dd29]/80";
     }
-    if (scoreNumber >= 4) {
+    if (ratingNumber >= 4) {
         return "bg-green-500/80";
     }
     return "bg-gray-400/80";
 }
 
-const FilmBadge = ({ score, isColorfulBadge }: FilmDataProps) => {
-    const scoreColor = isColorfulBadge ? getScoreColor(score) : "bg-gray-400/80";
+const FilmBadge = ({ rating, isColorfulBadge }: FilmBadgeProps) => {
+    const ratingColor = isColorfulBadge ? getRatingColor(rating) : "bg-gray-400/80";
 
     return (
         <div
-            class={`absolute text-black flex flex-col items-center text-base gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${scoreColor}`}
+            class={`absolute text-black flex flex-col items-center text-base gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${ratingColor}`}
         >
-            {score ? Number(score).toFixed(1) : "?"}
+            {rating ? Number(rating).toFixed(1) : "?"}
         </div>
     );
 };

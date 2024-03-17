@@ -21,7 +21,7 @@ export const showFilmData = async () => {
 
             switch (film.posterCardType) {
                 case "micro":
-                    render(() => <FilmBadge score={film.score} isColorfulBadge={false} />, film.filmElement);
+                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={false} />, film.filmElement);
                     break;
                 case "small":
                     if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
@@ -35,7 +35,7 @@ export const showFilmData = async () => {
                             film.filmElement
                         );
                     }
-                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={true} />, film.filmElement);
                     render(() => <FilmDataSmall film={film} />, film.filmElement);
                     break;
                 case "large":
@@ -50,7 +50,7 @@ export const showFilmData = async () => {
                             film.filmElement
                         );
                     }
-                    render(() => <FilmBadge score={film.score} isColorfulBadge={true} />, film.filmElement);
+                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={true} />, film.filmElement);
                     render(() => <FilmDataLarge film={film} />, film.filmElement);
                 default:
                     break;

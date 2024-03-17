@@ -94,10 +94,10 @@ export const defaultOptions: Options[] = [
     },
     {
         id: "c2446f09-f9ea-4369-a4f9-29a21f89cc53",
-        title: "Show films score",
-        description: "Show films score on its poster",
+        title: "Show films rating",
+        description: "Show films rating on its poster",
         section: "Films",
-        function: "showFilmsScore",
+        function: "showFilmsRating",
         checked: false
     },
     {

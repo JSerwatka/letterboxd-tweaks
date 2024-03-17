@@ -24,7 +24,7 @@ export class CardTypeNotDefinedError extends Error {
 
 export class Film {
     filmElement: HTMLElement;
-    score: string | undefined;
+    rating: string | undefined;
     releaseYear: string | undefined;
     title: string | undefined;
     posterCardType: CardType | undefined;
@@ -95,17 +95,17 @@ export class Film {
     private async setFilmRating() {
         const filmContainer = this.filmElement.parentElement;
         // It works only on movie database page
-        let score = filmContainer?.dataset.averageRating;
-        if (score) {
-            this.score = score;
+        let rating = filmContainer?.dataset.averageRating;
+        if (rating) {
+            this.rating = rating;
             return;
         }
 
         // For all other pages - watched, watchlist, list
         const filmSlug = this.filmElement.dataset.filmSlug;
-        score = await fetchFilmRating(filmSlug);
+        rating = await fetchFilmRating(filmSlug);
 
-        this.score = score;
+        this.rating = rating;
     }
 
     /**
@@ -327,7 +327,7 @@ export async function fetchFilmRating(filmSlug?: string) {
     const ratingHistogramDom = await fetch(movieRatingUrl)
         .then((response) => {
             if (!response.ok) {
-                throw new Error(`No score found`);
+                throw new Error(`No rating found`);
             }
             return response.text();
         })
@@ -338,7 +338,7 @@ export async function fetchFilmRating(filmSlug?: string) {
     if (!ratingHistogramDom) return;
 
     const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
-    const score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
+    const rating = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
 
-    return score;
+    return rating;
 }
