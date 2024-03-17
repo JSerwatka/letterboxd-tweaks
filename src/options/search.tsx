@@ -16,9 +16,14 @@ export async function renderSearch() {
     if (!searchInputField) return;
 
     // update styles before mounting the component to prevent delay
-    searchInputField.style.backgroundColor = "#2c3440";
-    searchFieldForm.style.width = "400px";
-    searchInputField.style.borderRadius = "20px 20px 0 0";
+    Object.assign(searchInputField.style, {
+        backgroundColor: "#2c3440",
+        borderRadius: "20px 20px 0 0",
+        padding: "10px 20px"
+    });
+    Object.assign(searchFieldForm.style, {
+        width: "400px"
+    });
 
     return render(
         () => (
