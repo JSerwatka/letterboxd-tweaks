@@ -57,6 +57,41 @@ export class Film {
         return filmInstance;
     }
 
+    /**
+     * Sets the card type for the film poster based on the container it is in.
+     *
+     * @throws {Error} If the card type could not be determined.
+     */
+    private setCardType() {
+        const containerToCardTypeMap: Record<CardType, string[]> = {
+            large: [
+                "ul.-p150:not(.-overlapped)",
+                "body.list-page ul.js-list-entries.-p125",
+                "section.js-watchlist-main-content ul.-p125",
+                "section#popular-films ul.-p230"
+            ],
+            small: [
+                "body.films-watched ul.-p70",
+                "div#films-browser-list-container ul.-p70",
+                "div.likes-page-content ul.-p70:not(.-overlapped)"
+            ],
+            micro: [
+                "[data-object-name='review']",
+                "body.list-page ul.-p70.film-details-list",
+                "section#live-feed ul.-p70",
+                "section#crew-picks-sidebar ul.-p70",
+                "body.search-results ul.results > li > div.film-poster"
+            ]
+        };
+
+        for (const [cardType, selectors] of Object.entries(containerToCardTypeMap)) {
+            if (selectors.some((selector) => this.filmElement.closest(selector))) {
+                this.posterCardType = cardType as CardType;
+                return;
+            }
+        }
+    }
+
     private async setFilmRating() {
         const filmContainer = this.filmElement.parentElement;
         // It works only on movie database page
@@ -90,40 +125,6 @@ export class Film {
         score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
 
         this.score = score;
-    }
-
-    /**
-     * Sets the card type for the film poster based on the container it is in.
-     *
-     * @throws {Error} If the card type could not be determined.
-     */
-    private setCardType() {
-        const containerToCardTypeMap: Record<CardType, string[]> = {
-            large: [
-                "ul.-p150:not(.-overlapped)",
-                "body.list-page ul.js-list-entries.-p125",
-                "section.js-watchlist-main-content ul.-p125",
-                "section#popular-films ul.-p230"
-            ],
-            small: [
-                "body.films-watched ul.-p70",
-                "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70:not(.-overlapped)"
-            ],
-            micro: [
-                "[data-object-name='review']",
-                "body.list-page ul.-p70.film-details-list",
-                "section#live-feed ul.-p70",
-                "section#crew-picks-sidebar ul.-p70"
-            ]
-        };
-
-        for (const [cardType, selectors] of Object.entries(containerToCardTypeMap)) {
-            if (selectors.some((selector) => this.filmElement.closest(selector))) {
-                this.posterCardType = cardType as CardType;
-                return;
-            }
-        }
     }
 
     /**
