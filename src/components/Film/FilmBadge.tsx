@@ -36,9 +36,6 @@ const FilmBadge = ({ score, isColorfulBadge }: FilmDataProps) => {
             {score ? Number(score).toFixed(1) : "?"}
         </div>
     );
-    // return (
-    //     <div class={`absolute text-black px-[4px] py-[2px] rounded-br-md top-0 ${scoreColor}`}>{score ?? "?"}</div>
-    // );
 };
 
 export default FilmBadge;

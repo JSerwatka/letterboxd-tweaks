@@ -1,6 +1,8 @@
 import { For, Show, createEffect, createResource, createSignal, on, onMount } from "solid-js";
 import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
+import { fetchFilmRating } from "@utils/filmUtils";
+import FilmBadge from "./Film/FilmBadge";
 
 interface FilmSearchResult {
     url: string;
@@ -9,9 +11,11 @@ interface FilmSearchResult {
     releaseYear: number;
     directors: string[];
     poster: string;
+    rating?: string;
 }
 
-interface FilmSearchResponse extends Omit<FilmSearchResult, "directors" | "title" | "originalTitle"> {
+interface FilmSearchResponse
+    extends Omit<FilmSearchResult, "directors" | "title" | "originalTitle" | "poster" | "score"> {
     name: string;
     directors: Array<{ name: string }>;
     originalName: string | null;
@@ -103,6 +107,7 @@ export function SearchAutoComplete({
             searchIcon.style.backgroundSize = "800px 1020px";
         }
     });
+    console.log(data());
 
     return (
         <Show when={!data.loading && searchValue()}>
@@ -137,8 +142,9 @@ export function SearchAutoComplete({
                         <div class="hover:bg-[#4d5b70] px-3">
                             <a class="w-90% no-underline text-current hover:text-current" href={film.url}>
                                 <div class="flex flex-row py-3 gap-5">
-                                    <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px]">
+                                    <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px] relative">
                                         <img src={film.poster} class="w-full object-contain rounded-md" />
+                                        {film.rating && <FilmBadge score={film.rating} isColorfulBadge={true} />}
                                     </div>
                                     <div class="flex flex-col justify-between">
                                         <div>
@@ -192,6 +198,7 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
 
     let response;
 
+    // get basic data - url, name, directors, ...
     try {
         response = await fetch(`https://letterboxd.com/s/autocompletefilm?q=${userInput}&limit=10&adult=false`, {
             signal
@@ -208,20 +215,26 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
 
     const filmList = await response.json();
 
+    // get poster img and rating
     return Promise.all(
         filmList.data.map(async (film: FilmSearchResponse) => {
             const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${film.url}std/110x165/`, {
                 signal
             });
+
             const posterPageText = await posterPageResponse.text();
 
             const parser = new DOMParser();
             const posterPageHTML = parser.parseFromString(posterPageText, "text/html");
-
+            console.log(film);
             const posterImgElement = posterPageHTML.querySelector("img.image:not(.empty-poster-image)") as
                 | HTMLImageElement
                 | null
                 | undefined;
+
+            const posterContainerElement = posterPageHTML.querySelector("div.film-poster") as HTMLElement | undefined;
+            const slug = posterContainerElement?.dataset.filmSlug;
+            const rating = await fetchFilmRating(slug);
 
             return {
                 url: film.url,
@@ -229,7 +242,8 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
                 originalTitle: film.originalName,
                 releaseYear: film.releaseYear,
                 directors: film.directors.map((directorObject) => directorObject.name),
-                poster: posterImgElement?.src
+                poster: posterImgElement?.src,
+                rating: rating
             };
         })
     );

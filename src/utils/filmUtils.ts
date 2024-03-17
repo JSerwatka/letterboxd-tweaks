@@ -103,26 +103,7 @@ export class Film {
 
         // For all other pages - watched, watchlist, list
         const filmSlug = this.filmElement.dataset.filmSlug;
-        if (!filmSlug) return;
-
-        const parser = new DOMParser();
-        const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
-
-        const ratingHistogramDom = await fetch(movieRatingUrl)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`No score found`);
-                }
-                return response.text();
-            })
-            .catch((error) => {
-                console.log(error);
-                return;
-            });
-        if (!ratingHistogramDom) return;
-
-        const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
-        score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
+        score = await fetchFilmRating(filmSlug);
 
         this.score = score;
     }
@@ -335,4 +316,29 @@ export class Film {
                 break;
         }
     }
+}
+
+export async function fetchFilmRating(filmSlug?: string) {
+    if (!filmSlug) return;
+
+    const parser = new DOMParser();
+    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
+
+    const ratingHistogramDom = await fetch(movieRatingUrl)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`No score found`);
+            }
+            return response.text();
+        })
+        .catch((error) => {
+            console.log(error);
+            return;
+        });
+    if (!ratingHistogramDom) return;
+
+    const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
+    const score = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
+
+    return score;
 }
