@@ -15,7 +15,7 @@ interface FilmSearchResult {
 }
 
 interface FilmSearchResponse
-    extends Omit<FilmSearchResult, "directors" | "title" | "originalTitle" | "poster" | "score"> {
+    extends Omit<FilmSearchResult, "directors" | "title" | "originalTitle" | "poster" | "rating"> {
     name: string;
     directors: Array<{ name: string }>;
     originalName: string | null;
@@ -67,9 +67,11 @@ export function SearchAutoComplete({
             if (timeoutId) {
                 clearTimeout(timeoutId);
             }
+            const searchValue = searchField.value;
+            const searchValueCleaned = searchValue.replace(/[^\w\s]/g, " ");
 
             // timeout for request throttling
-            timeoutId = setTimeout(() => setSearchValue(searchField.value), 200);
+            timeoutId = setTimeout(() => setSearchValue(searchValueCleaned), 200);
         });
     });
 
@@ -107,7 +109,6 @@ export function SearchAutoComplete({
             searchIcon.style.backgroundSize = "800px 1020px";
         }
     });
-    console.log(data());
 
     return (
         <Show when={!data.loading && searchValue()}>
@@ -144,7 +145,7 @@ export function SearchAutoComplete({
                                 <div class="flex flex-row py-3 gap-5">
                                     <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px] relative">
                                         <img src={film.poster} class="w-full object-contain rounded-md" />
-                                        {film.rating && <FilmBadge score={film.rating} isColorfulBadge={true} />}
+                                        <FilmBadge rating={film.rating} isColorfulBadge={true} />
                                     </div>
                                     <div class="flex flex-col justify-between">
                                         <div>
