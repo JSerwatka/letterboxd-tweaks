@@ -15,6 +15,13 @@ export async function renderSearch() {
     const searchInputField = (await waitForElement(searchFieldForm, "input#search-q")) as HTMLElement | undefined;
     if (!searchInputField) return;
 
+    const navbar = (await waitForElement(document, "nav.main-nav")) as HTMLElement | null | undefined;
+
+    // prevents navitems moving when search bar is opened
+    if (navbar) {
+        navbar.style.right = "110px";
+    }
+
     // update styles before mounting the component to prevent delay
     Object.assign(searchInputField.style, {
         backgroundColor: "#2c3440",
