@@ -95,6 +95,7 @@ export function SearchAutoComplete({
         document.removeEventListener("mousedown", handleMouseClickOutsideClosesSearchBar);
     });
 
+    // handle loading icon
     createEffect(() => {
         if (!searchIcon) return;
 
@@ -103,10 +104,20 @@ export function SearchAutoComplete({
                 "url(https://s.ltrbxd.com/static/img/spinner-light-2x.3653aae2.gif) no-repeat";
             searchIcon.style.backgroundPosition = "center";
             searchIcon.style.backgroundSize = "15px 15px";
-        } else {
-            searchIcon.style.background = "url(https://s.ltrbxd.com/static/img/sprite.91ec427c.svg) no-repeat";
-            searchIcon.style.backgroundPosition = "-100px -170px";
-            searchIcon.style.backgroundSize = "800px 1020px";
+            searchInputField.style.borderRadius = "20px";
+            return;
+        }
+
+        searchIcon.style.background = "url(https://s.ltrbxd.com/static/img/sprite.91ec427c.svg) no-repeat";
+        searchIcon.style.backgroundPosition = "-100px -170px";
+        searchIcon.style.backgroundSize = "800px 1020px";
+    });
+
+    // handle search border when movies loaded
+    createEffect(() => {
+        const moviesFound = data();
+        if (moviesFound?.length && moviesFound.length > 0) {
+            searchInputField.style.borderRadius = "15px 15px 0px 0px";
         }
     });
 
@@ -116,7 +127,7 @@ export function SearchAutoComplete({
               /* Firefox */
               .searchbar-scrollbar {
                 scrollbar-width: auto;
-                scrollbar-color: #73dd9c rgba(0, 0, 0, 0.1);
+                scrollbar-color: #5f5f5f rgba(0, 0, 0, 0.1);
               }
 
               /* Chrome, Edge, and Safari */
@@ -130,7 +141,7 @@ export function SearchAutoComplete({
               }
 
               .searchbar-scrollbar::-webkit-scrollbar-thumb {
-                background-color: #73dd9c;
+                background-color: #5f5f5f;
                 border-radius: 10px;
               }
            `}</style>
@@ -227,7 +238,6 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
 
             const parser = new DOMParser();
             const posterPageHTML = parser.parseFromString(posterPageText, "text/html");
-            console.log(film);
             const posterImgElement = posterPageHTML.querySelector("img.image:not(.empty-poster-image)") as
                 | HTMLImageElement
                 | null

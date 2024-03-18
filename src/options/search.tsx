@@ -18,7 +18,7 @@ export async function renderSearch() {
     // update styles before mounting the component to prevent delay
     Object.assign(searchInputField.style, {
         backgroundColor: "#2c3440",
-        borderRadius: "20px 20px 0 0",
+        borderRadius: "20px",
         padding: "10px 20px"
     });
     Object.assign(searchFieldForm.style, {
