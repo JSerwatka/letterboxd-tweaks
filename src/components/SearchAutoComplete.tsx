@@ -151,7 +151,7 @@ export function SearchAutoComplete({
             >
                 <For each={data()}>
                     {(film) => (
-                        <div class="hover:bg-[#4d5b70] px-3">
+                        <div class="hover:bg-[#4d5b70] px-3 focus-within:outline-1 focus-within:outline-offset-[-1px] focus-within:outline focus-within:outline-lime-500">
                             <a class="w-90% no-underline text-current hover:text-current" href={film.url}>
                                 <div class="flex flex-row py-3 gap-5">
                                     <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px] relative">
