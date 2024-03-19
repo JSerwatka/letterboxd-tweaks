@@ -1,7 +1,11 @@
 import { waitForElement } from "@utils/element-observers";
 import { findParentByChild } from "@utils/selectors";
+import { cleanEmptyDescriptionLabels } from "./sortUtils";
 
-const sortOptionsSelectors = {
+export type SortOptionsSelectors = typeof SORT_OPTIONS_SELECTORS;
+export type SortOptionName = keyof SortOptionsSelectors;
+
+const SORT_OPTIONS_SELECTORS = {
     "Film name": {
         selector: 'a[href*="by/name"]',
         isNested: false
@@ -48,10 +52,8 @@ const sortOptionsSelectors = {
     }
 } as const;
 
-type SortOptionName = keyof typeof sortOptionsSelectors;
-
 // TODO use only filters the are for a given page
-const sortOptionPerPage: Record<string, SortOptionName[]> = {
+const SORT_OPTIONS_PER_PAGE: Record<string, SortOptionName[]> = {
     all: ["Film name", "Your interests", "Film length"],
     userFilms: ["When Rated", "Shuffle"],
     watchlist: ["Shuffle", "Your Rating"],
@@ -59,8 +61,6 @@ const sortOptionPerPage: Record<string, SortOptionName[]> = {
     listUser: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date"],
     listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"]
 };
-
-// TODO use navbar/getNavbarItemByHref for selectors
 
 // hides some sort options defined above
 export async function hideSort() {
@@ -71,7 +71,7 @@ export async function hideSort() {
 
     if (!sortMenu) return;
 
-    for (const [option, { selector, isNested }] of Object.entries(sortOptionsSelectors)) {
+    for (const [option, { selector, isNested }] of Object.entries(SORT_OPTIONS_SELECTORS)) {
         const aTagElement = (await waitForElement(sortMenu, selector)) as HTMLElement | undefined | null;
         let targetElement: Element | undefined | null;
 
@@ -90,17 +90,4 @@ export async function hideSort() {
     }
 
     cleanEmptyDescriptionLabels(sortMenu);
-}
-
-function cleanEmptyDescriptionLabels(sortMenu: HTMLElement) {
-    const sortDescriptionLabelElements = sortMenu.querySelectorAll("span.smenu-sublabel.-uppercase");
-
-    sortDescriptionLabelElements.forEach((labelElement) => {
-        const labelParent = labelElement.parentElement;
-        const parentSibling = labelParent?.nextElementSibling;
-
-        if (parentSibling?.querySelector("span.smenu-sublabel.-uppercase") || parentSibling === null) {
-            labelParent?.remove();
-        }
-    });
 }

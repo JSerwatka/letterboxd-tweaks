@@ -1,4 +1,4 @@
-import { Film, FriendData } from "@utils/filmUtils";
+import { Film } from "@options/films/filmsUtils";
 import { HeartIcon } from "./FilmIcons";
 
 interface FilmDataProps {

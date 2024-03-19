@@ -1,10 +1,10 @@
-import { FilmDataLarge, FilmDataSmall } from "@components/Film/FilmData";
+import { FilmDataLarge, FilmDataSmall } from "@components/film/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
-import GenreBadge from "@components/GenreBadge";
-import FilmBadge from "@components/Film/FilmBadge";
-import { FilmReviewComments } from "@components/Film/FilmIcons";
-import { Film } from "@utils/filmUtils";
+import { GenreBadgesList } from "@components/film/GenreBadge";
+import FilmBadge from "@components/film/FilmBadge";
+import { FilmReviewComments } from "@components/film/FilmIcons";
+import { Film } from "./filmsUtils";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
@@ -90,6 +90,7 @@ export async function moveMovieDataToHeader() {
 
         const p = document.createElement("p");
         p.style.marginRight = "5px";
+        p.style.marginBottom = "10px";
         p.style.display = "block";
         p.textContent = formattedFilmDuration;
         filmHeaderSection?.appendChild(p);
@@ -101,9 +102,8 @@ export async function moveMovieDataToHeader() {
         const genreLinks = Array.from(genreSection.children);
         const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);
 
-        genreNames.forEach((genreName) => {
-            if (!genreName || !filmHeaderSection) return;
-            render(() => <GenreBadge genreName={genreName} />, filmHeaderSection);
-        });
+        if (!filmHeaderSection) return;
+
+        render(() => <GenreBadgesList genres={genreNames} />, filmHeaderSection);
     }
 }

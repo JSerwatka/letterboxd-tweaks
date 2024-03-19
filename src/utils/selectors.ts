@@ -21,3 +21,14 @@ export function findParentByChild(
         }
     }
 }
+
+export function getLinkByHref(
+    baseElement: Element,
+    parentSelector: string,
+    hrefSubstrig: string
+): HTMLAnchorElement | null | undefined {
+    return baseElement.querySelector(`${parentSelector} a[href*="${hrefSubstrig}"]`) as
+        | HTMLAnchorElement
+        | null
+        | undefined;
+}

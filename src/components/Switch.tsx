@@ -16,7 +16,7 @@ const Switch = (props: SwitchProps) => {
                     "bg-indigo-600": props.checked
                 }}
                 role="switch"
-                aria-checked="false" // TODO
+                aria-checked="false" // TODO handle change
                 onClick={() => handleCheckChange(props.id, !props.checked)}
             >
                 <span

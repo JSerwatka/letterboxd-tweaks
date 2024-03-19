@@ -1,4 +1,4 @@
-import { SearchAutoComplete } from "@components/SearchAutoComplete";
+import { SearchAutoComplete } from "@components/search/SearchAutoComplete";
 import { waitForElement } from "@utils/element-observers";
 import { render } from "solid-js/web";
 
