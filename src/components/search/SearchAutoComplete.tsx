@@ -116,7 +116,8 @@ export function SearchAutoComplete({
     // handle search border when movies loaded
     createEffect(() => {
         const moviesFound = data();
-        if (moviesFound?.length && moviesFound.length > 0) {
+
+        if (Array.isArray(moviesFound)) {
             searchInputField.style.borderRadius = "15px 15px 0px 0px";
         }
     });
@@ -149,6 +150,9 @@ export function SearchAutoComplete({
                 class="bg-[#2c3440] py-6 rounded-b-lg max-h-[560px] overflow-auto searchbar-scrollbar"
                 ref={searchAutocompleteRef}
             >
+                <Show when={data()?.length === 0}>
+                    <div class="text-center text-white">No result</div>
+                </Show>
                 <For each={data()}>
                     {(film) => (
                         <div class="hover:bg-[#4d5b70] px-3 focus-within:outline-1 focus-within:outline-offset-[-1px] focus-within:outline focus-within:outline-lime-500">
