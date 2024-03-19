@@ -8,6 +8,7 @@ export async function makeNewListPrivate() {
     privateListOption?.setAttribute("selected", "selected");
 }
 
+// forces "add to a private list" as default when adding film to a list
 export async function addMovieToPrivateList() {
     const addToListModal = await waitForElement(document, "#add-to-a-list-modal");
     const addToListModalButtons = addToListModal?.querySelector(".js-list-type-toggle > .options");

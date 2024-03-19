@@ -1,6 +1,5 @@
 import { waitForElement } from "@utils/element-observers";
 import { findParentByChild } from "@utils/selectors";
-// TODO use navbar/getNavbarItemByHref for selectors
 
 const sortOptionsSelectors = {
     "Film name": {
@@ -46,21 +45,24 @@ const sortOptionsSelectors = {
     "Owner Rating": {
         selector: 'a[href*="by/owner-rating"]',
         isNested: true
-    },
-
+    }
 } as const;
 
 type SortOptionName = keyof typeof sortOptionsSelectors;
 
+// TODO use only filters the are for a given page
 const sortOptionPerPage: Record<string, SortOptionName[]> = {
     all: ["Film name", "Your interests", "Film length"],
     userFilms: ["When Rated", "Shuffle"],
     watchlist: ["Shuffle", "Your Rating"],
     films: ["Film Popularity with Friends", "Your Rating"],
     listUser: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date"],
-    listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"],
+    listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"]
 };
 
+// TODO use navbar/getNavbarItemByHref for selectors
+
+// hides some sort options defined above
 export async function hideSort() {
     const sortMenu = (await waitForElement(document, "ul.smenu-menu a[href*='/by/']"))?.closest("ul.smenu-menu") as
         | HTMLElement
@@ -97,10 +99,8 @@ function cleanEmptyDescriptionLabels(sortMenu: HTMLElement) {
         const labelParent = labelElement.parentElement;
         const parentSibling = labelParent?.nextElementSibling;
 
-        if(parentSibling?.querySelector("span.smenu-sublabel.-uppercase") || parentSibling === null) {
-            labelParent?.remove()
+        if (parentSibling?.querySelector("span.smenu-sublabel.-uppercase") || parentSibling === null) {
+            labelParent?.remove();
         }
-    })
-
-
+    });
 }

@@ -2,6 +2,7 @@ import { SearchAutoComplete } from "@components/SearchAutoComplete";
 import { waitForElement } from "@utils/element-observers";
 import { render } from "solid-js/web";
 
+// changes search bar to show result while typing
 export async function renderSearch() {
     const searchFieldForm = (await waitForElement(document, "form#search")) as HTMLElement | null | undefined;
     if (!searchFieldForm) return;

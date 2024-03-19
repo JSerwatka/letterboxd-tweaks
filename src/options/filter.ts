@@ -37,6 +37,7 @@ const contentFilters = {
     "Hide unreleased titles": "li.js-film-filter[data-category='unreleased']"
 } as const;
 
+// hides film filters specified in the configs above
 export async function hideFilters() {
     const filterMenu = (await waitForElement(document, "ul.smenu-menu > li[class$='filters']"))?.parentElement;
 
