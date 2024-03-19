@@ -131,6 +131,21 @@ export async function profileMenuActions(
     const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
     if (!profileMenu) return;
 
+    if (config.toHide?.length && config.toHide?.length > 0) {
+        const list = (await profileMenu.querySelector("ul.navlist")) as HTMLElement | null;
+
+        // spread nav elements when some are hidden
+        if (list) {
+            const firstChild = list.firstElementChild as HTMLElement | null;
+            const lastChild = list.lastElementChild as HTMLElement | null;
+            if (firstChild) firstChild.style.marginLeft = "0";
+            if (lastChild) lastChild.style.marginLeft = "0";
+
+            list.style.display = "flex";
+            list.style.justifyContent = "space-evenly";
+        }
+    }
+
     performAllActions<typeof PROFILE_LINKS, keyof typeof PROFILE_LINKS>(config, PROFILE_LINKS, profileMenu);
 }
 export async function navbarMenuActions(
