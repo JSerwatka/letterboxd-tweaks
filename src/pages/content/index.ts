@@ -1,4 +1,4 @@
-import { makeNewListPrivate } from "@options/lists";
+import { makeNewListPrivate } from "@options/lists/lists";
 import "@tailwind";
 
 // TODO run functions of all options in storage
@@ -13,11 +13,11 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 });
 
 async function main() {
-    const file = await import("@options/films");
-    file["showFilmData"]();
-    // const file = await import("@options/navbar");
-    // file["accountMenuActions"]();
-    // file["navbarMenuActions"]();
+    // const file = await import("@options/films");
+    // file["showFilmData"]();
+    await import("@options/sort/sortContainer");
+    // file["renderSearch"]();
+    // file["addMovieToPrivateList"]();
     // file["profileMenuActions"]();
     // file["redirect"]();
     // file['hideProfileMenuLinks']();

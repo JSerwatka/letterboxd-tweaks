@@ -1,8 +1,8 @@
 import { For, Show, createEffect, createResource, createSignal, on, onMount } from "solid-js";
 import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
-import { fetchFilmRating } from "@utils/filmUtils";
-import FilmBadge from "./Film/FilmBadge";
+import { fetchFilmRating } from "@options/films/filmsUtils";
+import FilmBadge from "../film/FilmBadge";
 
 interface FilmSearchResult {
     url: string;

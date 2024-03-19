@@ -1,19 +1,3 @@
-// Account Filters - if both of them are switched on, also remove divider-line class from element with .divider-line and .js-account-filters classes (li element)
-// Fade watched movies: (li.js-account-filters > label.js-fade-toggle).parent().remove()
-// Show custom posters:  (li.js-account-filters > label.js-custom-poster-toggle).parent().remove()
-
-// Film activity filters (2 links)
-// Hide watched movies: All(li.js-film-filter + data-category="watched").remove()
-// Show/hide reviewed films: All(li.js-film-filter + data-category="reviewed").remove()
-// Show/hide rewatched films: All(li.js-film-filter + data-category="rewatched").remove()
-// Show/hide logged films: All(li.js-film-filter + data-category="logged").remove()
-// Show/hide rated films: All(li.js-film-filter + data-category="rated").remove()
-// show/hide films in watchlist: All(li.js-film-filter + data-category="watchlisted").remove()
-
-// Content filters
-// Hide documentaries: (li.js-film-filter + data-category="docs").remove()
-// Hide unreleased titles: (li.js-film-filter + data-category="unreleased").remove()
-
 import { waitForElement } from "@utils/element-observers";
 
 const accountFilters = {
