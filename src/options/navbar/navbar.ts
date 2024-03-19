@@ -1,48 +1,99 @@
 import { waitForElement } from "@utils/element-observers";
-import {
-    ACCOUNT_MENU_SELECTOR,
-    MENU_LINKS,
-    NAVBAR_LINKS,
-    NAVBAR_MENU_SELECTOR,
-    NavbarActionsConfig,
-    PROFILE_LINKS,
-    PROFILE_MENU_SELECTOR
-} from "./navbatContainer";
 import { performAllActions } from "./navbarUtils";
 
-// TODO: only for testing, don't use for prod
-const ACCOUNT_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof MENU_LINKS> = {
-    toHide: ["Diary", "Home", "Likes", "Networks", "Reviews", "Reviews", "Subscriptions", "Tags"],
-    toRedirect: { Films: { redirectTo: "size/large" } },
-    toRename: { Films: { renameTo: "Watched" } }
-};
-const PROFILE_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof PROFILE_LINKS> = {
-    toHide: ["Diary", "Invitations", "Likes", "Networks", "Reviews", "Tags"],
-    toRedirect: { Films: { redirectTo: "size/large" } },
-    toRename: { Films: { renameTo: "Watched" } }
-};
+export type LinkSelectorConfig = { linkSelector: string; menuItemSelector: string };
+export type NavLinksSelectors = Record<string, LinkSelectorConfig>;
+export interface NavbarActionsConfig<T extends keyof NavLinksSelectors> {
+    toHide?: T[];
+    toRedirect?: { [K in T]?: { redirectTo: string } };
+    toRename?: { [K in T]?: { renameTo: string } };
+}
 
-const NAVBAR_CONFIG_DEFAULT: NavbarActionsConfig<keyof typeof NAVBAR_LINKS> = {
-    toHide: ["Activity", "Journal", "Members"],
-    toRedirect: { Films: { redirectTo: "size/large" } }
-};
+export type AccountLinksKeys = keyof typeof MENU_LINKS;
+export type ProfileLinksKeys = keyof typeof PROFILE_LINKS;
+export type NavbarLinksKeys = keyof typeof NAVBAR_LINKS;
 
-export async function accountMenuActions(
-    config: NavbarActionsConfig<keyof typeof MENU_LINKS> = ACCOUNT_CONFIG_DEFAULT
-): Promise<void> {
+// ----------- ACCOUNT MENU ----------------
+const ACCOUNT_MENU_SELECTOR = ".main-nav .js-nav-account .subnav";
+const MENU_LINKS = {
+    Home: {
+        linkSelector: "/",
+        menuItemSelector: "li"
+    },
+    Diary: {
+        linkSelector: "/diary",
+        menuItemSelector: "li"
+    },
+    Reviews: {
+        linkSelector: "/reviews",
+        menuItemSelector: "li"
+    },
+    Likes: {
+        linkSelector: "/likes",
+        menuItemSelector: "li"
+    },
+    Tags: {
+        linkSelector: "/tags",
+        menuItemSelector: "li"
+    },
+    Networks: {
+        linkSelector: "/following",
+        menuItemSelector: "li"
+    },
+    Subscriptions: {
+        linkSelector: "/subscriptions",
+        menuItemSelector: "li"
+    },
+    Films: {
+        linkSelector: "/films",
+        menuItemSelector: "li"
+    }
+} as const satisfies NavLinksSelectors;
+export async function accountMenuActions(config: NavbarActionsConfig<AccountLinksKeys>): Promise<void> {
     const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
     if (!accountMenu) return;
 
-    performAllActions<typeof MENU_LINKS, keyof typeof MENU_LINKS>(config, MENU_LINKS, accountMenu);
+    performAllActions<typeof MENU_LINKS, AccountLinksKeys>(config, MENU_LINKS, accountMenu);
 }
-export async function profileMenuActions(
-    config: NavbarActionsConfig<keyof typeof PROFILE_LINKS> = PROFILE_CONFIG_DEFAULT
-): Promise<void> {
+
+// ----------- PROFILE MENU ----------------
+const PROFILE_MENU_SELECTOR = "nav.profile-navigation";
+const PROFILE_LINKS = {
+    Diary: {
+        linkSelector: "/diary",
+        menuItemSelector: "li"
+    },
+    Reviews: {
+        linkSelector: "/reviews",
+        menuItemSelector: "li"
+    },
+    Likes: {
+        linkSelector: "/likes",
+        menuItemSelector: "li"
+    },
+    Tags: {
+        linkSelector: "/tags",
+        menuItemSelector: "li"
+    },
+    Networks: {
+        linkSelector: "/following",
+        menuItemSelector: "li"
+    },
+    Invitations: {
+        linkSelector: "/invitations",
+        menuItemSelector: "li"
+    },
+    Films: {
+        linkSelector: "/films",
+        menuItemSelector: "li"
+    }
+} as const satisfies NavLinksSelectors;
+export async function profileMenuActions(config: NavbarActionsConfig<ProfileLinksKeys>): Promise<void> {
     const profileMenu = await waitForElement(document, PROFILE_MENU_SELECTOR);
     if (!profileMenu) return;
 
     if (config.toHide?.length && config.toHide?.length > 0) {
-        const list = (await profileMenu.querySelector("ul.navlist")) as HTMLElement | null;
+        const list = (await waitForElement(document, "ul.navlist")) as HTMLElement | null;
 
         // spread nav elements when some are hidden
         if (list) {
@@ -56,13 +107,33 @@ export async function profileMenuActions(
         }
     }
 
-    performAllActions<typeof PROFILE_LINKS, keyof typeof PROFILE_LINKS>(config, PROFILE_LINKS, profileMenu);
+    performAllActions<typeof PROFILE_LINKS, ProfileLinksKeys>(config, PROFILE_LINKS, profileMenu);
 }
-export async function navbarMenuActions(
-    config: NavbarActionsConfig<keyof typeof NAVBAR_LINKS> = NAVBAR_CONFIG_DEFAULT
-): Promise<void> {
+
+// ----------- NAVBAR MENU ----------------
+const NAVBAR_MENU_SELECTOR = ".main-nav .navitems";
+const NAVBAR_LINKS = {
+    Activity: {
+        linkSelector: "/activity",
+        menuItemSelector: "li.main-nav-activity"
+    },
+    Members: {
+        linkSelector: "/members",
+        menuItemSelector: "li.main-nav-people"
+    },
+    Journal: {
+        linkSelector: "/journal",
+        menuItemSelector: "li.main-nav-journal"
+    },
+    Films: {
+        linkSelector: "/films",
+        menuItemSelector: "li.films-page"
+    }
+} as const satisfies NavLinksSelectors;
+
+export async function navbarMenuActions(config: NavbarActionsConfig<NavbarLinksKeys>): Promise<void> {
     const navbar = await waitForElement(document, NAVBAR_MENU_SELECTOR);
     if (!navbar) return;
 
-    performAllActions<typeof NAVBAR_LINKS, keyof typeof NAVBAR_LINKS>(config, NAVBAR_LINKS, navbar);
+    performAllActions<typeof NAVBAR_LINKS, NavbarLinksKeys>(config, NAVBAR_LINKS, navbar);
 }

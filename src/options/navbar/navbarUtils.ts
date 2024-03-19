@@ -1,5 +1,5 @@
 import { getLinkByHref } from "@utils/selectors";
-import { LinkSelectorConfig, NavLinksSelectors, NavbarActionsConfig } from "./navbatContainer";
+import { LinkSelectorConfig, NavLinksSelectors, NavbarActionsConfig } from "./navbar";
 
 export function performAllActions<T extends NavLinksSelectors, K extends keyof NavLinksSelectors>(
     config: NavbarActionsConfig<K>,
