@@ -79,7 +79,7 @@ const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
 ];
 
 // https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
-export function getPageFromPathname(pathname: string): SupportedPages | undefined {
+function getPageFromPathname(pathname: string): SupportedPages | undefined {
     for (const regexToPage of regexToPageArr) {
         if (regexToPage.regex.test(pathname)) {
             return regexToPage.page;
@@ -87,6 +87,17 @@ export function getPageFromPathname(pathname: string): SupportedPages | undefine
     }
 }
 
+export function checkIfOptionPage(acceptedPages: SupportedPages[], negativeSearch: boolean = false): boolean {
+    const page = getPageFromPathname(window.location.pathname);
+
+    if (negativeSearch) {
+        if (!page || !acceptedPages.includes(page)) return true;
+        return false;
+    }
+
+    if (!page || !acceptedPages.includes(page)) return false;
+    return true;
+}
 // search: https://letterboxd.com/search/<searchtext>/
 // journalPage: https://letterboxd.com/journal/
 // journalSingle: https://letterboxd.com/journal/<title>/ np. https://letterboxd.com/journal/origin-ava-duvernay-interview/
