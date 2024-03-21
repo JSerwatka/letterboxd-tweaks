@@ -1,5 +1,5 @@
-import { makeNewListPrivate } from "@options/lists/lists";
 import "@tailwind";
+import { checkIfOptionPage } from "@utils/page-lookup";
 
 // TODO run functions of all options in storage
 console.log("options");
@@ -13,9 +13,12 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 });
 
 async function main() {
+    // using window is the easiest way to access pathname
+    // console.log(window.location.pathname);
+    // console.log(checkIfOptionPage(["diary", "filmSingle"], true));
     // const file = await import("@options/films");
     // file["showFilmData"]();
-    await import("@options/sort/sortContainer");
+    await import("@options/films/filmsContainer");
     // file["renderSearch"]();
     // file["addMovieToPrivateList"]();
     // file["profileMenuActions"]();
@@ -25,11 +28,3 @@ async function main() {
 }
 
 main();
-
-// TODO https://stackoverflow.com/a/73276111
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.message.listPage) {
-        console.log("got message", request, sender);
-        // makeNewListPrivate();
-    }
-});
