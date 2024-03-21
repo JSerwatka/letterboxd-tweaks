@@ -68,7 +68,9 @@ export class Film {
                 "ul.-p150:not(.-overlapped)",
                 "body.list-page ul.js-list-entries.-p125",
                 "section.js-watchlist-main-content ul.-p125",
-                "section#popular-films ul.-p230"
+                "section#popular-films ul.-p230",
+                "body.similar-films ul.-p125",
+                "body.similar-films section.poster-list.-p230"
             ],
             small: [
                 "body.films-watched ul.-p70",
@@ -80,7 +82,8 @@ export class Film {
                 "body.list-page ul.-p70.film-details-list",
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
-                "body.search-results ul.results > li > div.film-poster"
+                "body.search-results ul.results > li > div.film-poster",
+                "body.similar-films section.genre-group ul.-p70"
             ]
         };
 
