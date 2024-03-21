@@ -1,10 +1,95 @@
-// function getPageFromPathname(pathname: string) {
-//     switch()
+type SupportedPages =
+    | "membersAllPages"
+    | "journalPage"
+    | "listsAllPages"
+    | "diary"
+    | "tags"
+    | "following"
+    | "followers"
+    | "followersYouKnow"
+    | "blocked"
+    | "reviewers"
+    | "reviewsAllPages"
+    | "userReview"
+    | "activityAllPages"
+    | "filmSingle"
+    | "listNew";
 
-// }
+const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
+    {
+        page: "membersAllPages",
+        regex: new RegExp("^/members/.*$")
+    },
+    {
+        page: "journalPage",
+        regex: new RegExp("^/journal/$")
+    },
+    {
+        page: "listsAllPages",
+        regex: new RegExp(".*/lists/.*")
+    },
+    {
+        page: "diary",
+        regex: new RegExp("^/.+/films/diary/$")
+    },
+    {
+        page: "tags",
+        regex: new RegExp("^/.+/tags/$")
+    },
+    {
+        page: "following",
+        regex: new RegExp("^/.+/following/$")
+    },
+    {
+        page: "followers",
+        regex: new RegExp("^/.+/followers/$")
+    },
+    {
+        page: "followersYouKnow",
+        regex: new RegExp("^/.+/followers-you-know/$")
+    },
+    {
+        page: "blocked",
+        regex: new RegExp("^/.+/blocked/$")
+    },
+    {
+        page: "reviewers",
+        regex: new RegExp("^/reviewers/.*")
+    },
+    {
+        page: "reviewsAllPages",
+        regex: new RegExp("^.*/reviews/.*")
+    },
+    {
+        page: "userReview",
+        regex: new RegExp("^.+/film/.+")
+    },
+    {
+        page: "activityAllPages",
+        regex: new RegExp(".*/activity/.*")
+    },
+    {
+        page: "filmSingle",
+        regex: new RegExp("^/film/.+/$")
+    },
+    {
+        page: "listNew",
+        regex: new RegExp("^/list/new/$")
+    }
+];
 
-// search: https://letterboxd.com/search/need/
-// journal: https://letterboxd.com/journal/
+// https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
+export function getPageFromPathname(pathname: string): SupportedPages | undefined {
+    for (const regexToPage of regexToPageArr) {
+        if (regexToPage.regex.test(pathname)) {
+            return regexToPage.page;
+        }
+    }
+}
+
+// search: https://letterboxd.com/search/<searchtext>/
+// journalPage: https://letterboxd.com/journal/
+// journalSingle: https://letterboxd.com/journal/<title>/ np. https://letterboxd.com/journal/origin-ava-duvernay-interview/
 // membersPage: https://letterboxd.com/members/
 // membersOverview: https://letterboxd.com/members/<type> np. https://letterboxd.com/members/popular/this/week/ or https://letterboxd.com/members/popular/with/friends/
 // membersHQ: https://letterboxd.com/members/hq/
@@ -32,13 +117,16 @@
 // likesLists: https://letterboxd.com/<username>/likes/lists/
 // watchlist: https://letterboxd.com/<username>/watchlist/
 // userPage: https://letterboxd.com/<username>/
-// reviewsUser: https://letterboxd.com/<username>/films/reviews/
+// reviewsUser: https://letterboxd.com/<username>/films/reviews/ np. https://letterboxd.com/elvisthealien/films/reviews/
 // reviews: https://letterboxd.com/reviews/<type>/ np.https://letterboxd.com/reviews/popular/this/week/ or https://letterboxd.com/reviews/popular/with/friends/
 // reviewers: https://letterboxd.com/reviewers/<type> np. https://letterboxd.com/reviewers/popular/with/friends/ or https://letterboxd.com/reviewers/popular/this/all-time/
 // userReview: https://letterboxd.com/<username>/film/<filmname>/ np. https://letterboxd.com/elvisthealien/film/poor-things-2023/
 // filmsPage: https://letterboxd.com/films/
 // filmsOverview: https://letterboxd.com/films/<type>/ np. https://letterboxd.com/films/popular/this/week/ or https://letterboxd.com/films/popular/this/week/year/1985/genre/animation/
 // filmSingle: https://letterboxd.com/film/<filmname>/ np. https://letterboxd.com/film/poor-things-2023/
+// studioPage: https://letterboxd.com/studio/<studioname>/ np.https://letterboxd.com/studio/dune-entertainment/ or with filter
+
+// --- Cinema People --
 // directorPage: https://letterboxd.com/director/<directorname>/ np. https://letterboxd.com/director/yorgos-lanthimos/ or https://letterboxd.com/director/yorgos-lanthimos/by/rating-lowest/
 // actorPage: https://letterboxd.com/actor/<actorname>/ np. https://letterboxd.com/actor/colin-farrell/ or https://letterboxd.com/actor/colin-farrell/by/release-earliest/
 // assistantDirectorPage: https://letterboxd.com/assistant-director/<name>/ np. https://letterboxd.com/assistant-director/owen-magee/ or with filter
@@ -65,4 +153,3 @@
 // costumeDesignPage: https://letterboxd.com/costume-design/<name>/ np. https://letterboxd.com/costume-design/sarah-blenkinsop/ or with filter
 // makupPage: https://letterboxd.com/makeup/<name>/ np. https://letterboxd.com/makeup/lucy-browne/  or with filter
 // hairstylingPage: https://letterboxd.com/hairstyling/<name>/ np. https://letterboxd.com/hairstyling/eileen-buggy/  or with filter
-// studioPage: https://letterboxd.com/studio/<studioname>/ np.https://letterboxd.com/studio/dune-entertainment/ or with filter
