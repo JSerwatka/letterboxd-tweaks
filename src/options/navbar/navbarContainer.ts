@@ -1,3 +1,4 @@
+import { SupportedPages, checkIfOptionPage } from "@utils/page-lookup";
 import {
     AccountLinksKeys,
     NavbarActionsConfig,
@@ -26,6 +27,17 @@ const NAVBAR_CONFIG_DEFAULT: NavbarActionsConfig<NavbarLinksKeys> = {
     toRedirect: { Films: { redirectTo: "size/large" } }
 };
 
-accountMenuActions(ACCOUNT_CONFIG_DEFAULT);
-profileMenuActions(PROFILE_CONFIG_DEFAULT);
-navbarMenuActions(NAVBAR_CONFIG_DEFAULT);
+// all pages
+const ACCOUNT_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
+const PROFILE_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
+const NAVBAR_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
+
+if (checkIfOptionPage(ACCOUNT_MENU_ACTIONS_NEGATIVE_PAGES, true)) {
+    accountMenuActions(ACCOUNT_CONFIG_DEFAULT);
+}
+if (checkIfOptionPage(PROFILE_MENU_ACTIONS_NEGATIVE_PAGES, true)) {
+    profileMenuActions(PROFILE_CONFIG_DEFAULT);
+}
+if (checkIfOptionPage(NAVBAR_MENU_ACTIONS_NEGATIVE_PAGES, true)) {
+    navbarMenuActions(NAVBAR_CONFIG_DEFAULT);
+}

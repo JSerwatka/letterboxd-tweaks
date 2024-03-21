@@ -1,4 +1,4 @@
-type SupportedPages =
+export type SupportedPages =
     | "membersAllPages"
     | "journalPage"
     | "listsAllPages"
