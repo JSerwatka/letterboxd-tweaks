@@ -11,6 +11,7 @@ section.decade-browser > ul.bar-nav-with-arrows > li > a {
     box-sizing: content-box;
 }
 
-body.profile .js-metadatum > svg {
+body.profile .js-metadatum > svg,
+body.similar-films .nanocrowd-attribution svg {
     display: inline-block;
 }
