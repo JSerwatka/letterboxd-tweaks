@@ -82,8 +82,7 @@ export class Film {
                 "body.list-page ul.-p70.film-details-list",
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
-                "body.search-results ul.results > li > div.film-poster",
-                "body.similar-films section.genre-group ul.-p70"
+                "body.search-results ul.results > li > div.film-poster"
             ]
         };
 
