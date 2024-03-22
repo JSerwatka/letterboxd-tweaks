@@ -1,5 +1,5 @@
 import { useOptionsContext } from "@context/OptionsContext";
-import { Options } from "@options/default-options";
+import { Options } from "../configs/default-options";
 
 type SwitchProps = Pick<Options, "id" | "checked">;
 

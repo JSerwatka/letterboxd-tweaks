@@ -7,8 +7,8 @@ const Popup = () => {
     const { options } = useOptionsContext();
 
     return (
-        <main class="w-72 p-3">
-            <h1 class="text-lg mb-2 border-b border-b-black">Hello world</h1>
+        <main class="w-96 p-3">
+            <h1 class="text-lg mb-2 border-b border-b-black">Letterboxd Tweaks</h1>
             <input
                 type="text"
                 placeholder="Search options..."

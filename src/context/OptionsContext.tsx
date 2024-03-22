@@ -1,6 +1,6 @@
 import { JSX, createContext, createEffect, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
-import { type Options, defaultOptions } from "@options/default-options";
+import { type Options, defaultOptions } from "../configs/default-options";
 import { modifyOptionChromeStorage, syncWithOptionChromeStorage } from "@utils/chrome-storage";
 
 interface OptionsProviderProps {
