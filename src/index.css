@@ -12,6 +12,6 @@ section.decade-browser > ul.bar-nav-with-arrows > li > a {
 }
 
 body.profile .js-metadatum > svg,
-body.similar-films .nanocrowd-attribution svg {
+.nanocrowd-attribution svg {
     display: inline-block;
 }
