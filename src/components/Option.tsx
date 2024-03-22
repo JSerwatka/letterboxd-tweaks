@@ -1,5 +1,5 @@
 import Switch from "@components/Switch";
-import { Options } from "../configs/default-options";
+import { Options } from "@configs/default-options";
 
 type OptionProps = Omit<Options, "function" | "section">;
 

@@ -1,4 +1,4 @@
-import { Options } from "../configs/default-options";
+import { Options } from "@configs/default-options";
 import { SetStoreFunction } from "solid-js/store";
 
 export const modifyOptionChromeStorage = (id: Options["id"], task: "add" | "remove") => {
