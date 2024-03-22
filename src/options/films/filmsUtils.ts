@@ -68,7 +68,9 @@ export class Film {
                 "ul.-p150:not(.-overlapped)",
                 "body.list-page ul.js-list-entries.-p125",
                 "section.js-watchlist-main-content ul.-p125",
-                "section#popular-films ul.-p230"
+                "section#popular-films ul.-p230",
+                "body.similar-films ul.-p125",
+                "body.similar-films section.poster-list.-p230"
             ],
             small: [
                 "body.films-watched ul.-p70",

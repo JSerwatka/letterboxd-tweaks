@@ -70,7 +70,7 @@ const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
     },
     {
         page: "filmSingle",
-        regex: new RegExp("^/film/.+/$")
+        regex: new RegExp("^/film/[^/]+/$") // FIXME: nanogenres, themes i similar mają bardzo podobną strukturę, musisz rozpoznac na prawno czy to to
     },
     {
         page: "listNew",
@@ -135,6 +135,9 @@ export function checkIfOptionPage(acceptedPages: SupportedPages[], negativeSearc
 // filmsPage: https://letterboxd.com/films/
 // filmsOverview: https://letterboxd.com/films/<type>/ np. https://letterboxd.com/films/popular/this/week/ or https://letterboxd.com/films/popular/this/week/year/1985/genre/animation/
 // filmSingle: https://letterboxd.com/film/<filmname>/ np. https://letterboxd.com/film/poor-things-2023/
+// filmSimilar: https://letterboxd.com/film/<filmname>/similar/ np. https://letterboxd.com/film/bridge-to-terabithia/similar/
+// filmThemes: https://letterboxd.com/film/<filmname>/themes/ np. https://letterboxd.com/film/bridge-to-terabithia/themes/
+// filmNanogenres: https://letterboxd.com/film/<filmname>/nanogenres/ np. https://letterboxd.com/film/bridge-to-terabithia/nanogenres/
 // studioPage: https://letterboxd.com/studio/<studioname>/ np.https://letterboxd.com/studio/dune-entertainment/ or with filter
 
 // --- Cinema People --

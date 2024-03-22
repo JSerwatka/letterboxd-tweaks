@@ -6,10 +6,12 @@
 .js-button-following,
 .micro-button,
 .film-poster-popmenu,
-.fm-rateit.instant-rating {
+.fm-rateit.instant-rating,
+section.decade-browser > ul.bar-nav-with-arrows > li > a {
     box-sizing: content-box;
 }
 
-body.profile .js-metadatum > svg {
+body.profile .js-metadatum > svg,
+.nanocrowd-attribution svg {
     display: inline-block;
 }

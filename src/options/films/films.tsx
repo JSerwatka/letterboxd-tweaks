@@ -63,15 +63,16 @@ export const showFilmData = async () => {
 };
 
 // --- DESC: Hides service tab on films list ---
-// WARNING: because there is no other selector, I have to doublecheck if the lable inside is "Service",
+// WARNING: because there is no other selector, I have to use label with text "Service",
 // which means that this code will no work if the page is translated
 export async function hideService() {
-    const serviceElement = await waitForElement(document, "div.sorting-selects > section.smenu-wrapper:nth-child(4)");
-    const labelElement = serviceElement?.querySelector("label");
+    const sortingNavElement = await waitForElement(document, "div.sorting-selects");
 
-    if (labelElement?.textContent?.trim() === "Service") {
-        serviceElement?.remove();
-    }
+    sortingNavElement?.querySelectorAll("label").forEach((sortingElement) => {
+        if (sortingElement.textContent?.trim() === "Service") {
+            sortingElement.remove();
+        }
+    });
 }
 
 // --- DESC: Shows duration and genre on top of film details page ---
