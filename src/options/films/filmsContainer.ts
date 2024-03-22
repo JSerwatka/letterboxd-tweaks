@@ -18,7 +18,6 @@ const HIDE_SERVICE_NEGATIVE_PAGES: SupportedPages[] = [
     "membersAllPages",
     "journalPage",
     "listsAllPages",
-    "diary",
     "tags",
     "followers",
     "following",
