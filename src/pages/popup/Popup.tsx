@@ -1,6 +1,8 @@
 import { For, createEffect, createSignal, onCleanup, onMount } from "solid-js";
 import Option from "@components/Option";
 import { useOptionsContext } from "@context/OptionsContext";
+import "@styles/microtip.css";
+import { projectTime } from "@configs/project-data";
 
 const Popup = () => {
     const [searchText, setSearchText] = createSignal("");
@@ -8,7 +10,23 @@ const Popup = () => {
 
     return (
         <main class="w-96 p-3">
-            <h1 class="text-lg mb-2 border-b border-b-black">Letterboxd Tweaks</h1>
+            <div class="border-b border-b-black mb-2 py-4 flex flex-row justify-between items-center">
+                <h1 class="text-lg">Letterboxd Tweaks</h1>
+                <a
+                    href="https://www.buymeacoffee.com/jserwatka"
+                    target="_blank"
+                    aria-label={`It took me ${projectTime} hours to build this project, please consider supporting 🤗`}
+                    data-microtip-position="bottom"
+                    role="tooltip"
+                    data-microtip-size="medium"
+                >
+                    <img
+                        src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
+                        alt="Buy Me A Coffee"
+                        style="height: 40px !important; width: auto !important"
+                    />
+                </a>
+            </div>
             <input
                 type="text"
                 placeholder="Search options..."
