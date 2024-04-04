@@ -10,84 +10,6 @@ export interface Options {
 export type Section = "Films" | "Filter" | "Lists" | "Navbar" | "Search" | "Sort";
 
 export const defaultOptions: Options[] = [
-    // ----- NAVBAR -----
-    // {
-    //     id: "c28ab596-04eb-4247-b9b6-827cb85e0673",
-    //     title: "Hide home",
-    //     description: "Hide home option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "6808e452-0a35-4eb4-9c16-361e23d223fc",
-    //     title: "Hide diary",
-    //     description: "Hide diary option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "56a30745-7289-4743-ace9-9ac2f27c3a8a",
-    //     title: "Hide reviews",
-    //     description: "Hide reviews option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "26a16e37-3af2-48fb-a150-c970b3abd47a",
-    //     title: "Hide likes",
-    //     description: "Hide likes option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "93f8967e-fb6c-470e-9eab-98fcadf61fbb",
-    //     title: "Hide tags",
-    //     description: "Hide tags option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "a042f97e-14e4-49ea-ab8e-e7f75028d3f6",
-    //     title: "Hide network",
-    //     description: "Hide network option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "7f8aa1e7-4a62-4984-bd45-f8ebabbb378a",
-    //     title: "Hide subscriptions",
-    //     description: "Hide subscriptions option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "76bfe9a4-c15b-4150-9a8d-89f0cb670e08",
-    //     title: "Hide subscriptions",
-    //     description: "Hide subscriptions option from the main menu",
-    //     section: "Menu",
-    //     checked: false
-    // },
-    // {
-    //     id: "1af6f649-002b-4064-a18f-87312c54270e",
-    //     title: "Hide members",
-    //     description: "Hide members option from the navbar",
-    //     section: "Navbar",
-    //     checked: false
-    // },
-    // {
-    //     id: "c1494c7d-fd3f-4d23-b954-21152b3022c0",
-    //     title: "Hide journal",
-    //     description: "Hide journal option from the navbar",
-    //     section: "Navbar",
-    //     checked: false
-    // },
-    // {
-    //     id: "7bc424e0-1f01-447d-8b50-8b509ce1186c",
-    //     title: "Hide journal",
-    //     description: "Hide journal option from the navbar",
-    //     section: "Navbar",
-    //     checked: false
-    // },
     // ----- FILMS -----
     {
         id: "5a16c928-7bba-4851-8fdc-e6f59fa4d123",
@@ -111,6 +33,156 @@ export const defaultOptions: Options[] = [
         description: "Adds title, year, rating and other data to film poster",
         section: "Films",
         function: "showFilmData",
+        checked: false
+    },
+    // ----- SEARCH -----
+    {
+        id: "15212037-04cc-4ed4-9625-0e7a1974f6d4",
+        title: "Enable improved search",
+        description: "While you type in the search bar it returns list of films",
+        section: "Search",
+        checked: false
+    },
+    // ----- LISTS -----
+    {
+        id: "9362e1b5-ea40-4ec7-8319-3f90c16534a1",
+        title: "New list always private",
+        description: "When you create a new list, it chooses 'private' by default",
+        section: "Lists",
+        checked: false
+    },
+    {
+        id: "3c4a347a-5f04-47d5-b073-3cefb8ee0bb2",
+        title: "Add movie to list always private",
+        description: "When you try to add a movie to a list, it goes to private tab by default",
+        section: "Lists",
+        checked: false
+    },
+    // ----- NAVBAR -----
+    {
+        id: "90dea00e-be93-42df-a80f-fa149ee159a8",
+        title: "Hide home",
+        description: "Hide 'home' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "9a9d741c-d1b5-49a3-8b30-01603275eb2b",
+        title: "Rename 'films' to 'watched'",
+        description: "Renames 'films' option to 'watched' in the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "7879016f-ef40-4ca0-a19d-8e157db15889",
+        title: "Hide diary",
+        description: "Hide 'diary' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "13debc4d-2a75-48fa-b5d5-0b6e00886fba",
+        title: "Hide reviews",
+        description: "Hide 'reviews' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "e8d357cf-d986-4657-911d-e9ec65132ae2",
+        title: "Hide likes",
+        description: "Hide 'likes' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "096a82f6-b58f-4111-bc81-56d4d0715c94",
+        title: "Hide tags",
+        description: "Hide 'tags' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "6bbc2a8f-e96a-44d7-bcb2-6536c357317b",
+        title: "Hide network",
+        description: "Hide 'network' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "130e44e3-1b2a-4b89-b3bc-0da8d8f9eccd",
+        title: "Hide subscriptions",
+        description: "Hide 'subscriptions' option from the account menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "96771830-b6d5-4f47-ae04-1a57af6be6cf",
+        title: "Hide diary",
+        description: "Hide 'diary' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "1806f4e4-fb2f-4697-bd46-82b25c512794",
+        title: "Hide reviews",
+        description: "Hide 'reviews' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "f689ec59-e295-4aa9-9028-b37a3fec0c32",
+        title: "Hide likes",
+        description: "Hide 'likes' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "f61fa423-7525-4857-bd6d-1cac9b211761",
+        title: "Hide tags",
+        description: "Hide 'tags' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "d8c310d0-e7fa-4d20-8473-19940cd820a7",
+        title: "Hide network",
+        description: "Hide 'network' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "0b20cc79-86e1-4c07-b3e5-3e138571b406",
+        title: "Hide invitations",
+        description: "Hide 'invitations' option from the profile menu",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "48965f26-31cf-4f6a-b8c8-7993ec122116",
+        title: "Redirect films to popular",
+        description: "'Film' option from navbar redirects to popular this week with large cards",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "515d2ac4-9a2e-427f-b59a-338126065e75",
+        title: "Hide activity",
+        description: "Hide 'activity' option from the main navbar",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "d9e2f8bf-6f78-484a-a0c5-89e6f26d0bf1",
+        title: "Hide members",
+        description: "Hide 'members' option from the main navbar",
+        section: "Navbar",
+        checked: false
+    },
+    {
+        id: "8ec1f6a5-7bd8-4c7e-b5bb-a749cd0953e7",
+        title: "Hide journal",
+        description: "Hide 'journal' option from the main navbar",
+        section: "Navbar",
         checked: false
     },
     // ----- FILTER -----
@@ -191,7 +263,7 @@ export const defaultOptions: Options[] = [
         section: "Filter",
         checked: false
     },
-    // ----- SORT ----- DONE
+    // ----- SORT -----
     {
         id: "74b7a53f-6709-4d25-9356-76678b583887",
         title: "Hide 'Film name' sort",
@@ -267,29 +339,6 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Owner Rating' sort",
         description: "",
         section: "Sort",
-        checked: false
-    },
-    // ----- SEARCH ----- DONE
-    {
-        id: "15212037-04cc-4ed4-9625-0e7a1974f6d4",
-        title: "Enable improved search",
-        description: "While you type in the search bar it returns list of films",
-        section: "Search",
-        checked: false
-    },
-    // ----- LISTS ----- DONE
-    {
-        id: "9362e1b5-ea40-4ec7-8319-3f90c16534a1",
-        title: "New list always private",
-        description: "When you create a new list, it chooses 'private' by default",
-        section: "Lists",
-        checked: false
-    },
-    {
-        id: "3c4a347a-5f04-47d5-b073-3cefb8ee0bb2",
-        title: "Add movie to list always private",
-        description: "When you try to add a movie to a list, it goes to private tab by default",
-        section: "Lists",
         checked: false
     }
 ];
