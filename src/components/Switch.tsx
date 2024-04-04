@@ -10,14 +10,16 @@ const Switch = (props: SwitchProps) => {
         <div class="flex h-6 items-center">
             <button
                 type="button"
-                class=" flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                class=" flex w-8 flex-none cursor-pointer rounded-full p-px ring-1 ring-inset ring-gray-900/5 transition-colors duration-200 ease-in-out focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-lime-600"
                 classList={{
                     "bg-gray-200": !props.checked,
-                    "bg-indigo-600": props.checked
+                    "bg-lime-600": props.checked
                 }}
                 role="switch"
                 aria-checked="false" // TODO handle change
-                onClick={() => handleCheckChange(props.id, !props.checked)}
+                onClick={() => {
+                    handleCheckChange(props.id, !props.checked);
+                }}
             >
                 <span
                     aria-hidden="true"
