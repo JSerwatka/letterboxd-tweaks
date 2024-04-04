@@ -17,7 +17,8 @@
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
         "paths": {
-            "@tailwind": ["./src/index.css"],
+            "@styles/*": ["./src/styles/*"],
+            "@tailwind": ["./src/styles/index.css"],
             "@pages/*": ["./src/pages/*"],
             "@options/*": ["./src/options/*"],
             "@components/*": ["./src/components/*"],

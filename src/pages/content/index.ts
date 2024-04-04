@@ -18,6 +18,7 @@ async function main() {
     // console.log(checkIfOptionPage(["diary", "filmSingle"], true));
     // const file = await import("@options/films");
     // file["showFilmData"]();
+    // await import("@options/films/filmsContainer");
     await import("@options/films/filmsContainer");
     // file["renderSearch"]();
     // file["addMovieToPrivateList"]();
