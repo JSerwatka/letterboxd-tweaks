@@ -5,20 +5,20 @@ import "@styles/microtip.css";
 import { projectTime } from "@configs/project-data";
 import groupBy from "lodash.groupby";
 import { Section } from "@configs/default-options";
-import { Divider } from "@components/Divider";
 
 type SectionFilter = Section | "All";
 const FILTER_SECTIONS: SectionFilter[] = ["All", "Films", "Filter", "Lists", "Navbar", "Search", "Sort"];
 
 const Popup = () => {
     const [sectionFilter, setSectionFilter] = createSignal<SectionFilter>("All");
-    const { options, handleCheckChange } = useOptionsContext();
-    const groupedOptions = groupBy(options, (item) => item.section);
+    const { options } = useOptionsContext();
+    const groupedOptions = createMemo(() => groupBy(options, (item) => item.section));
+
     const groupedOptionsFiltered = createMemo(() => {
         if (sectionFilter() === "All") {
-            return groupedOptions;
+            return groupedOptions();
         }
-        return { [sectionFilter()]: groupedOptions[sectionFilter()] };
+        return { [sectionFilter()]: groupedOptions()[sectionFilter()] };
     });
 
     return (
