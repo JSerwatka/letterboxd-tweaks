@@ -7,7 +7,7 @@ export interface Options {
     function?: string;
 }
 
-type Section = "Films" | "Filter" | "Lists" | "Navbar" | "Search" | "Sort";
+export type Section = "Films" | "Filter" | "Lists" | "Navbar" | "Search" | "Sort";
 
 export const defaultOptions: Options[] = [
     // ----- NAVBAR -----
