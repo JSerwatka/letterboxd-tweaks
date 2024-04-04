@@ -12,14 +12,14 @@ const FILTER_SECTIONS: SectionFilter[] = ["All", "Films", "Filter", "Lists", "Na
 const Popup = () => {
     const [sectionFilter, setSectionFilter] = createSignal<SectionFilter>("All");
     const { options } = useOptionsContext();
-    const groupedOptions = createMemo(() => groupBy(options, (item) => item.section));
+    const groupedOptions = () => groupBy(options, (item) => item.section);
 
-    const groupedOptionsFiltered = createMemo(() => {
+    const groupedOptionsFiltered = () => {
         if (sectionFilter() === "All") {
             return groupedOptions();
         }
         return { [sectionFilter()]: groupedOptions()[sectionFilter()] };
-    });
+    };
 
     return (
         <main class="w-96 p-3">
