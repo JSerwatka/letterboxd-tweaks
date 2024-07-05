@@ -3,8 +3,7 @@ import { findParentByChild } from "@utils/selectors";
 import { cleanEmptyDescriptionLabels } from "./sortUtils";
 import { getLinkByHref } from "@utils/selectors";
 
-export type SortOptionsSelectors = typeof SORT_OPTIONS_SELECTORS;
-export type SortOptionName = keyof SortOptionsSelectors;
+export type SortOptionName = keyof typeof SORT_OPTIONS_SELECTORS;
 export type SortConfigType = { toHide: SortOptionName[] };
 
 const SORT_OPTIONS_SELECTORS = {
