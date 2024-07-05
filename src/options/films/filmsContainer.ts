@@ -39,6 +39,7 @@ if (checkIfOptionPage(SHOW_FILM_DATA_NEGATIVE_PAGES, true)) {
 if (checkIfOptionPage(HIDE_SERVICE_NEGATIVE_PAGES, true)) {
     hideService();
 }
+
 if (checkIfOptionPage(MOVE_MOVIE_DATA_TO_HEADER_PAGES, false)) {
     moveMovieDataToHeader();
 }
