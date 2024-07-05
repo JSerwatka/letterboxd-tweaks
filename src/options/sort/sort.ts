@@ -1,53 +1,54 @@
 import { waitForElement } from "@utils/element-observers";
 import { findParentByChild } from "@utils/selectors";
 import { cleanEmptyDescriptionLabels } from "./sortUtils";
+import { getLinkByHref } from "@utils/selectors";
 
 export type SortOptionsSelectors = typeof SORT_OPTIONS_SELECTORS;
 export type SortOptionName = keyof SortOptionsSelectors;
 
 const SORT_OPTIONS_SELECTORS = {
     "Film name": {
-        selector: 'a[href*="by/name"]',
+        selector: "by/name",
         isNested: false
     },
     "Your interests": {
-        selector: 'a[href*="by/your-interest"]',
+        selector: "by/your-interest",
         isNested: true
     },
     "Film length": {
-        selector: 'a[href*="by/shortest"]',
+        selector: "by/shortest",
         isNested: true
     },
     "When Rated": {
-        selector: 'a[href*="by/rated-date/"]',
+        selector: "by/rated-date/",
         isNested: true
     },
     Shuffle: {
-        selector: 'a[href*="by/shuffle"]',
+        selector: "by/shuffle",
         isNested: false
     },
     "Your Rating": {
-        selector: 'a[href*="by/your-rating/"]',
+        selector: "by/your-rating/",
         isNested: true
     },
     "Film Popularity with Friends": {
-        selector: 'a[href*="popular/with/friends"]',
+        selector: "popular/with/friends",
         isNested: true
     },
     "Reverse Order": {
-        selector: 'a[href*="by/reverse"]',
+        selector: "by/reverse",
         isNested: false
     },
     "Your Diary Date": {
-        selector: 'a[href*="by/your-diary"]',
+        selector: "by/your-diary",
         isNested: true
     },
     "Owner Diary Date": {
-        selector: 'a[href*="by/owner-diary"]',
+        selector: "by/owner-diary",
         isNested: true
     },
     "Owner Rating": {
-        selector: 'a[href*="by/owner-rating"]',
+        selector: "by/owner-rating",
         isNested: true
     }
 } as const;
@@ -72,11 +73,11 @@ export async function hideSort() {
     if (!sortMenu) return;
 
     for (const [option, { selector, isNested }] of Object.entries(SORT_OPTIONS_SELECTORS)) {
-        const aTagElement = (await waitForElement(sortMenu, selector)) as HTMLElement | undefined | null;
+        const aTagElement = getLinkByHref(sortMenu, "", selector);
         let targetElement: Element | undefined | null;
 
         if (!aTagElement) {
-            console.log(`Error(SORT): option "${option}" with selector ${selector} not found`);
+            console.log(`Info(SORT): option "${option}" with selector ${selector} not found`);
             continue;
         }
 
