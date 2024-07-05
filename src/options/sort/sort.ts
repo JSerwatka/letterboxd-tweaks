@@ -5,6 +5,7 @@ import { getLinkByHref } from "@utils/selectors";
 
 export type SortOptionsSelectors = typeof SORT_OPTIONS_SELECTORS;
 export type SortOptionName = keyof SortOptionsSelectors;
+export type SortConfigType = { toHide: SortOptionName[] };
 
 const SORT_OPTIONS_SELECTORS = {
     "Film name": {
@@ -53,7 +54,7 @@ const SORT_OPTIONS_SELECTORS = {
     }
 } as const;
 
-// TODO use only filters the are for a given page
+// TODO v2 use only filters that are for a given page. Currently it hides all sort options, even if they are not present on the page
 const SORT_OPTIONS_PER_PAGE: Record<string, SortOptionName[]> = {
     all: ["Film name", "Your interests", "Film length"],
     userFilms: ["When Rated", "Shuffle"],
@@ -64,7 +65,7 @@ const SORT_OPTIONS_PER_PAGE: Record<string, SortOptionName[]> = {
 };
 
 // hides some sort options defined above
-export async function hideSort() {
+export async function hideSort(config: SortConfigType) {
     const sortMenu = (await waitForElement(document, "ul.smenu-menu a[href*='/by/']"))?.closest("ul.smenu-menu") as
         | HTMLElement
         | undefined
@@ -72,7 +73,9 @@ export async function hideSort() {
 
     if (!sortMenu) return;
 
-    for (const [option, { selector, isNested }] of Object.entries(SORT_OPTIONS_SELECTORS)) {
+    for (const option of config.toHide) {
+        const { isNested, selector } = SORT_OPTIONS_SELECTORS[option];
+
         const aTagElement = getLinkByHref(sortMenu, "", selector);
         let targetElement: Element | undefined | null;
 
