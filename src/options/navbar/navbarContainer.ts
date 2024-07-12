@@ -27,11 +27,6 @@ const NAVBAR_CONFIG_DEFAULT: NavbarActionsConfig<NavbarLinksKeys> = {
     toRedirect: { Films: { redirectTo: "size/large" } }
 };
 
-// all pages
-const ACCOUNT_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
-const PROFILE_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
-const NAVBAR_MENU_ACTIONS_NEGATIVE_PAGES: SupportedPages[] = [];
-
 if (checkIfOptionPage(getPageFromPathname(window.location.pathname), ACCOUNT_MENU_ACTIONS_NEGATIVE_PAGES, true)) {
     accountMenuActions(ACCOUNT_CONFIG_DEFAULT);
 }

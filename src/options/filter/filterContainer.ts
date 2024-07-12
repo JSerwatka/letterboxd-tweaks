@@ -2,21 +2,6 @@ import { SupportedPages, checkIfOptionPage } from "@utils/page-lookup";
 import { hideFilters, FilterConfigType } from "./filter";
 
 // TODO: add config default (dev_only) + based on user options
-const HIDE_FILTERS_NEGATIVE_PAGES: SupportedPages[] = [
-    "membersAllPages",
-    "journalPage",
-    "listsAllPages",
-    "diary",
-    "tags",
-    "followers",
-    "following",
-    "followersYouKnow",
-    "blocked",
-    "reviewers",
-    "userReview",
-    "activityAllPages",
-    "filmSingle"
-];
 
 // TODO this is only for dev, use user selected options
 const FILTER_CONFIG_DEFAULT: FilterConfigType = {

@@ -1,14 +1,10 @@
 import "@tailwind";
 import { getPageFromPathname } from "@utils/page-lookup";
+import { StorageSelectedOptions } from "@utils/chrome-storage";
 
 // TODO run functions of all options in storage
 
 // console log all options in storage
-chrome.storage.sync.get(null, (userSelectedOptions) => {
-    userSelectedOptions.forEach((option) => {
-        console.log(option);
-    });
-});
 
 chrome.storage.onChanged.addListener((changes, areaName) => {
     console.log(changes, areaName);
@@ -18,10 +14,15 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
     }
 });
 
-async function main() {
+async function main(): Promise<void> {
     console.log("options");
     const currentPage = getPageFromPathname(window.location.pathname);
-    console.log({ window: window.location.pathname, currentPage });
+
+    chrome.storage.sync.get(null, (userSelectedOptions: StorageSelectedOptions) => {
+        for (const [optionId, isChecked] of Object.entries(userSelectedOptions)) {
+            console.log(optionId, isChecked);
+        }
+    });
 
     // using window is the easiest way to access pathname
     // console.log(window.location.pathname);
