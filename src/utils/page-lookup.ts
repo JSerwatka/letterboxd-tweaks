@@ -79,7 +79,7 @@ const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
 ];
 
 // https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
-function getPageFromPathname(pathname: string): SupportedPages | undefined {
+export function getPageFromPathname(pathname: string): SupportedPages | undefined {
     for (const regexToPage of regexToPageArr) {
         if (regexToPage.regex.test(pathname)) {
             return regexToPage.page;
@@ -87,15 +87,17 @@ function getPageFromPathname(pathname: string): SupportedPages | undefined {
     }
 }
 
-export function checkIfOptionPage(acceptedPages: SupportedPages[], negativeSearch: boolean = false): boolean {
-    const page = getPageFromPathname(window.location.pathname);
-
+export function checkIfOptionPage(
+    currentPageName: string,
+    acceptedPages: SupportedPages[],
+    negativeSearch: boolean = false
+): boolean {
     if (negativeSearch) {
-        if (!page || !acceptedPages.includes(page)) return true;
+        if (!currentPageName || !acceptedPages.includes(currentPageName)) return true;
         return false;
     }
 
-    if (!page || !acceptedPages.includes(page)) return false;
+    if (!currentPageName || !acceptedPages.includes(currentPageName)) return false;
     return true;
 }
 // search: https://letterboxd.com/search/<searchtext>/

@@ -39,6 +39,6 @@ const FILTER_CONFIG_DEFAULT: FilterConfigType = {
     }
 };
 
-if (checkIfOptionPage(HIDE_FILTERS_NEGATIVE_PAGES, true)) {
+if (checkIfOptionPage(getPageFromPathname(window.location.pathname), HIDE_FILTERS_NEGATIVE_PAGES, true)) {
     hideFilters(FILTER_CONFIG_DEFAULT);
 }
