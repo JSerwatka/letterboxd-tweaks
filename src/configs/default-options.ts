@@ -41,6 +41,7 @@ export const defaultOptions: Options[] = [
         title: "Enable improved search",
         description: "While you type in the search bar it returns list of films",
         section: "Search",
+        function: "renderSearch",
         checked: false
     },
     // ----- LISTS -----
@@ -49,6 +50,7 @@ export const defaultOptions: Options[] = [
         title: "New list always private",
         description: "When you create a new list, it chooses 'private' by default",
         section: "Lists",
+        function: "makeNewListPrivate",
         checked: false
     },
     {
@@ -56,6 +58,7 @@ export const defaultOptions: Options[] = [
         title: "Add movie to list always private",
         description: "When you try to add a movie to a list, it goes to private tab by default",
         section: "Lists",
+        function: "addMovieToPrivateList",
         checked: false
     },
     // ----- NAVBAR -----
@@ -64,6 +67,7 @@ export const defaultOptions: Options[] = [
         title: "Hide home",
         description: "Hide 'home' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -71,6 +75,7 @@ export const defaultOptions: Options[] = [
         title: "Rename 'films' to 'watched'",
         description: "Renames 'films' option to 'watched' in the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -78,6 +83,7 @@ export const defaultOptions: Options[] = [
         title: "Hide diary",
         description: "Hide 'diary' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -85,6 +91,7 @@ export const defaultOptions: Options[] = [
         title: "Hide reviews",
         description: "Hide 'reviews' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -92,6 +99,7 @@ export const defaultOptions: Options[] = [
         title: "Hide likes",
         description: "Hide 'likes' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -99,6 +107,7 @@ export const defaultOptions: Options[] = [
         title: "Hide tags",
         description: "Hide 'tags' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -106,6 +115,7 @@ export const defaultOptions: Options[] = [
         title: "Hide network",
         description: "Hide 'network' option from the account menu",
         section: "Navbar",
+        function: "accountMenuActions",
         checked: false
     },
     {
@@ -113,6 +123,7 @@ export const defaultOptions: Options[] = [
         title: "Hide subscriptions",
         description: "Hide 'subscriptions' option from the account menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -120,6 +131,8 @@ export const defaultOptions: Options[] = [
         title: "Hide diary",
         description: "Hide 'diary' option from the profile menu",
         section: "Navbar",
+        function: "accountMenuActions",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -127,6 +140,7 @@ export const defaultOptions: Options[] = [
         title: "Hide reviews",
         description: "Hide 'reviews' option from the profile menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -134,6 +148,7 @@ export const defaultOptions: Options[] = [
         title: "Hide likes",
         description: "Hide 'likes' option from the profile menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -141,6 +156,7 @@ export const defaultOptions: Options[] = [
         title: "Hide tags",
         description: "Hide 'tags' option from the profile menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -148,6 +164,7 @@ export const defaultOptions: Options[] = [
         title: "Hide network",
         description: "Hide 'network' option from the profile menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -155,6 +172,7 @@ export const defaultOptions: Options[] = [
         title: "Hide invitations",
         description: "Hide 'invitations' option from the profile menu",
         section: "Navbar",
+        function: "profileMenuActions",
         checked: false
     },
     {
@@ -162,6 +180,7 @@ export const defaultOptions: Options[] = [
         title: "Redirect films to popular",
         description: "'Film' option from navbar redirects to popular this week with large cards",
         section: "Navbar",
+        function: "navbarMenuActions",
         checked: false
     },
     {
@@ -169,6 +188,7 @@ export const defaultOptions: Options[] = [
         title: "Hide activity",
         description: "Hide 'activity' option from the main navbar",
         section: "Navbar",
+        function: "navbarMenuActions",
         checked: false
     },
     {
@@ -176,6 +196,7 @@ export const defaultOptions: Options[] = [
         title: "Hide members",
         description: "Hide 'members' option from the main navbar",
         section: "Navbar",
+        function: "navbarMenuActions",
         checked: false
     },
     {
@@ -183,6 +204,7 @@ export const defaultOptions: Options[] = [
         title: "Hide journal",
         description: "Hide 'journal' option from the main navbar",
         section: "Navbar",
+        function: "navbarMenuActions",
         checked: false
     },
     // ----- FILTER -----
@@ -191,6 +213,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Fade watched movies' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -198,6 +221,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show custom posters' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -205,6 +229,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide watched movies' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -212,6 +237,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide liked movies' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -219,6 +245,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide reviewed films' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -226,6 +253,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide rewatched films' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -233,6 +261,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide logged films' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -240,6 +269,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide rated films' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -247,6 +277,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Show/hide films in watchlist' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -254,6 +285,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Hide documentaries' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     {
@@ -261,6 +293,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Hide unreleased titles' filter",
         description: "",
         section: "Filter",
+        function: "hideFilters",
         checked: false
     },
     // ----- SORT -----
@@ -269,6 +302,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Film name' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -276,6 +310,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Your interests' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -283,6 +318,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Film length' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -290,6 +326,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'When Rated' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -297,6 +334,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Shuffle' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -304,6 +342,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Your Rating' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -311,6 +350,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Film Popularity with Friends' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -318,6 +358,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Reverse Order' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -325,6 +366,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Your Diary Date' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -332,6 +374,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Owner Diary Date' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     },
     {
@@ -339,6 +382,7 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Owner Rating' sort",
         description: "",
         section: "Sort",
+        function: "hideSort",
         checked: false
     }
 ];
