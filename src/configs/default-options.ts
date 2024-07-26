@@ -5,6 +5,7 @@ export interface Options {
     section: Section;
     checked: boolean;
     function: FunctionName;
+    isConfigType?: boolean;
 }
 
 export type FunctionName =
@@ -81,7 +82,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'home' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "9a9d741c-d1b5-49a3-8b30-01603275eb2b",
@@ -89,7 +91,8 @@ export const defaultOptions: Options[] = [
         description: "Renames 'films' option to 'watched' in the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "7879016f-ef40-4ca0-a19d-8e157db15889",
@@ -97,7 +100,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'diary' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "13debc4d-2a75-48fa-b5d5-0b6e00886fba",
@@ -105,7 +109,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'reviews' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "e8d357cf-d986-4657-911d-e9ec65132ae2",
@@ -113,7 +118,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'likes' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "096a82f6-b58f-4111-bc81-56d4d0715c94",
@@ -121,7 +127,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'tags' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "6bbc2a8f-e96a-44d7-bcb2-6536c357317b",
@@ -129,7 +136,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'network' option from the account menu",
         section: "Navbar",
         function: "accountMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "130e44e3-1b2a-4b89-b3bc-0da8d8f9eccd",
@@ -137,7 +145,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'subscriptions' option from the account menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "96771830-b6d5-4f47-ae04-1a57af6be6cf",
@@ -145,7 +154,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'diary' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "1806f4e4-fb2f-4697-bd46-82b25c512794",
@@ -153,7 +163,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'reviews' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "f689ec59-e295-4aa9-9028-b37a3fec0c32",
@@ -161,7 +172,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'likes' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "f61fa423-7525-4857-bd6d-1cac9b211761",
@@ -169,7 +181,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'tags' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "d8c310d0-e7fa-4d20-8473-19940cd820a7",
@@ -177,7 +190,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'network' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "0b20cc79-86e1-4c07-b3e5-3e138571b406",
@@ -185,7 +199,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'invitations' option from the profile menu",
         section: "Navbar",
         function: "profileMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "48965f26-31cf-4f6a-b8c8-7993ec122116",
@@ -193,7 +208,8 @@ export const defaultOptions: Options[] = [
         description: "'Film' option from navbar redirects to popular this week with large cards",
         section: "Navbar",
         function: "navbarMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "515d2ac4-9a2e-427f-b59a-338126065e75",
@@ -201,7 +217,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'activity' option from the main navbar",
         section: "Navbar",
         function: "navbarMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "d9e2f8bf-6f78-484a-a0c5-89e6f26d0bf1",
@@ -209,7 +226,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'members' option from the main navbar",
         section: "Navbar",
         function: "navbarMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "8ec1f6a5-7bd8-4c7e-b5bb-a749cd0953e7",
@@ -217,7 +235,8 @@ export const defaultOptions: Options[] = [
         description: "Hide 'journal' option from the main navbar",
         section: "Navbar",
         function: "navbarMenuActions",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     // ----- FILTER -----
     {
@@ -226,7 +245,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "39ec6eb4-1384-49df-9664-6ff2d8255148",
@@ -234,7 +254,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "604ca9fb-d91e-4651-98ed-722943f0583d",
@@ -242,7 +263,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "0da1fb63-2ae1-4180-b1ca-72311a297156",
@@ -250,7 +272,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "c5e09c57-e0ec-4d8b-b680-8dcbfa8c4b00",
@@ -258,7 +281,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "47d993eb-8de1-46aa-88e3-096902dab498",
@@ -266,7 +290,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "30c62cfe-aec2-45cb-90bb-2a01d9a70bb7",
@@ -274,7 +299,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "d8d9fa87-e9be-47cd-adbe-caebb0c2009a",
@@ -282,7 +308,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "3e9daafe-ccab-4e72-883a-cdaf41e2232d",
@@ -290,7 +317,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "4a589e1f-d063-44cd-85c4-972f18f1df00",
@@ -306,7 +334,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Filter",
         function: "hideFilters",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     // ----- SORT -----
     {
@@ -315,7 +344,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "cb12b7cb-1847-4444-9e7b-e001d1a0187f",
@@ -323,7 +353,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "934b060a-87b5-4bf5-aa81-63459dde49bc",
@@ -331,7 +362,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "9823250e-fe67-476f-9657-8fd40e944321",
@@ -339,7 +371,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "9ae4387a-9bb5-4fe4-8f2c-fcb307d323e5",
@@ -347,7 +380,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "742370ca-b3da-43b5-ab14-694fd3fa5f31",
@@ -355,7 +389,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "816d24b0-a225-428f-a545-f17d821406f5",
@@ -363,7 +398,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "cbec1b07-eb1a-4257-b775-2ee98c87c902",
@@ -371,7 +407,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "4639f75e-b5cc-4a41-8d5b-1eb8290b0c8d",
@@ -379,7 +416,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "08bbda63-0d9d-48ce-ae96-5c844435158f",
@@ -387,7 +425,8 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     },
     {
         id: "97a68361-5133-4703-ba85-5b566dd6bee2",
@@ -395,6 +434,7 @@ export const defaultOptions: Options[] = [
         description: "",
         section: "Sort",
         function: "hideSort",
-        checked: false
+        checked: false,
+        isConfigType: true
     }
 ];
