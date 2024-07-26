@@ -1,3 +1,5 @@
+import type { FunctionName } from "@configs/default-options";
+
 export type SupportedPages =
     | "membersAllPages"
     | "journalPage"
@@ -14,6 +16,36 @@ export type SupportedPages =
     | "activityAllPages"
     | "filmSingle"
     | "listNew";
+
+
+type OptionToPageMap = Record<FunctionName, {
+    acceptedPages: SupportedPages[];
+    typeOfSearch: "positive" | "negative";
+}>
+
+// https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
+export function getPageFromPathname(pathname: string): SupportedPages | undefined {
+    for (const regexToPage of regexToPageArr) {
+        if (regexToPage.regex.test(pathname)) {
+            return regexToPage.page;
+        }
+    }
+}
+
+export function shouldRunFunctionOnPage(
+    currentPageName: SupportedPages | undefined,
+    functionName: FunctionName
+): boolean {
+    const acceptedPages = optionToPageMap[functionName].acceptedPages;
+
+    if (optionToPageMap[functionName].typeOfSearch === "negative") {
+        if (!currentPageName || !acceptedPages.includes(currentPageName)) return true;
+        return false;
+    }
+
+    if (!currentPageName || !acceptedPages.includes(currentPageName)) return false;
+    return true;
+}
 
 const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
     {
@@ -78,28 +110,116 @@ const regexToPageArr: Array<{ page: SupportedPages; regex: RegExp }> = [
     }
 ];
 
-// https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
-export function getPageFromPathname(pathname: string): SupportedPages | undefined {
-    for (const regexToPage of regexToPageArr) {
-        if (regexToPage.regex.test(pathname)) {
-            return regexToPage.page;
-        }
+const optionToPageMap: OptionToPageMap = {
+    showFilmData: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers"
+        ],
+        typeOfSearch: "negative"
+    },
+    hideService: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers",
+            "userReview",
+            "activityAllPages",
+            "filmSingle"
+        ],
+        typeOfSearch: "negative"
+    },
+    moveMovieDataToHeader: {
+        acceptedPages: ["filmSingle"],
+        typeOfSearch: "positive"
+    },
+    hideFilters: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers",
+            "userReview",
+            "activityAllPages",
+            "filmSingle"
+        ],
+        typeOfSearch: "negative"
+    },
+    makeNewListPrivate: {
+        acceptedPages: ["listNew"],
+        typeOfSearch: "positive"
+    },
+    addMovieToPrivateList: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers"
+        ],
+        typeOfSearch: "negative"
+    },
+    accountMenuActions: {
+        acceptedPages: [],
+        typeOfSearch: "negative"
+    },
+    profileMenuActions: {
+        acceptedPages: [],
+        typeOfSearch: "negative"
+    },
+    navbarMenuActions: {
+        acceptedPages: [],
+        typeOfSearch: "negative"
+    },
+    renderSearch: {
+        acceptedPages: [],
+        typeOfSearch: "negative"
+    },
+    hideSort: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers",
+            "userReview",
+            "activityAllPages",
+            "filmSingle"
+        ],
+        typeOfSearch: "negative"
     }
-}
+};
 
-export function checkIfOptionPage(
-    currentPageName: string,
-    acceptedPages: SupportedPages[],
-    negativeSearch: boolean = false
-): boolean {
-    if (negativeSearch) {
-        if (!currentPageName || !acceptedPages.includes(currentPageName)) return true;
-        return false;
-    }
-
-    if (!currentPageName || !acceptedPages.includes(currentPageName)) return false;
-    return true;
-}
 // search: https://letterboxd.com/search/<searchtext>/
 // journalPage: https://letterboxd.com/journal/
 // journalSingle: https://letterboxd.com/journal/<title>/ np. https://letterboxd.com/journal/origin-ava-duvernay-interview/

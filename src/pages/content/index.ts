@@ -1,5 +1,5 @@
 import "@tailwind";
-import { getPageFromPathname } from "@utils/page-lookup";
+import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
 import { StorageSelectedOptions } from "@utils/chrome-storage";
 
 // TODO run functions of all options in storage
@@ -16,7 +16,9 @@ chrome.storage.onChanged.addListener((changes, areaName) => {
 
 async function main(): Promise<void> {
     console.log("options");
-    const currentPage = getPageFromPathname(window.location.pathname);
+    const currentPageName = getPageFromPathname(window.location.pathname);
+
+    console.log({ shouldRunFunctionOnPage: shouldRunFunctionOnPage(currentPageName, "showFilmData") });
 
     chrome.storage.sync.get(null, (userSelectedOptions: StorageSelectedOptions) => {
         for (const [optionId, isChecked] of Object.entries(userSelectedOptions)) {

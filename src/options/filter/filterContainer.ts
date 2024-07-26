@@ -1,4 +1,4 @@
-import { SupportedPages, checkIfOptionPage } from "@utils/page-lookup";
+import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
 import { hideFilters, FilterConfigType } from "./filter";
 
 // TODO: add config default (dev_only) + based on user options
@@ -24,6 +24,6 @@ const FILTER_CONFIG_DEFAULT: FilterConfigType = {
     }
 };
 
-if (checkIfOptionPage(getPageFromPathname(window.location.pathname), HIDE_FILTERS_NEGATIVE_PAGES, true)) {
+if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideFilters")) {
     hideFilters(FILTER_CONFIG_DEFAULT);
 }

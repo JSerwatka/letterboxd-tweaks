@@ -4,8 +4,21 @@ export interface Options {
     description: string;
     section: Section;
     checked: boolean;
-    function?: string;
+    function: FunctionName;
 }
+
+export type FunctionName =
+    | "moveMovieDataToHeader"
+    | "hideService"
+    | "showFilmData"
+    | "hideFilters"
+    | "makeNewListPrivate"
+    | "addMovieToPrivateList"
+    | "accountMenuActions"
+    | "profileMenuActions"
+    | "navbarMenuActions"
+    | "renderSearch"
+    | "hideSort";
 
 export type Section = "Films" | "Filter" | "Lists" | "Navbar" | "Search" | "Sort";
 
@@ -131,7 +144,6 @@ export const defaultOptions: Options[] = [
         title: "Hide diary",
         description: "Hide 'diary' option from the profile menu",
         section: "Navbar",
-        function: "accountMenuActions",
         function: "profileMenuActions",
         checked: false
     },

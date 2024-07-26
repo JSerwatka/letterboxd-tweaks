@@ -1,4 +1,4 @@
-import { SupportedPages, checkIfOptionPage } from "@utils/page-lookup";
+import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
 import { hideSort, SortConfigType } from "./sort";
 
 // TODO: add config default (dev_only) + based on user options
@@ -20,6 +20,6 @@ const SORT_CONFIG_DEFAULT: SortConfigType = {
     ]
 };
 
-if (checkIfOptionPage(getPageFromPathname(window.location.pathname), HIDE_SORT_NEGATIVE_PAGES, true)) {
+if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideSort")) {
     hideSort(SORT_CONFIG_DEFAULT);
 }
