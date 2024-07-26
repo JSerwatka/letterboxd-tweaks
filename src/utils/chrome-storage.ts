@@ -18,10 +18,13 @@ export const syncWithOptionChromeStorage = (
     const defaultOptionsCopy = JSON.parse(JSON.stringify(defaultOptions)) as Options[];
 
     chrome.storage.sync.get(null, (setOptionsIds: StorageSelectedOptions) => {
-        Object.keys(setOptionsIds).forEach((optionId) => {
-            const checkedOptionIndex = defaultOptionsCopy.findIndex((option) => option.id === optionId);
-
-            defaultOptionsCopy[checkedOptionIndex].checked = true;
+        defaultOptionsCopy.forEach((option) => {
+            if (setOptionsIds[option.id]) {
+                option.checked = true;
+            } else {
+                option.checked = false;
+            }
+            return option;
         });
 
         setStoreFunction(defaultOptionsCopy);
