@@ -147,7 +147,43 @@ const optionToPageMap: OptionToPageMap = {
         acceptedPages: ["filmSingle"],
         typeOfSearch: "positive"
     },
-    hideFilters: {
+    hideFilmFilters: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers",
+            "userReview",
+            "activityAllPages",
+            "filmSingle"
+        ],
+        typeOfSearch: "negative"
+    },
+    hideAccountFilters: {
+        acceptedPages: [
+            "membersAllPages",
+            "journalPage",
+            "listsAllPages",
+            "diary",
+            "tags",
+            "followers",
+            "following",
+            "followersYouKnow",
+            "blocked",
+            "reviewers",
+            "userReview",
+            "activityAllPages",
+            "filmSingle"
+        ],
+        typeOfSearch: "negative"
+    },
+    hideContentFilters: {
         acceptedPages: [
             "membersAllPages",
             "journalPage",

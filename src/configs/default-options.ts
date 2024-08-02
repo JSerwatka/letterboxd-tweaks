@@ -1,8 +1,8 @@
-import { FilterConfigType } from "@options/filter/filter";
+import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType } from "@options/filter/filter";
 import { AccountLinksKeys, NavbarActionsConfig, NavbarLinksKeys, ProfileLinksKeys } from "@options/navbar/navbar";
 import { SortConfigType } from "@options/sort/sort";
 
-export interface OptionsBase {
+interface OptionBase {
     id: string;
     title: string;
     description: string;
@@ -11,13 +11,25 @@ export interface OptionsBase {
     function: FunctionName;
 } 
 
-type Options = 
-    OptionsBase 
-    | { function: "hideFilters", config: FilterConfigType }
-    | { function: "hideSort", config: SortConfigType }
-    | { function: "accountMenuActions", config: NavbarActionsConfig<AccountLinksKeys> }
-    | { function: "profileMenuActions", config: NavbarActionsConfig<ProfileLinksKeys> }
-    | { function: "navbarMenuActions", config: NavbarActionsConfig<NavbarLinksKeys> };
+// export type Option = OptionBase & (
+//     { function: FunctionName } | 
+//     { function: "hideSort", config: SortConfigType } | 
+//     { function: "hideAccountFilters", config: AccountFilterConfigType } |
+//     { function: "hideFilmFilters", config: FilmFilterConfigType } |
+//     { function: "hideContentFilters", config: ContentFilterConfigType } |
+//     { function: "accountMenuActions", config: NavbarActionsConfig<AccountLinksKeys> } |
+//     { function: "profileMenuActions", config: NavbarActionsConfig<ProfileLinksKeys> } |
+//     { function: "navbarMenuActions", config: NavbarActionsConfig<NavbarLinksKeys> }
+// );
+
+export type Option = OptionBase & 
+    {
+        config?: SortConfigType | 
+                 AccountFilterConfigType | 
+                 FilmFilterConfigType | 
+                 ContentFilterConfigType | 
+                 NavbarActionsConfig<AccountLinksKeys | ProfileLinksKeys | NavbarLinksKeys>
+    };
 
 export type Section = "films" | "filter" | "lists" | "navbar" | "search" | "sort";
 
@@ -25,7 +37,9 @@ export type FunctionName =
     | "moveMovieDataToHeader"
     | "hideService"
     | "showFilmData"
-    | "hideFilters"
+    | "hideFilmFilters"
+    | "hideAccountFilters"
+    | "hideContentFilters"
     | "makeNewListPrivate"
     | "addMovieToPrivateList"
     | "accountMenuActions"
@@ -35,7 +49,7 @@ export type FunctionName =
     | "hideSort";
 
 
-export const defaultOptions: Options[] = [
+export const defaultOptions: Option[] = [
     // ----- FILMS -----
     {
         id: "5a16c928-7bba-4851-8fdc-e6f59fa4d123",
@@ -256,99 +270,99 @@ export const defaultOptions: Options[] = [
         title: "Hide 'Fade watched movies' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideAccountFilters",
         checked: false,
-        config: { accountFilters: { toHide: ["Fade watched movies"] } }
+        config: { toHide: ["Fade watched movies"] }
     },
     {
         id: "39ec6eb4-1384-49df-9664-6ff2d8255148",
         title: "Hide 'Show custom posters' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideAccountFilters",
         checked: false,
-        config: { accountFilters: { toHide: ["Show custom posters"] } }
+        config: { toHide: ["Show custom posters"] }
     },
     {
         id: "604ca9fb-d91e-4651-98ed-722943f0583d",
         title: "Hide 'Show/hide watched movies' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide watched movies"] } }
+        config: { toHide: ["Show/hide watched movies"] }
     },
     {
         id: "0da1fb63-2ae1-4180-b1ca-72311a297156",
         title: "Hide 'Show/hide liked movies' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide liked movies"] } }
+        config: { toHide: ["Show/hide liked movies"] }
     },
     {
         id: "c5e09c57-e0ec-4d8b-b680-8dcbfa8c4b00",
         title: "Hide 'Show/hide reviewed films' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide reviewed films"] } }
+        config: { toHide: ["Show/hide reviewed films"] } 
     },
     {
         id: "47d993eb-8de1-46aa-88e3-096902dab498",
         title: "Hide 'Show/hide rewatched films' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide rewatched films"] } }
+        config: { toHide: ["Show/hide rewatched films"] }  
     },
     {
         id: "30c62cfe-aec2-45cb-90bb-2a01d9a70bb7",
         title: "Hide 'Show/hide logged films' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide logged films"] } }
+        config: { toHide: ["Show/hide logged films"] }
     },
     {
         id: "d8d9fa87-e9be-47cd-adbe-caebb0c2009a",
         title: "Hide 'Show/hide rated films' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide rated films"] } }
+        config: { toHide: ["Show/hide rated films"] }
     },
     {
         id: "3e9daafe-ccab-4e72-883a-cdaf41e2232d",
         title: "Hide 'Show/hide films in watchlist' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideFilmFilters",
         checked: false,
-        config: { filmFilters: { toHide: ["Show/hide films in watchlist"] } }
+        config: { toHide: ["Show/hide films in watchlist"] }
     },
     {
         id: "4a589e1f-d063-44cd-85c4-972f18f1df00",
         title: "Hide 'Hide documentaries' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideContentFilters",
         checked: false,
-        config: { contentFilters: { toHide: ["Hide documentaries"] } }
+        config: { toHide: ["Hide documentaries"] }
     },
     {
         id: "86dcc4ad-f5f1-491c-8974-34fc4cb903d2",
         title: "Hide 'Hide unreleased titles' filter",
         description: "",
         section: "filter",
-        function: "hideFilters",
+        function: "hideContentFilters",
         checked: false,
-        config: { contentFilters: { toHide: ["Hide unreleased titles"] } }
+        config: { toHide: ["Hide unreleased titles"] }
     },
     // ----- SORT -----
     {
