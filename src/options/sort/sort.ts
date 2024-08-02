@@ -54,14 +54,14 @@ const SORT_OPTIONS_SELECTORS = {
 } as const;
 
 // TODO v2 use only filters that are for a given page. Currently it hides all sort options, even if they are not present on the page
-const SORT_OPTIONS_PER_PAGE: Record<string, SortOptionName[]> = {
-    all: ["Film name", "Your interests", "Film length"],
-    userFilms: ["When Rated", "Shuffle"],
-    watchlist: ["Shuffle", "Your Rating"],
-    films: ["Film Popularity with Friends", "Your Rating"],
-    listUser: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date"],
-    listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"]
-};
+// const SORT_OPTIONS_PER_PAGE: Record<string, SortOptionName[]> = {
+//     all: ["Film name", "Your interests", "Film length"],
+//     userFilms: ["When Rated", "Shuffle"],
+//     watchlist: ["Shuffle", "Your Rating"],
+//     films: ["Film Popularity with Friends", "Your Rating"],
+//     listUser: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date"],
+//     listOtherUsers: ["Your Rating", "Shuffle", "Reverse Order", "Your Diary Date", "Owner Diary Date", "Owner Rating"]
+// };
 
 // hides some sort options defined above
 export async function hideSort(config: SortConfigType) {

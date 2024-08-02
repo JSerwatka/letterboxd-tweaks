@@ -5,9 +5,9 @@ export type FilmFilterName = keyof typeof FILM_FILTERS_SELECTORS;
 export type ContentFilterName = keyof typeof CONTENT_FILTERS_SELECTORS;
 
 export type FilterConfigType = {
-    accountFilters: { toHide: AccountFilterName[] };
-    filmFilters: { toHide: FilmFilterName[] };
-    contentFilters: { toHide: ContentFilterName[] };
+    accountFilters?: { toHide: AccountFilterName[] };
+    filmFilters?: { toHide: FilmFilterName[] };
+    contentFilters?: { toHide: ContentFilterName[] };
 };
 
 const ACCOUNT_FILTERS_SELECTORS = {

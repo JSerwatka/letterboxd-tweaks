@@ -1,7 +1,10 @@
 import "@tailwind";
 import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-import { StorageSelectedOptions } from "@utils/chrome-storage";
-import { defaultOptions, Section } from "@configs/default-options";
+import { StorageSelectedOptions, syncWithOptionChromeStorage } from "@utils/chrome-storage";
+import { defaultOptions, FunctionName, Section } from "@configs/default-options";
+import { FilterConfigType } from "@options/filter/filter";
+import { NavbarActionsConfig, NavbarLinksKeys } from "@options/navbar/navbar";
+import { SortConfigType } from "@options/sort/sort";
 
 // TODO run functions of all options in storage
 
@@ -34,6 +37,12 @@ const loadImport = (section: Section) => {
     }
 };
 
+interface LoadedOptionType {
+    section: Section;
+    function: FunctionName;
+    config?: Section extends "filter" ? FilterConfigType : Section extends "navbar" ? NavbarActionsConfig<NavbarLinksKeys> : Section extends "sort" ? SortConfigType : never;
+} 
+
 async function main(): Promise<void> {
     console.log("options");
     const currentPageName = getPageFromPathname(window.location.pathname);
@@ -42,11 +51,35 @@ async function main(): Promise<void> {
     // console.log({ shouldRunFunctionOnPage: shouldRunFunctionOnPage(currentPageName, "showFilmData") });
 
     chrome.storage.sync.get(null, async (userSelectedOptions: StorageSelectedOptions) => {
+        const loadedOptions: LoadedOptionType[] = [];
+
         for (const [optionId] of Object.entries(userSelectedOptions)) {
             const checkedOptionFullData = defaultOptions.find(option => option.id === optionId);
+
             if (!checkedOptionFullData) {
                 console.error(`Option with id ${optionId} not found`);
                 continue;
+            }
+
+            if (checkedOptionFullData.isConfigType) {
+                switch (checkedOptionFullData.section) {
+                    case "filter":
+                        syncWithOptionChromeStorage(defaultOptions, setOptions);
+                        break;
+                    case "navbar":
+                        syncWithOptionChromeStorage(defaultOptions, setOptions);
+                        break;
+                    case "sort":
+                        syncWithOptionChromeStorage(defaultOptions, setOptions);
+                        break;
+                    default:
+                        continue;
+                }
+            } else {
+                loadedOptions.push({
+                    section: checkedOptionFullData.section,
+                    function: checkedOptionFullData.function
+                });
             }
 
             // TODO: remove any
@@ -54,6 +87,11 @@ async function main(): Promise<void> {
             functionFile[checkedOptionFullData.function]();
         }
     });
+}
+
+main();
+
+
 
     // const file = await import("@options/films");
     // file["showFilmData"]();
@@ -66,6 +104,3 @@ async function main(): Promise<void> {
     // file["redirect"]();
     // file['hideProfileMenuLinks']();
     // file['hideNavbarLinks']();
-}
-
-main();
