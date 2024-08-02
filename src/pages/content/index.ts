@@ -1,8 +1,7 @@
 import "@tailwind";
 import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
 import { StorageSelectedOptions, syncWithOptionChromeStorage } from "@utils/chrome-storage";
-import { defaultOptions, FunctionName, Section } from "@configs/default-options";
-import { FilterConfigType } from "@options/filter/filter";
+import { defaultOptions, FunctionName, Option, Section } from "@configs/default-options";
 import { NavbarActionsConfig, NavbarLinksKeys } from "@options/navbar/navbar";
 import { SortConfigType } from "@options/sort/sort";
 
@@ -37,11 +36,16 @@ const loadImport = (section: Section) => {
     }
 };
 
-interface LoadedOptionType {
-    section: Section;
-    function: FunctionName;
-    config?: Section extends "filter" ? FilterConfigType : Section extends "navbar" ? NavbarActionsConfig<NavbarLinksKeys> : Section extends "sort" ? SortConfigType : never;
-} 
+type LoadedOptionsType = {
+    [K in FunctionName]?: {
+        section: Section;
+        config?: {
+            toHide?: string[];
+            toRename?: { [key: string]: { renameTo: string } };
+            toRedirect?: { [key: string]: { redirectTo: string } };
+        }
+    };
+};
 
 async function main(): Promise<void> {
     console.log("options");
@@ -51,41 +55,52 @@ async function main(): Promise<void> {
     // console.log({ shouldRunFunctionOnPage: shouldRunFunctionOnPage(currentPageName, "showFilmData") });
 
     chrome.storage.sync.get(null, async (userSelectedOptions: StorageSelectedOptions) => {
-        const loadedOptions: LoadedOptionType[] = [];
+        const loadedOptions: LoadedOptionsType = {};
 
-        for (const [optionId] of Object.entries(userSelectedOptions)) {
+        for (const [optionId] of Object.entries(userSelectedOptions)) { 
             const checkedOptionFullData = defaultOptions.find(option => option.id === optionId);
 
             if (!checkedOptionFullData) {
                 console.error(`Option with id ${optionId} not found`);
-                continue;
+                return;
             }
 
-            if (checkedOptionFullData.isConfigType) {
-                switch (checkedOptionFullData.section) {
-                    case "filter":
-                        syncWithOptionChromeStorage(defaultOptions, setOptions);
-                        break;
-                    case "navbar":
-                        syncWithOptionChromeStorage(defaultOptions, setOptions);
-                        break;
-                    case "sort":
-                        syncWithOptionChromeStorage(defaultOptions, setOptions);
-                        break;
-                    default:
-                        continue;
-                }
-            } else {
-                loadedOptions.push({
+            const functionName = checkedOptionFullData.function;
+
+
+            if (!loadedOptions[functionName]) {
+                loadedOptions[functionName] = {
                     section: checkedOptionFullData.section,
-                    function: checkedOptionFullData.function
-                });
+                };
             }
 
-            // TODO: remove any
-            const functionFile = await loadImport(checkedOptionFullData.section) as any;
-            functionFile[checkedOptionFullData.function]();
+            
+            if (checkedOptionFullData.config?.toHide) {
+                loadedOptions[functionName].config ??= {};
+                loadedOptions[functionName].config["toHide"] = [...(loadedOptions[functionName].config.toHide ?? []), ...checkedOptionFullData.config.toHide];
+
+            }
+
+            if ("toRedirect" in (checkedOptionFullData?.config ?? {})) {
+                loadedOptions[functionName].config ??= {};
+                //@ts-ignore
+                loadedOptions[functionName].config["toRedirect"] = {...(loadedOptions[functionName].config.toRedirect ?? {}), ...(checkedOptionFullData?.config?.toRedirect )};
+            }
+
+            if ("toRename" in (checkedOptionFullData?.config ?? {})) {
+                loadedOptions[functionName].config ??= {};
+                //@ts-ignore
+                loadedOptions[functionName].config["toRename"] = {...(loadedOptions[functionName].config.toRename ?? {}), ...checkedOptionFullData.config.toRename };
+            }
         }
+
+        console.log(loadedOptions);
+
+        
+        //     // TODO: remove any
+        //     const functionFile = await loadImport(checkedOptionFullData.section) as any;
+        //     functionFile[checkedOptionFullData.function]();
+        // }
     });
 }
 
