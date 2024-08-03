@@ -1,5 +1,5 @@
 import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-import { AdditionalOptionConfigType, ContentFilterConfigType, FilmFilterConfigType, hideAdditionalOptions, hideContentFilters, hideFilmFilters } from "@options/filter/filter";
+import { AdditionalOptionConfigType, ContentFilterConfigType, AccountFilterConfigType, hideAdditionalOptions, hideContentFilters, hideAccountFilters } from "@options/filter/filter";
 
 
 const CONTENT_FILTER_CONFIG_DEFAULT: ContentFilterConfigType = {
@@ -16,7 +16,7 @@ const ADDITIONAL_OPTIONS_CONFIG_DEFAULT: AdditionalOptionConfigType = {
     ]
 };
 
-const FILM_FILTER_CONFIG_DEFAULT: FilmFilterConfigType = {
+const ACCOUNT_FILTER_CONFIG_DEFAULT: AccountFilterConfigType = {
     toHide: [
         "Show/hide watched movies",
         "Show/hide liked movies",
@@ -33,8 +33,8 @@ export const run = () => {
         hideAdditionalOptions(ADDITIONAL_OPTIONS_CONFIG_DEFAULT);
     }
     
-    if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideFilmFilters")) {
-        hideFilmFilters(FILM_FILTER_CONFIG_DEFAULT);
+    if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideAccountFilters")) {
+        hideAccountFilters(ACCOUNT_FILTER_CONFIG_DEFAULT);
     }
     
     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideContentFilters")) {
