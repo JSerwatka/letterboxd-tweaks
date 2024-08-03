@@ -49,6 +49,16 @@ export type FunctionName =
     | "hideSort";
 
 
+// Type guards
+export function hasToRedirect(config: Option['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
+    return config !== undefined && 'toRedirect' in config;
+}
+
+export function hasToRename(config: Option['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
+    return config !== undefined && 'toRename' in config;
+}
+
+
 export const defaultOptions: Option[] = [
     // ----- FILMS -----
     {

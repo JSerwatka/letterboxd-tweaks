@@ -1,21 +1,7 @@
 import "@tailwind";
-import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-import { StorageSelectedOptions, syncWithOptionChromeStorage } from "@utils/chrome-storage";
-import { defaultOptions, FunctionName, Option, Section } from "@configs/default-options";
-import { NavbarActionsConfig, NavbarLinksKeys } from "@options/navbar/navbar";
-import { SortConfigType } from "@options/sort/sort";
-
-// TODO run functions of all options in storage
-
-// console log all options in storage
-
-// chrome.storage.onChanged.addListener((changes, areaName) => {
-//     console.log(changes, areaName);
-//     if (areaName === "sync") {
-//         // console.log("local storage has changed", changes);
-//         // TODO run given option's function
-//     }
-// });
+import { getPageFromPathname } from "@utils/page-lookup";
+import { StorageSelectedOptions } from "@utils/chrome-storage";
+import { defaultOptions, FunctionName, hasToRedirect, hasToRename, Section } from "@configs/default-options";
 
 const loadImport = (section: Section) => {
     switch (section) {
@@ -48,15 +34,12 @@ type LoadedOptionsType = {
 };
 
 async function main(): Promise<void> {
-    console.log("options");
     const currentPageName = getPageFromPathname(window.location.pathname);
-    // await import("@options/films/filmsContainer");
-    // console.log({currentPageName});
-    // console.log({ shouldRunFunctionOnPage: shouldRunFunctionOnPage(currentPageName, "showFilmData") });
 
     chrome.storage.sync.get(null, async (userSelectedOptions: StorageSelectedOptions) => {
         const loadedOptions: LoadedOptionsType = {};
 
+        // Collect checked options
         for (const [optionId] of Object.entries(userSelectedOptions)) { 
             const checkedOptionFullData = defaultOptions.find(option => option.id === optionId);
 
@@ -78,18 +61,15 @@ async function main(): Promise<void> {
             if (checkedOptionFullData.config?.toHide) {
                 loadedOptions[functionName].config ??= {};
                 loadedOptions[functionName].config["toHide"] = [...(loadedOptions[functionName].config.toHide ?? []), ...checkedOptionFullData.config.toHide];
-
             }
 
-            if ("toRedirect" in (checkedOptionFullData?.config ?? {})) {
+            if (hasToRedirect(checkedOptionFullData.config)) {
                 loadedOptions[functionName].config ??= {};
-                //@ts-ignore
                 loadedOptions[functionName].config["toRedirect"] = {...(loadedOptions[functionName].config.toRedirect ?? {}), ...(checkedOptionFullData?.config?.toRedirect )};
             }
 
-            if ("toRename" in (checkedOptionFullData?.config ?? {})) {
+            if (hasToRename(checkedOptionFullData.config)) {
                 loadedOptions[functionName].config ??= {};
-                //@ts-ignore
                 loadedOptions[functionName].config["toRename"] = {...(loadedOptions[functionName].config.toRename ?? {}), ...checkedOptionFullData.config.toRename };
             }
         }
@@ -100,22 +80,7 @@ async function main(): Promise<void> {
             functionFile[funtionToRun](functionData.config);
         }
     });
-
-
 }
 
 main();
 
-
-
-    // const file = await import("@options/films");
-    // file["showFilmData"]();
-    // await import("@options/films/filmsContainer");
-    // await import("@options/films/filmsContainer");
-    // await import("@options/filter/filterContainer");
-    // file["renderSearch"]();
-    // file["addMovieToPrivateList"]();
-    // file["profileMenuActions"]();
-    // file["redirect"]();
-    // file['hideProfileMenuLinks']();
-    // file['hideNavbarLinks']();
