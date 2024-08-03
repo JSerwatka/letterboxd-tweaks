@@ -1,4 +1,4 @@
-import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType } from "@options/filter/filter";
+import { AdditionalOptionConfigType, ContentFilterConfigType, FilmFilterConfigType } from "@options/filter/filter";
 import { AccountLinksKeys, NavbarActionsConfig, NavbarLinksKeys, ProfileLinksKeys } from "@options/navbar/navbar";
 import { SortConfigType } from "@options/sort/sort";
 
@@ -25,7 +25,7 @@ interface OptionBaseType {
 export type OptionType = OptionBaseType & 
     {
         config?: SortConfigType | 
-                 AccountFilterConfigType | 
+                 AdditionalOptionConfigType | 
                  FilmFilterConfigType | 
                  ContentFilterConfigType | 
                  NavbarActionsConfig<AccountLinksKeys | ProfileLinksKeys | NavbarLinksKeys>
@@ -38,7 +38,7 @@ export type FunctionName =
     | "hideService"
     | "showFilmData"
     | "hideFilmFilters"
-    | "hideAccountFilters"
+    | "hideAdditionalOptions"
     | "hideContentFilters"
     | "makeNewListPrivate"
     | "addMovieToPrivateList"
@@ -280,7 +280,7 @@ export const defaultOptions: OptionType[] = [
         title: "Hide 'Fade watched movies' filter",
         description: "",
         section: "filter",
-        function: "hideAccountFilters",
+        function: "hideAdditionalOptions",
         checked: false,
         config: { toHide: ["Fade watched movies"] }
     },
@@ -289,7 +289,7 @@ export const defaultOptions: OptionType[] = [
         title: "Hide 'Show custom posters' filter",
         description: "",
         section: "filter",
-        function: "hideAccountFilters",
+        function: "hideAdditionalOptions",
         checked: false,
         config: { toHide: ["Show custom posters"] }
     },

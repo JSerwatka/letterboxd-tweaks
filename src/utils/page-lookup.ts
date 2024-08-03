@@ -165,7 +165,7 @@ const optionToPageMap: OptionToPageMap = {
         ],
         typeOfSearch: "negative"
     },
-    hideAccountFilters: {
+    hideAdditionalOptions: {
         acceptedPages: [
             "membersAllPages",
             "journalPage",

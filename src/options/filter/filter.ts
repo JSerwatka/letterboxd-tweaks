@@ -1,14 +1,14 @@
 import { waitForElement } from "@utils/element-observers";
 
-export type AccountFilterConfigType = { toHide: AccountFilterName[] };
+export type AdditionalOptionConfigType = { toHide: AdditionalOptionName[] };
 export type FilmFilterConfigType = { toHide: FilmFilterName[] };
 export type ContentFilterConfigType = { toHide: ContentFilterName[] };
 
-export type AccountFilterName = keyof typeof ACCOUNT_FILTERS_SELECTORS;
+export type AdditionalOptionName = keyof typeof ADDITIONAL_OPTIONS_SELECTORS;
 export type FilmFilterName = keyof typeof FILM_FILTERS_SELECTORS;
 export type ContentFilterName = keyof typeof CONTENT_FILTERS_SELECTORS;
 
-const ACCOUNT_FILTERS_SELECTORS = {
+const ADDITIONAL_OPTIONS_SELECTORS = {
     "Fade watched movies": "li.js-account-filters > label.js-fade-toggle",
     "Show custom posters": "li.js-account-filters > label.js-custom-poster-toggle"
 } as const;
@@ -31,13 +31,13 @@ const CONTENT_FILTERS_SELECTORS = {
 
 const FILTER_MENU_SELECTOR = "ul.smenu-menu > li[class$='filters']";
 
-export const hideAccountFilters = async (config: AccountFilterConfigType) => {
+export const hideAdditionalOptions = async (config: AdditionalOptionConfigType) => {
     const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
     
     if (!filterMenu) return;
 
     for (const option of config.toHide) {
-        const selector = ACCOUNT_FILTERS_SELECTORS[option];
+        const selector = ADDITIONAL_OPTIONS_SELECTORS[option];
         const element = await waitForElement(filterMenu, selector);
         if (element) {
             const parent = element.parentElement;
