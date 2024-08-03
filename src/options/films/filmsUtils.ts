@@ -127,7 +127,8 @@ export class Film {
             boxShadow: "none",
             borderRadius: "8px",
             background: "#7eb4f121",
-            backdropFilter: "blur(10px)"
+            backdropFilter: "blur(10px)",
+            overflow: "hidden"
         };
 
         let aTagStyles: CSS.Properties = {
