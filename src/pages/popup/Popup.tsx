@@ -23,7 +23,7 @@ const Popup = () => {
     };
 
     return (
-        <main class="w-96 p-3">
+        <main class="w-[420px] p-3">
             <div class="py-4 flex flex-row justify-between items-center">
                 <h1 class="text-lg">Letterboxd Tweaks</h1>
                 <a
@@ -54,9 +54,11 @@ const Popup = () => {
                 </select>
             </div>
             {optionsChanged() && (
-                <div class="flex justify-center items-center mt-3">
+                <div class="flex justify-center items-center mt-3 p-2 rounded-md bg-yellow-200">
                     <InfoIcon />
-                    <span class="text-sm ml-2">Options changed, please reload the page</span>
+                    <span class="text-sm ml-2">
+                        <span class="block">Option applied</span> please reload the page to see the changes
+                    </span>
                 </div>
             )}
             <div class="max-h-80 h-auto overflow-auto pr-3 mt-3">
