@@ -94,14 +94,14 @@ async function main(): Promise<void> {
             }
         }
 
-        console.log(loadedOptions);
-
-        
-        //     // TODO: remove any
-        //     const functionFile = await loadImport(checkedOptionFullData.section) as any;
-        //     functionFile[checkedOptionFullData.function]();
-        // }
+        // Run checked options
+        for (const [funtionToRun, functionData] of Object.entries(loadedOptions)) {
+            const functionFile = await loadImport(functionData.section) as any;
+            functionFile[funtionToRun](functionData.config);
+        }
     });
+
+
 }
 
 main();
