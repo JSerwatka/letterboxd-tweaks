@@ -1,5 +1,5 @@
 import "@tailwind";
-import { getPageFromPathname } from "@utils/page-lookup";
+import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
 import { StorageSelectedOptions } from "@utils/chrome-storage";
 import { defaultOptions, FunctionName, hasToRedirect, hasToRename, Section } from "@configs/default-options";
 
@@ -75,7 +75,9 @@ async function main(): Promise<void> {
         }
 
         // Run checked options
-        for (const [funtionToRun, functionData] of Object.entries(loadedOptions)) {
+        for (const [funtionToRun , functionData] of Object.entries(loadedOptions)) {
+            if (!shouldRunFunctionOnPage(currentPageName, (funtionToRun as FunctionName))) continue;
+
             const functionFile = await loadImport(functionData.section) as any;
             functionFile[funtionToRun](functionData.config);
         }
