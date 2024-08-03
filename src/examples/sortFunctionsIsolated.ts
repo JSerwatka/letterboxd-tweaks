@@ -18,6 +18,9 @@
 //     ]
 // };
 
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideSort")) {
-//     hideSort(SORT_CONFIG_DEFAULT);
+// export const run = () => {
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideSort")) {
+//         hideSort(SORT_CONFIG_DEFAULT);
+//     }
 // }
+

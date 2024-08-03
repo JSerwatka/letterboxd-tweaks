@@ -10,7 +10,10 @@
 // };
 
 // const ACCOUNT_FILTER_CONFIG_DEFAULT: AccountFilterConfigType = {
-//     toHide: ["Fade watched movies", "Show custom posters"]
+//     toHide: [
+//         "Fade watched movies", 
+//         "Show custom posters"
+//     ]
 // };
 
 // const FILM_FILTER_CONFIG_DEFAULT: FilmFilterConfigType = {
@@ -25,14 +28,17 @@
 //     ]
 // };
 
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideAccountFilters")) {
-//     hideAccountFilters(ACCOUNT_FILTER_CONFIG_DEFAULT);
+// export const run = () => {
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideAccountFilters")) {
+//         hideAccountFilters(ACCOUNT_FILTER_CONFIG_DEFAULT);
+//     }
+    
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideFilmFilters")) {
+//         hideFilmFilters(FILM_FILTER_CONFIG_DEFAULT);
+//     }
+    
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideContentFilters")) {
+//         hideContentFilters(CONTENT_FILTER_CONFIG_DEFAULT);
+//     }   
 // }
 
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideFilmFilters")) {
-//     hideFilmFilters(FILM_FILTER_CONFIG_DEFAULT);
-// }
-
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideContentFilters")) {
-//     hideContentFilters(CONTENT_FILTER_CONFIG_DEFAULT);
-// }   
