@@ -44,9 +44,12 @@ export const hideAdditionalOptions = async (config: AdditionalOptionConfigType) 
             parent?.remove();
         }
     }
-    // remove only if both ACCOUNT_FILTERS_SELECTORS elements are removed
-    const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
-    elementWithDivider?.classList.remove("divider-line");
+    // Remove only if both 'Additional options' elements are removed
+    // There is no better way to know if you should remove divider line
+    if (config.toHide.length === 2) {
+        const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
+        elementWithDivider?.classList.remove("divider-line");
+    }
 }
 
 export const hideAccountFilters = async (config: AccountFilterConfigType) => {
