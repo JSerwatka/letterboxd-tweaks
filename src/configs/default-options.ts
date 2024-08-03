@@ -2,7 +2,7 @@ import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType 
 import { AccountLinksKeys, NavbarActionsConfig, NavbarLinksKeys, ProfileLinksKeys } from "@options/navbar/navbar";
 import { SortConfigType } from "@options/sort/sort";
 
-interface OptionBase {
+interface OptionBaseType {
     id: string;
     title: string;
     description: string;
@@ -22,7 +22,7 @@ interface OptionBase {
 //     { function: "navbarMenuActions", config: NavbarActionsConfig<NavbarLinksKeys> }
 // );
 
-export type Option = OptionBase & 
+export type OptionType = OptionBaseType & 
     {
         config?: SortConfigType | 
                  AccountFilterConfigType | 
@@ -50,16 +50,16 @@ export type FunctionName =
 
 
 // Type guards
-export function hasToRedirect(config: Option['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
+export function hasToRedirect(config: OptionType['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
     return config !== undefined && 'toRedirect' in config;
 }
 
-export function hasToRename(config: Option['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
+export function hasToRename(config: OptionType['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
     return config !== undefined && 'toRename' in config;
 }
 
 
-export const defaultOptions: Option[] = [
+export const defaultOptions: OptionType[] = [
     // ----- FILMS -----
     {
         id: "5a16c928-7bba-4851-8fdc-e6f59fa4d123",

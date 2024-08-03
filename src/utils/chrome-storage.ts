@@ -1,9 +1,9 @@
-import { Options } from "@configs/default-options";
+import { type OptionType } from "@configs/default-options";
 import { SetStoreFunction } from "solid-js/store";
 
-export type StorageSelectedOptions = Record<Options["id"], boolean>;
+export type StorageSelectedOptions = Record<OptionType["id"], boolean>;
 
-export const modifyOptionChromeStorage = (id: Options["id"], task: "add" | "remove") => {
+export const modifyOptionChromeStorage = (id: OptionType["id"], task: "add" | "remove") => {
     if (task === "add") {
         chrome.storage.sync.set({ [id]: true });
     } else {
@@ -12,10 +12,10 @@ export const modifyOptionChromeStorage = (id: Options["id"], task: "add" | "remo
 };
 
 export const syncWithOptionChromeStorage = (
-    defaultOptions: Options[],
-    setStoreFunction: SetStoreFunction<Options[]>
+    defaultOptions: OptionType[],
+    setStoreFunction: SetStoreFunction<OptionType[]>
 ) => {
-    const defaultOptionsCopy = JSON.parse(JSON.stringify(defaultOptions)) as Options[];
+    const defaultOptionsCopy = JSON.parse(JSON.stringify(defaultOptions)) as OptionType[];
 
     chrome.storage.sync.get(null, (setOptionsIds: StorageSelectedOptions) => {
         defaultOptionsCopy.forEach((option) => {

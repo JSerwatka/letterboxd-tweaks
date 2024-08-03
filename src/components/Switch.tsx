@@ -1,7 +1,7 @@
 import { useOptionsContext } from "@context/OptionsContext";
-import { Options } from "@configs/default-options";
+import { type OptionType } from "@configs/default-options";
 
-type SwitchProps = Pick<Options, "id" | "checked">;
+type SwitchProps = Pick<OptionType, "id" | "checked">;
 
 const Switch = (props: SwitchProps) => {
     const { handleCheckChange } = useOptionsContext();
