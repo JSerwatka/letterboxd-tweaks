@@ -70,7 +70,8 @@ export class Film {
                 "section.js-watchlist-main-content ul.-p125",
                 "section#popular-films ul.-p230",
                 "body.similar-films ul.-p125",
-                "body.similar-films section.poster-list.-p230"
+                "body.similar-films section.poster-list.-p230",
+                "body.filmography-page ul.-p125"
             ],
             small: [
                 "body.films-watched ul.-p70",

@@ -49,6 +49,7 @@ const MENU_LINKS = {
         menuItemSelector: "li"
     }
 } as const satisfies NavLinksSelectors;
+
 export async function accountMenuActions(config: NavbarActionsConfig<AccountLinksKeys>): Promise<void> {
     const accountMenu = await waitForElement(document, ACCOUNT_MENU_SELECTOR);
     if (!accountMenu) return;

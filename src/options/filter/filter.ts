@@ -1,12 +1,20 @@
 import { waitForElement } from "@utils/element-observers";
 
+export type AccountFilterConfigType = { toHide: AccountFilterName[] };
+export type FilmFilterConfigType = { toHide: FilmFilterName[] };
+export type ContentFilterConfigType = { toHide: ContentFilterName[] };
+
+export type AccountFilterName = keyof typeof ACCOUNT_FILTERS_SELECTORS;
+export type FilmFilterName = keyof typeof FILM_FILTERS_SELECTORS;
+export type ContentFilterName = keyof typeof CONTENT_FILTERS_SELECTORS;
+
 const ACCOUNT_FILTERS_SELECTORS = {
     "Fade watched movies": "li.js-account-filters > label.js-fade-toggle",
     "Show custom posters": "li.js-account-filters > label.js-custom-poster-toggle"
 } as const;
 
 // for every filter there are 2 subfilters
-const FILM_FILTER_SELECTORS = {
+const FILM_FILTERS_SELECTORS = {
     "Show/hide watched movies": "li.js-film-filter[data-category='watched']",
     "Show/hide liked movies": "li.js-film-filter[data-category='liked']",
     "Show/hide reviewed films": "li.js-film-filter[data-category='reviewed']",
@@ -21,13 +29,15 @@ const CONTENT_FILTERS_SELECTORS = {
     "Hide unreleased titles": "li.js-film-filter[data-category='unreleased']"
 } as const;
 
-// hides film filters specified in the configs above
-export async function hideFilters() {
-    const filterMenu = (await waitForElement(document, "ul.smenu-menu > li[class$='filters']"))?.parentElement;
+const FILTER_MENU_SELECTOR = "ul.smenu-menu > li[class$='filters']";
 
+export const hideAccountFilters = async (config: AccountFilterConfigType) => {
+    const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
+    
     if (!filterMenu) return;
 
-    for (const [option, selector] of Object.entries(ACCOUNT_FILTERS_SELECTORS)) {
+    for (const option of config.toHide) {
+        const selector = ACCOUNT_FILTERS_SELECTORS[option];
         const element = await waitForElement(filterMenu, selector);
         if (element) {
             const parent = element.parentElement;
@@ -37,15 +47,30 @@ export async function hideFilters() {
     // remove only if both ACCOUNT_FILTERS_SELECTORS elements are removed
     const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
     elementWithDivider?.classList.remove("divider-line");
+}
 
-    for (const [option, selector] of Object.entries(FILM_FILTER_SELECTORS)) {
+export const hideFilmFilters = async (config: FilmFilterConfigType) => {
+    const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
+
+    if (!filterMenu) return;
+
+    for (const option of config.toHide) {
+        const selector = FILM_FILTERS_SELECTORS[option];
         const showElement = await waitForElement(document, selector + "[data-type='show");
         const hideElement = await waitForElement(document, selector + "[data-type='hide");
         showElement?.remove();
         hideElement?.remove();
     }
+};
 
-    for (const [option, selector] of Object.entries(CONTENT_FILTERS_SELECTORS)) {
+
+export const hideContentFilters = async (config: ContentFilterConfigType) => {
+    const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
+
+    if (!filterMenu) return;
+
+    for (const option of config.toHide) {
+        const selector = CONTENT_FILTERS_SELECTORS[option];
         const element = await waitForElement(filterMenu, selector);
         element?.remove();
     }

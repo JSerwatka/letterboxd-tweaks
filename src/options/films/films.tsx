@@ -77,7 +77,7 @@ export async function hideService() {
 
 // --- DESC: Shows duration and genre on top of film details page ---
 export async function moveMovieDataToHeader() {
-    const filmHeaderSection = await waitForElement(document, "#featured-film-header");
+    const filmHeaderSection = await waitForElement(document, "section.film-header-group");
 
     const durationSection = await waitForElement(document, "p.text-footer");
 
@@ -98,7 +98,6 @@ export async function moveMovieDataToHeader() {
     }
 
     const genreSection = (await waitForElement(document, "#tab-genres a[href*='/films/genre']"))?.parentElement;
-
     if (genreSection) {
         const genreLinks = Array.from(genreSection.children);
         const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);

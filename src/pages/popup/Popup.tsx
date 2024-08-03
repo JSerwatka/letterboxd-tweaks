@@ -1,21 +1,22 @@
 import { For, createEffect, createMemo, createSignal, onCleanup, onMount } from "solid-js";
 import Option from "@components/Option";
-import { useOptionsContext } from "@context/OptionsContext";
+import { optionsChanged, useOptionsContext } from "@context/OptionsContext";
 import "@styles/microtip.css";
 import { projectTime } from "@configs/project-data";
 import groupBy from "lodash.groupby";
 import { Section } from "@configs/default-options";
+import { InfoIcon } from "@components/InfoIcon";
 
-type SectionFilter = Section | "All";
-const FILTER_SECTIONS: SectionFilter[] = ["All", "Films", "Filter", "Lists", "Navbar", "Search", "Sort"];
+type SectionFilter = Section | "all";
+const FILTER_SECTIONS: SectionFilter[] = ["all", "films", "filter", "lists", "navbar", "search", "sort"];
 
 const Popup = () => {
-    const [sectionFilter, setSectionFilter] = createSignal<SectionFilter>("All");
+    const [sectionFilter, setSectionFilter] = createSignal<SectionFilter>("all");
     const { options } = useOptionsContext();
     const groupedOptions = () => groupBy(options, (item) => item.section);
 
     const groupedOptionsFiltered = () => {
-        if (sectionFilter() === "All") {
+        if (sectionFilter() === "all") {
             return groupedOptions();
         }
         return { [sectionFilter()]: groupedOptions()[sectionFilter()] };
@@ -52,11 +53,18 @@ const Popup = () => {
                     <For each={FILTER_SECTIONS}>{(section) => <option value={section}>{section}</option>}</For>
                 </select>
             </div>
-
+            {optionsChanged() && (
+                <div class="flex justify-center items-center mt-3">
+                    <InfoIcon />
+                    <span class="text-sm ml-2">Options changed, please reload the page</span>
+                </div>
+            )}
             <div class="max-h-80 h-auto overflow-auto pr-3 mt-3">
                 {Object.entries(groupedOptionsFiltered()).map(([section, options]) => (
                     <div>
-                        <h1 class="text-center text-xl bg-gray-200 rounded-md py-2">{section}</h1>
+                        <h1 class="text-center text-xl bg-gray-200 rounded-md py-2">
+                            {section[0].toUpperCase() + section.slice(1)}
+                        </h1>
                         <For each={options}>
                             {(option) => (
                                 <Option
