@@ -1,5 +1,5 @@
 // import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-// import { hideService, showFilmData, moveMovieDataToHeader } from "./films";
+// import { hideService, showFilmData, moveMovieDataToHeader } from "@options/films/films";
 
 
 

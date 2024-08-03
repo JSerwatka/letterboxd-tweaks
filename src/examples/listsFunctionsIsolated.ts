@@ -1,7 +1,6 @@
 // import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-// import { makeNewListPrivate, addMovieToPrivateList } from "./lists";
+// import { makeNewListPrivate, addMovieToPrivateList } from "@options/lists/lists";
 
-// // TODO run given function based on selected options
 // if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "makeNewListPrivate")) {
 //     makeNewListPrivate();
 // }

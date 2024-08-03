@@ -1,9 +1,7 @@
 // import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-// import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType, hideAccountFilters, hideContentFilters, hideFilmFilters } from "./filter";
+// import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType, hideAccountFilters, hideContentFilters, hideFilmFilters } from "@options/filter/filter";
 
-// // TODO: add config default (dev_only) + based on user options
 
-// // TODO this is only for dev, use user selected options
 // const CONTENT_FILTER_CONFIG_DEFAULT: ContentFilterConfigType = {
 //     toHide: [
 //         "Hide documentaries",

@@ -1,7 +1,6 @@
 // import { getPageFromPathname, shouldRunFunctionOnPage } from "@utils/page-lookup";
-// import { renderSearch } from "./search";
+// import { renderSearch } from "@options/search/search";
 
-// // TODO: run if user option selected
 
 // if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "renderSearch")) {
 //     renderSearch();
