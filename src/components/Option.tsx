@@ -1,7 +1,7 @@
 import Switch from "@components/Switch";
-import { Options } from "@configs/default-options";
+import { type OptionType } from "@configs/default-options";
 
-type OptionProps = Omit<Options, "function" | "section">;
+type OptionProps = Omit<OptionType, "function" | "section">;
 
 const Option = (props: OptionProps) => {
     return (

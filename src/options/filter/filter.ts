@@ -1,20 +1,21 @@
 import { waitForElement } from "@utils/element-observers";
+import { findParentByChild } from "@utils/selectors";
 
+export type AdditionalOptionConfigType = { toHide: AdditionalOptionName[] };
 export type AccountFilterConfigType = { toHide: AccountFilterName[] };
-export type FilmFilterConfigType = { toHide: FilmFilterName[] };
 export type ContentFilterConfigType = { toHide: ContentFilterName[] };
 
+export type AdditionalOptionName = keyof typeof ADDITIONAL_OPTIONS_SELECTORS;
 export type AccountFilterName = keyof typeof ACCOUNT_FILTERS_SELECTORS;
-export type FilmFilterName = keyof typeof FILM_FILTERS_SELECTORS;
 export type ContentFilterName = keyof typeof CONTENT_FILTERS_SELECTORS;
 
-const ACCOUNT_FILTERS_SELECTORS = {
+const ADDITIONAL_OPTIONS_SELECTORS = {
     "Fade watched movies": "li.js-account-filters > label.js-fade-toggle",
     "Show custom posters": "li.js-account-filters > label.js-custom-poster-toggle"
 } as const;
 
 // for every filter there are 2 subfilters
-const FILM_FILTERS_SELECTORS = {
+const ACCOUNT_FILTERS_SELECTORS = {
     "Show/hide watched movies": "li.js-film-filter[data-category='watched']",
     "Show/hide liked movies": "li.js-film-filter[data-category='liked']",
     "Show/hide reviewed films": "li.js-film-filter[data-category='reviewed']",
@@ -31,35 +32,49 @@ const CONTENT_FILTERS_SELECTORS = {
 
 const FILTER_MENU_SELECTOR = "ul.smenu-menu > li[class$='filters']";
 
-export const hideAccountFilters = async (config: AccountFilterConfigType) => {
+export const hideAdditionalOptions = async (config: AdditionalOptionConfigType) => {
     const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
     
     if (!filterMenu) return;
 
     for (const option of config.toHide) {
-        const selector = ACCOUNT_FILTERS_SELECTORS[option];
+        const selector = ADDITIONAL_OPTIONS_SELECTORS[option];
         const element = await waitForElement(filterMenu, selector);
         if (element) {
             const parent = element.parentElement;
             parent?.remove();
         }
     }
-    // remove only if both ACCOUNT_FILTERS_SELECTORS elements are removed
-    const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
-    elementWithDivider?.classList.remove("divider-line");
+    // Remove divider line only if both 'Additional options' elements are removed
+    if (config.toHide.length === Object.keys(ADDITIONAL_OPTIONS_SELECTORS).length) {
+        const firstDividerLine = filterMenu.querySelector(".smenu-selected") as HTMLElement | null;
+        if (!firstDividerLine) return;
+
+        firstDividerLine.style.borderBottom = "none";
+    }
 }
 
-export const hideFilmFilters = async (config: FilmFilterConfigType) => {
+export const hideAccountFilters = async (config: AccountFilterConfigType) => {
     const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
+    let accountFilterSection: Element | null | undefined = null;
 
     if (!filterMenu) return;
 
     for (const option of config.toHide) {
-        const selector = FILM_FILTERS_SELECTORS[option];
+        const selector = ACCOUNT_FILTERS_SELECTORS[option];
         const showElement = await waitForElement(document, selector + "[data-type='show");
         const hideElement = await waitForElement(document, selector + "[data-type='hide");
+
+        if (!accountFilterSection) {
+            accountFilterSection = showElement && findParentByChild(showElement, ".js-account-filters", "span.smenu-sublabel");
+        }
+
         showElement?.remove();
         hideElement?.remove();
+    }
+
+    if (config.toHide.length === Object.keys(ACCOUNT_FILTERS_SELECTORS).length) {
+        accountFilterSection?.remove();
     }
 };
 

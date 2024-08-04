@@ -1,8 +1,8 @@
-import { AccountFilterConfigType, ContentFilterConfigType, FilmFilterConfigType } from "@options/filter/filter";
+import { AdditionalOptionConfigType, ContentFilterConfigType, AccountFilterConfigType } from "@options/filter/filter";
 import { AccountLinksKeys, NavbarActionsConfig, NavbarLinksKeys, ProfileLinksKeys } from "@options/navbar/navbar";
 import { SortConfigType } from "@options/sort/sort";
 
-interface OptionBase {
+interface OptionBaseType {
     id: string;
     title: string;
     description: string;
@@ -14,19 +14,19 @@ interface OptionBase {
 // export type Option = OptionBase & (
 //     { function: FunctionName } | 
 //     { function: "hideSort", config: SortConfigType } | 
-//     { function: "hideAccountFilters", config: AccountFilterConfigType } |
-//     { function: "hideFilmFilters", config: FilmFilterConfigType } |
+//     { function: "hideAdditionalOptions", config: AccountFilterConfigType } |
+//     { function: "hideAccountFilters", config: FilmFilterConfigType } |
 //     { function: "hideContentFilters", config: ContentFilterConfigType } |
 //     { function: "accountMenuActions", config: NavbarActionsConfig<AccountLinksKeys> } |
 //     { function: "profileMenuActions", config: NavbarActionsConfig<ProfileLinksKeys> } |
 //     { function: "navbarMenuActions", config: NavbarActionsConfig<NavbarLinksKeys> }
 // );
 
-export type Option = OptionBase & 
+export type OptionType = OptionBaseType & 
     {
         config?: SortConfigType | 
+                 AdditionalOptionConfigType | 
                  AccountFilterConfigType | 
-                 FilmFilterConfigType | 
                  ContentFilterConfigType | 
                  NavbarActionsConfig<AccountLinksKeys | ProfileLinksKeys | NavbarLinksKeys>
     };
@@ -37,8 +37,8 @@ export type FunctionName =
     | "moveMovieDataToHeader"
     | "hideService"
     | "showFilmData"
-    | "hideFilmFilters"
     | "hideAccountFilters"
+    | "hideAdditionalOptions"
     | "hideContentFilters"
     | "makeNewListPrivate"
     | "addMovieToPrivateList"
@@ -50,16 +50,16 @@ export type FunctionName =
 
 
 // Type guards
-export function hasToRedirect(config: Option['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
+export function hasToRedirect(config: OptionType['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
     return config !== undefined && 'toRedirect' in config;
 }
 
-export function hasToRename(config: Option['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
+export function hasToRename(config: OptionType['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
     return config !== undefined && 'toRename' in config;
 }
 
 
-export const defaultOptions: Option[] = [
+export const defaultOptions: OptionType[] = [
     // ----- FILMS -----
     {
         id: "5a16c928-7bba-4851-8fdc-e6f59fa4d123",
@@ -280,7 +280,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Fade watched movies' filter",
         description: "",
         section: "filter",
-        function: "hideAccountFilters",
+        function: "hideAdditionalOptions",
         checked: false,
         config: { toHide: ["Fade watched movies"] }
     },
@@ -289,7 +289,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show custom posters' filter",
         description: "",
         section: "filter",
-        function: "hideAccountFilters",
+        function: "hideAdditionalOptions",
         checked: false,
         config: { toHide: ["Show custom posters"] }
     },
@@ -298,7 +298,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide watched movies' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide watched movies"] }
     },
@@ -307,7 +307,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide liked movies' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide liked movies"] }
     },
@@ -316,7 +316,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide reviewed films' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide reviewed films"] } 
     },
@@ -325,7 +325,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide rewatched films' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide rewatched films"] }  
     },
@@ -334,7 +334,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide logged films' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide logged films"] }
     },
@@ -343,7 +343,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide rated films' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide rated films"] }
     },
@@ -352,7 +352,7 @@ export const defaultOptions: Option[] = [
         title: "Hide 'Show/hide films in watchlist' filter",
         description: "",
         section: "filter",
-        function: "hideFilmFilters",
+        function: "hideAccountFilters",
         checked: false,
         config: { toHide: ["Show/hide films in watchlist"] }
     },

@@ -147,7 +147,7 @@ const optionToPageMap: OptionToPageMap = {
         acceptedPages: ["filmSingle"],
         typeOfSearch: "positive"
     },
-    hideFilmFilters: {
+    hideAccountFilters: {
         acceptedPages: [
             "membersAllPages",
             "journalPage",
@@ -165,7 +165,7 @@ const optionToPageMap: OptionToPageMap = {
         ],
         typeOfSearch: "negative"
     },
-    hideAccountFilters: {
+    hideAdditionalOptions: {
         acceptedPages: [
             "membersAllPages",
             "journalPage",

@@ -2,14 +2,16 @@
 // import { hideService, showFilmData, moveMovieDataToHeader } from "@options/films/films";
 
 
-
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "showFilmData")) {
-//     showFilmData();
-// }
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideService")) {
-//     hideService();
-// }
-
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "moveMovieDataToHeader")) {
-//     moveMovieDataToHeader();
+// export const run = () => {
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "showFilmData")) {
+//         showFilmData();
+//     }
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "hideService")) {
+//         hideService();
+//     }
+    
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "moveMovieDataToHeader")) {
+//         moveMovieDataToHeader();
+//     }
+    
 // }

@@ -9,8 +9,7 @@
 //     profileMenuActions
 // } from "@options/navbar/navbar";
 
-// // TODO: change config based on user options
-// // TODO: only for testing, don't use for prod
+
 // const ACCOUNT_CONFIG_DEFAULT: NavbarActionsConfig<AccountLinksKeys> = {
 //     toHide: ["Diary", "Home", "Likes", "Networks", "Reviews", "Reviews", "Subscriptions", "Tags"],
 //     toRedirect: { Films: { redirectTo: "size/large" } },
@@ -27,12 +26,15 @@
 //     toRedirect: { Films: { redirectTo: "size/large" } }
 // };
 
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "accountMenuActions")) {
-//     accountMenuActions(ACCOUNT_CONFIG_DEFAULT);
-// }
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "profileMenuActions")) {
-//     profileMenuActions(PROFILE_CONFIG_DEFAULT);
-// }
-// if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "navbarMenuActions")) {
-//     navbarMenuActions(NAVBAR_CONFIG_DEFAULT);
+// export const run = () => {
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "accountMenuActions")) {
+//         accountMenuActions(ACCOUNT_CONFIG_DEFAULT);
+//     }
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "profileMenuActions")) {
+//         profileMenuActions(PROFILE_CONFIG_DEFAULT);
+//     }
+//     if (shouldRunFunctionOnPage(getPageFromPathname(window.location.pathname), "navbarMenuActions")) {
+//         navbarMenuActions(NAVBAR_CONFIG_DEFAULT);
+//     }
+    
 // }
