@@ -1,4 +1,5 @@
 import { waitForElement } from "@utils/element-observers";
+import { findParentByChild } from "@utils/selectors";
 
 export type AdditionalOptionConfigType = { toHide: AdditionalOptionName[] };
 export type AccountFilterConfigType = { toHide: AccountFilterName[] };
@@ -44,16 +45,18 @@ export const hideAdditionalOptions = async (config: AdditionalOptionConfigType) 
             parent?.remove();
         }
     }
-    // Remove only if both 'Additional options' elements are removed
-    // There is no better way to know if you should remove divider line
-    if (config.toHide.length === 2) {
-        const elementWithDivider = filterMenu.querySelector(".divider-line.js-account-filters");
-        elementWithDivider?.classList.remove("divider-line");
+    // Remove divider line only if both 'Additional options' elements are removed
+    if (config.toHide.length === Object.keys(ADDITIONAL_OPTIONS_SELECTORS).length) {
+        const firstDividerLine = filterMenu.querySelector(".smenu-selected") as HTMLElement | null;
+        if (!firstDividerLine) return;
+
+        firstDividerLine.style.borderBottom = "none";
     }
 }
 
 export const hideAccountFilters = async (config: AccountFilterConfigType) => {
     const filterMenu = (await waitForElement(document, FILTER_MENU_SELECTOR))?.parentElement;
+    let accountFilterSection: Element | null | undefined = null;
 
     if (!filterMenu) return;
 
@@ -61,8 +64,17 @@ export const hideAccountFilters = async (config: AccountFilterConfigType) => {
         const selector = ACCOUNT_FILTERS_SELECTORS[option];
         const showElement = await waitForElement(document, selector + "[data-type='show");
         const hideElement = await waitForElement(document, selector + "[data-type='hide");
+
+        if (!accountFilterSection) {
+            accountFilterSection = showElement && findParentByChild(showElement, ".js-account-filters", "span.smenu-sublabel");
+        }
+
         showElement?.remove();
         hideElement?.remove();
+    }
+
+    if (config.toHide.length === Object.keys(ACCOUNT_FILTERS_SELECTORS).length) {
+        accountFilterSection?.remove();
     }
 };
 
