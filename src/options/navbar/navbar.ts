@@ -1,12 +1,12 @@
 import { waitForElement } from "@utils/element-observers";
 import { performAllActions } from "./navbarUtils";
 
-export type LinkSelectorConfig = { linkSelector: string; menuItemSelector: string };
+export type LinkSelectorConfig = { linkSelector: string; menuItemSelector: string; };
 export type NavLinksSelectors = Record<string, LinkSelectorConfig>;
 export interface NavbarActionsConfig<T extends keyof NavLinksSelectors> {
     toHide?: T[];
-    toRedirect?: { [K in T]?: { redirectTo: string } };
-    toRename?: { [K in T]?: { renameTo: string } };
+    toRedirect?: { [K in T]?: { redirectTo: string; } };
+    toRename?: { [K in T]?: { renameTo: string; } };
 }
 
 export type AccountLinksKeys = keyof typeof MENU_LINKS;
@@ -104,7 +104,7 @@ export async function profileMenuActions(config: NavbarActionsConfig<ProfileLink
             if (lastChild) lastChild.style.marginLeft = "0";
 
             list.style.display = "flex";
-            list.style.justifyContent = "space-evenly";
+            list.style.justifyContent = "center";
         }
     }
 
