@@ -275,7 +275,7 @@ export const defaultOptions: OptionType[] = [
         function: "navbarMenuActions",
         checked: false,
         config: { toHide: ["Activity"] },
-        explanationImageName: "hide-activity-navbar"
+        explanationImageName: "hide-activity-main-navbar"
     },
     {
         id: "d9e2f8bf-6f78-484a-a0c5-89e6f26d0bf1",
