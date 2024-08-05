@@ -4,7 +4,7 @@ import { cleanEmptyDescriptionLabels } from "./sortUtils";
 import { getLinkByHref } from "@utils/selectors";
 
 export type SortOptionName = keyof typeof SORT_OPTIONS_SELECTORS;
-export type SortConfigType = { toHide: SortOptionName[] };
+export type SortConfigType = { toHide: SortOptionName[]; };
 
 const SORT_OPTIONS_SELECTORS = {
     "Film name": {
