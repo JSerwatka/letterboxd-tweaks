@@ -96,7 +96,7 @@ export const defaultOptions: OptionType[] = [
         description: "While you type in the search bar it returns list of films",
         section: "search",
         function: "renderSearch",
-        checked: false,
+        checked: true,
         explanationImageName: "enable-improved-search"
     },
     // ----- LISTS -----
