@@ -28,10 +28,16 @@ const OptionItem = (props: {
             </div>
             <div
                 class={`overflow-hidden transition-all duration-500 ease-in-out ${
-                    props.isOpen ? "max-h-96" : "max-h-0"
+                    props.isOpen ? "max-h-[500px]" : "max-h-0"
                 }`}
             >
-                <div class="p-5 pt-0 leading-relaxed">{props.explanationImageName}</div>
+                <div class="flex justify-center items-center p-5">
+                    <img
+                        class="w-auto h-auto max-h-[450px] bg-white"
+                        src={`/info/${props.explanationImageName}.png`}
+                        alt={props.explanationImageName}
+                    />
+                </div>
             </div>
         </div>
     );
@@ -54,15 +60,21 @@ const Options = () => {
                         <>
                             <h1 class="text-3xl font-bold mb-6">{section}</h1>
                             <For each={groupedOptions()[section]}>
-                                {(option) => (
-                                    <OptionItem
-                                        id={option.id}
-                                        title={option.title}
-                                        explanationImageName={option.explanationImageName}
-                                        isOpen={openItemId() === option.id}
-                                        onToggle={toggleItem}
-                                    />
-                                )}
+                                {(option) => {
+                                    if (!option.explanationImageName) {
+                                        return null;
+                                    }
+
+                                    return (
+                                        <OptionItem
+                                            id={option.id}
+                                            title={option.title}
+                                            explanationImageName={option.explanationImageName}
+                                            isOpen={openItemId() === option.id}
+                                            onToggle={toggleItem}
+                                        />
+                                    );
+                                }}
                             </For>
                         </>
                     )}
