@@ -23,7 +23,7 @@ const Popup = () => {
     };
 
     return (
-        <main class="w-[420px] p-3">
+        <main class="w-[450px] p-3">
             <div class="py-4 flex flex-row justify-between items-center">
                 <h1 class="text-lg">Letterboxd Tweaks</h1>
                 <a
@@ -42,6 +42,32 @@ const Popup = () => {
                 </a>
             </div>
             <hr class="border-black" />
+            <div class={`flex gap-3 mt-3 p-2 rounded-md ${optionsChanged() ? "bg-yellow-200" : "bg-sky-200"}`}>
+                <div class="mb-3">
+                    <InfoIcon />
+                </div>
+                <div class="text-sm">
+                    {!optionsChanged() ? (
+                        <>
+                            <span class="block">Not sure what give option changes?</span>
+                            <span class="block">
+                                <a
+                                    class="no-underline text-fuchsia-700 font-semibold"
+                                    target="_blank"
+                                    href={`chrome-extension://${chrome.runtime.id}/src/pages/options/index.html`}
+                                >
+                                    Click here
+                                </a>{" "}
+                                for visual guide to every option.
+                            </span>
+                        </>
+                    ) : (
+                        <>
+                            Option applied <span class="font-semibold">please reload the page</span> to see the changes.
+                        </>
+                    )}
+                </div>
+            </div>
             <div class="text-lg pt-4 pb-2">
                 <div>Filter by feature category:</div>
                 <select
@@ -53,14 +79,6 @@ const Popup = () => {
                     <For each={FILTER_SECTIONS}>{(section) => <option value={section}>{section}</option>}</For>
                 </select>
             </div>
-            {optionsChanged() && (
-                <div class="flex justify-center items-center mt-3 p-2 rounded-md bg-yellow-200">
-                    <InfoIcon />
-                    <span class="text-sm ml-2">
-                        <span class="block">Option applied</span> please reload the page to see the changes
-                    </span>
-                </div>
-            )}
             <div class="max-h-80 h-auto overflow-auto pr-3 mt-3">
                 {Object.entries(groupedOptionsFiltered()).map(([section, options]) => (
                     <div>
