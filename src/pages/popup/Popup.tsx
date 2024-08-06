@@ -29,7 +29,7 @@ const Popup = () => {
                 <a
                     href="https://www.buymeacoffee.com/jserwatka"
                     target="_blank"
-                    aria-label={`It took me ${projectTime} to build this project, please consider supporting 🤗`}
+                    aria-label={`It took me over ${projectTime} to build this project, please consider supporting 🤗`}
                     data-microtip-position="bottom"
                     role="tooltip"
                     data-microtip-size="medium"
