@@ -57,7 +57,7 @@ const Options = () => {
             <div class="w-full max-w-3xl">
                 <For each={sections}>
                     {(section) => (
-                        <>
+                        <div class="mb-12">
                             <h1 class="text-3xl font-bold mb-6">{section}</h1>
                             <For each={groupedOptions()[section]}>
                                 {(option) => {
@@ -76,7 +76,7 @@ const Options = () => {
                                     );
                                 }}
                             </For>
-                        </>
+                        </div>
                     )}
                 </For>
             </div>
