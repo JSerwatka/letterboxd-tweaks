@@ -17,16 +17,11 @@ const manifest = defineManifest({
         default_popup: "src/pages/popup/index.html",
         default_icon: "icons/34x34.png"
     },
+    options_page: "src/pages/options/index.html",
     content_scripts: [
         {
             matches: ["http://*.letterboxd.com/*", "https://*.letterboxd.com/*"],
             js: ["src/pages/content/index.ts"]
-        }
-    ],
-    web_accessible_resources: [
-        {
-            resources: ["assets/js/*.js", "assets/css/*.css", "assets/img/*"],
-            matches: ["*://*/*"]
         }
     ]
 });
