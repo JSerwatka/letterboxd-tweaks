@@ -5,7 +5,7 @@ const manifest = defineManifest({
     name: "Letterboxd Tweaks",
     description: "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
     version: "0.0.1",
-    permissions: ["storage", "activeTab"],
+    permissions: ["storage"],
     icons: {
         '16': 'icons/logo-16.png',
         '32': 'icons/logo-32.png',
