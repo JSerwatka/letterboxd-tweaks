@@ -1,4 +1,5 @@
 # Coming soon...
+![logo-128](https://github.com/user-attachments/assets/24db487d-5e4f-47d3-b769-481f71a59c7e)
 
 # Letterboxd Tweaks
 ## Description
