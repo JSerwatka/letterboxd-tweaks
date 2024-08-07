@@ -3,7 +3,7 @@ import { defineManifest } from "@crxjs/vite-plugin";
 const manifest = defineManifest({
     manifest_version: 3,
     name: "Letterboxd Tweaks",
-    description: "Enhances the Letterboxd website with cleaner movie cards, a more efficient search bar, and an improved user interface that hides unnecessary filters, navbar items, and sort options",
+    description: "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
     version: "0.0.1",
     permissions: ["storage", "activeTab"],
     icons: {
