@@ -3,11 +3,14 @@ import { defineManifest } from "@crxjs/vite-plugin";
 const manifest = defineManifest({
     manifest_version: 3,
     name: "Letterboxd Tweaks",
+    description: "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
     version: "0.0.1",
-    description: "",
     permissions: ["storage", "activeTab"],
     icons: {
-        "128": "icons/128x128.png"
+        '16': 'icons/logo-16.png',
+        '32': 'icons/logo-32.png',
+        '48': 'icons/logo-48.png',
+        '128': 'icons/logo-128.png'
     },
     background: {
         service_worker: "src/pages/background/index.ts",
@@ -15,7 +18,7 @@ const manifest = defineManifest({
     },
     action: {
         default_popup: "src/pages/popup/index.html",
-        default_icon: "icons/34x34.png"
+        default_icon: "icons/logo-48.png"
     },
     options_page: "src/pages/options/index.html",
     content_scripts: [
@@ -23,7 +26,13 @@ const manifest = defineManifest({
             matches: ["http://*.letterboxd.com/*", "https://*.letterboxd.com/*"],
             js: ["src/pages/content/index.ts"]
         }
-    ]
+    ],
+    web_accessible_resources: [
+        {
+          resources: ['icons/logo-16.png', 'icons/logo-32.png', 'icons/logo-48.png', 'icons/logo-128.png'],
+          matches: []
+        }
+      ]
 });
 
 export default manifest;

@@ -25,7 +25,10 @@ const Popup = () => {
     return (
         <main class="w-[450px] p-3">
             <div class="py-4 flex flex-row justify-between items-center">
-                <h1 class="text-lg">Letterboxd Tweaks</h1>
+                <div class="flex flex-row items-center gap-3">
+                    <img src="/icons/logo-48.png" alt="Letterboxd Tweaks Logo" />
+                    <h1 class="text-lg">Letterboxd Tweaks</h1>
+                </div>
                 <a
                     href="https://www.buymeacoffee.com/jserwatka"
                     target="_blank"
