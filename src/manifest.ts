@@ -7,10 +7,10 @@ const manifest = defineManifest({
     version: "0.0.1",
     permissions: ["storage", "activeTab"],
     icons: {
-        '16': 'img/logo-16.png',
-        '32': 'img/logo-32.png',
-        '48': 'img/logo-48.png',
-        '128': 'img/logo-128.png'
+        '16': 'icons/logo-16.png',
+        '32': 'icons/logo-32.png',
+        '48': 'icons/logo-48.png',
+        '128': 'icons/logo-128.png'
     },
     background: {
         service_worker: "src/pages/background/index.ts",
@@ -18,7 +18,7 @@ const manifest = defineManifest({
     },
     action: {
         default_popup: "src/pages/popup/index.html",
-        default_icon: "icons/34x34.png"
+        default_icon: "icons/logo-48.png"
     },
     options_page: "src/pages/options/index.html",
     content_scripts: [
