@@ -1,6 +1,8 @@
 ![logo-128](https://github.com/user-attachments/assets/24db487d-5e4f-47d3-b769-481f71a59c7e)
 
 # Letterboxd Tweaks
+<a href="https://www.buymeacoffee.com/jserwatka" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: auto !important;" ></a>
+
 ## Description
 This Chrome extension enhances the Letterboxd website with cleaner movie cards, a more efficient search bar featuring instant movie suggestions, and an improved user interface that hides unnecessary filters, navbar items, and sort options, along with other quality of life improvements.
 
