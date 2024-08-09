@@ -52,7 +52,7 @@ const Popup = () => {
                 <div class="text-sm">
                     {!optionsChanged() ? (
                         <>
-                            <span class="block">Not sure what give option changes?</span>
+                            <span class="block">Not sure what given option changes?</span>
                             <span class="block">
                                 <a
                                     class="no-underline text-fuchsia-700 font-semibold"
