@@ -23,11 +23,11 @@ This Chrome extension enhances the Letterboxd website with cleaner movie cards, 
   ![image](https://github.com/JSerwatka/letterboxd-tweaks/assets/33938646/11f3eedd-c79c-4be6-bc63-970cb09237b2)
 
 ## Future Improvements
-- Display the cast member's image when hovering over their name.
-- Automatically add a movie to the diary after rating it.
-- Show an indicator if a movie is already in the watchlist.
-- Allow removing a movie from a list directly from the movie component.
-- Add keyboard shortcuts for search and make it a command component.
+- Display the cast member's image when hovering over their name. (https://github.com/JSerwatka/letterboxd-tweaks/issues/25)
+- Automatically add a movie to the diary after rating it. (https://github.com/JSerwatka/letterboxd-tweaks/issues/26)
+- Show an indicator if a movie is already in the watchlist. (https://github.com/JSerwatka/letterboxd-tweaks/issues/27)
+- Allow removing a movie from a list directly from the movie component. (https://github.com/JSerwatka/letterboxd-tweaks/issues/28)
+- Add keyboard shortcuts for search and make it a command component. (https://github.com/JSerwatka/letterboxd-tweaks/issues/29)
 
 If you have ideas for further improvements, please email them to jserwatka.dev@gmail.com or create an issue on this repository.
 
