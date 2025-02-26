@@ -71,7 +71,7 @@ export const FilmDataSmall = ({ film }: FilmDataProps) => {
                                 <HeartIcon />
                             </div>
                         )}
-                        <div title="rating" class={filmExtraData.ratingElementClasses}></div>
+                        <div title="rating" class={filmExtraData.ratingElementClasses?.replace(/-micro\b/, '')}></div>
                     </div>
                 )}
             </div>
