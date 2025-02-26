@@ -32,7 +32,6 @@ export class Film {
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
-        this.releaseYear = filmElement.dataset.filmReleaseYear;
         this.title = filmElement.dataset.filmName;
         this.extraData = {};
     }
@@ -50,6 +49,7 @@ export class Film {
             return;
         }
 
+        filmInstance.setFilmReleaseYear();
         await filmInstance.setFilmRating();
         filmInstance.setExtraData();
         filmInstance.applyStylesToFilmPoster();
@@ -93,6 +93,16 @@ export class Film {
                 return;
             }
         }
+    }
+
+    private setFilmReleaseYear() {
+        const filmLink = this.filmElement.querySelector("a[data-original-title]") as HTMLAnchorElement | undefined;
+        const originalTitle =  filmLink?.dataset.originalTitle
+        const releaseYear = originalTitle?.match(/\((\d{4})\)/)?.at(1);
+
+        if (!releaseYear || Number.isNaN(releaseYear)) return;
+
+        this.releaseYear = releaseYear;
     }
 
     private async setFilmRating() {
@@ -327,7 +337,7 @@ export async function fetchFilmRating(filmSlug?: string) {
 
     const parser = new DOMParser();
     const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
-
+    
     const ratingHistogramDom = await fetch(movieRatingUrl)
         .then((response) => {
             if (!response.ok) {
