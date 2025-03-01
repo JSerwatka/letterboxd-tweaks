@@ -80,8 +80,7 @@ export async function moveMovieDataToHeader() {
     const filmHeaderSection = await waitForElement(document, "section.film-header-group");
 
     const durationSection = await waitForElement(document, "p.text-footer");
-
-    if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDb']"))) {
+    if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDB']"))) {
         const durationSectionText = durationSection?.textContent?.trim();
         const minutesFilmDuration = durationSectionText?.match(/^\d+/)?.map(Number)?.at(0);
 
