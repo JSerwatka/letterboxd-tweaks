@@ -12,6 +12,7 @@ section.decade-browser > ul.bar-nav-with-arrows > li > a {
 }
 
 body.profile .js-metadatum > svg,
-.nanocrowd-attribution svg {
+.nanocrowd-attribution svg,
+.like-link-target button > svg {
     display: inline-block;
 }
