@@ -77,7 +77,7 @@ export async function hideService() {
 
 // --- DESC: Shows duration and genre on top of film details page ---
 export async function moveMovieDataToHeader() {
-    const filmHeaderSection = await waitForElement(document, "section.film-header-group");
+    const filmHeaderSection = await waitForElement(document, "section.production-masthead");
 
     const durationSection = await waitForElement(document, "p.text-footer");
     if (durationSection && durationSection.contains(durationSection.querySelector("[data-track-action='TMDB']"))) {
