@@ -97,7 +97,7 @@ export class Film {
 
     private setFilmReleaseYear() {
         const filmLink = this.filmElement.querySelector("a[data-original-title]") as HTMLAnchorElement | undefined;
-        const originalTitle =  filmLink?.dataset.originalTitle
+        const originalTitle = filmLink?.dataset.originalTitle;
         const releaseYear = originalTitle?.match(/\((\d{4})\)/)?.at(1);
 
         if (!releaseYear || Number.isNaN(releaseYear)) return;
@@ -286,7 +286,7 @@ export class Film {
     }
 
     handleSpecialCases() {
-        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID";
+        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID" | "NEW_FROM_FRIENDS";
         const getSpecialCase = (): SpecialCases | undefined => {
             if (this.filmElement.closest("section#popular-films ul.-p230")) {
                 return "POPULAR_THIS_WEEK";
@@ -297,8 +297,14 @@ export class Film {
                 return "SMALL_GRID";
             }
 
+            if (this.filmElement.closest("section#recent-from-friends")) {
+                return "NEW_FROM_FRIENDS";
+            }
+
             return;
         };
+
+        let styleElement = document.createElement("style");
 
         switch (getSpecialCase()) {
             case "POPULAR_THIS_WEEK":
@@ -315,7 +321,6 @@ export class Film {
                 }
                 return true;
             case "SMALL_GRID":
-                let styleElement = document.createElement("style");
                 styleElement.innerHTML = `
                     ul.poster-list.no-after::after {
                         content: none !important;
@@ -326,6 +331,38 @@ export class Film {
                 const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
                 gridContainer?.classList?.add("no-after");
                 return true;
+
+            // Fix for layout shift cause by some changes in letterboxd html structure (check issue #35)
+            // it reverts the changes made by letterboxd
+            case "NEW_FROM_FRIENDS":
+                styleElement.innerHTML = `
+                    .poster.-attributed > div {
+                        padding-bottom: 0;
+                        border-radius: 0;
+                        border-top-right-radius: 0;
+                        border-top-left-radius: 0;
+                        background-image: none;
+                        background-size: auto;
+                        background-repeat: no-repeat;
+                    }
+
+                    .poster.-attributed > div.css-film-badge {
+                        padding: 0.5rem;
+                        border-radius: 0.125rem 0.5rem 0.125rem 0.5rem;
+                    }
+
+                    .poster.-attributed div.attribution-block {
+                        padding-bottom: 12px;
+                    }
+
+
+                    .poster.-attributed > div.css-film-data-large {
+                        padding-bottom: 24px
+                    }
+                `;
+                document.head.appendChild(styleElement);
+                return true;
+
             default:
                 break;
         }
@@ -337,7 +374,7 @@ export async function fetchFilmRating(filmSlug?: string) {
 
     const parser = new DOMParser();
     const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
-    
+
     const ratingHistogramDom = await fetch(movieRatingUrl)
         .then((response) => {
             if (!response.ok) {
