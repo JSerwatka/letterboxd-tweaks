@@ -80,7 +80,7 @@ export class Film {
             ],
             micro: [
                 "[data-object-name='review']",
-                "body.list-page ul.-p70.film-details-list",
+                "body.list-page div.viewing-list",
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
                 "body.search-results ul.results > li > div.film-poster"

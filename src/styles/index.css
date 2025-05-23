@@ -16,3 +16,7 @@ body.profile .js-metadatum > svg,
 .like-link-target button > svg {
     display: inline-block;
 }
+
+.production-record  {
+    grid-template-columns: max-content auto !important;
+}
