@@ -3,14 +3,15 @@ import { defineManifest } from "@crxjs/vite-plugin";
 const manifest = defineManifest({
     manifest_version: 3,
     name: "Letterboxd Tweaks",
-    description: "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
-    version: "0.0.6",
+    description:
+        "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
+    version: "0.0.7",
     permissions: ["storage"],
     icons: {
-        '16': 'icons/logo-16.png',
-        '32': 'icons/logo-32.png',
-        '48': 'icons/logo-48.png',
-        '128': 'icons/logo-128.png'
+        "16": "icons/logo-16.png",
+        "32": "icons/logo-32.png",
+        "48": "icons/logo-48.png",
+        "128": "icons/logo-128.png"
     },
     background: {
         service_worker: "src/pages/background/index.ts",
@@ -29,10 +30,10 @@ const manifest = defineManifest({
     ],
     web_accessible_resources: [
         {
-          resources: ['icons/logo-16.png', 'icons/logo-32.png', 'icons/logo-48.png', 'icons/logo-128.png'],
-          matches: []
+            resources: ["icons/logo-16.png", "icons/logo-32.png", "icons/logo-48.png", "icons/logo-128.png"],
+            matches: []
         }
-      ]
+    ]
 });
 
 export default manifest;

@@ -11,7 +11,9 @@ export const FilmDataLarge = ({ film }: FilmDataProps) => {
     const cardHight = film.extraData.friendData ? "h-36" : "h-28";
 
     return (
-        <div class={`text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}>
+        <div
+            class={`css-film-data-large text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}
+        >
             <div class="line-clamp-2 text-lg leading-tight text-white" title={filmTitle}>
                 {filmTitle}
             </div>
@@ -71,7 +73,7 @@ export const FilmDataSmall = ({ film }: FilmDataProps) => {
                                 <HeartIcon />
                             </div>
                         )}
-                        <div title="rating" class={filmExtraData.ratingElementClasses?.replace(/-micro\b/, '')}></div>
+                        <div title="rating" class={filmExtraData.ratingElementClasses?.replace(/-micro\b/, "")}></div>
                     </div>
                 )}
             </div>

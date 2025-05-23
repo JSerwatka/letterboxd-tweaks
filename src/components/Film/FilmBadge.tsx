@@ -31,7 +31,7 @@ const FilmBadge = ({ rating, isColorfulBadge }: FilmBadgeProps) => {
 
     return (
         <div
-            class={`absolute text-black flex flex-col items-center text-base gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${ratingColor}`}
+            class={`css-film-badge absolute text-black flex flex-col items-center text-base gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${ratingColor}`}
         >
             {rating ? Number(rating).toFixed(1) : "?"}
         </div>
