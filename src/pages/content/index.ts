@@ -66,16 +66,43 @@ const getCrewLinks = () => {
                         return;
                     }
 
-                    console.log(`Tooltip body: ${tooltiBody.textContent}`);
+                    const originalBodyWidth = tooltiBody.clientWidth;
 
+ 
+
+                    // Clone the existing tooltip
+                    const newTooltipBody = tooltip.querySelector('.twipsy-inner')?.cloneNode(true) as HTMLElement;
+                    
                     const imgElement = document.createElement("img");
                     imgElement.src = imageUrl;
                     imgElement.style.height = "100px";
                     imgElement.style.width = "auto";
-                    tooltiBody.appendChild(imgElement);
 
-                    tooltip.style.top = `calc(${tooltip.style.top} - 100px)`;
-                    tooltip.style.left = `calc(${tooltip.style.left} - 23px)`;
+                    imgElement.addEventListener("load", () => {
+                        console.log("image laoded");
+                        newTooltipBody.appendChild(imgElement);
+                        
+                        newTooltipBody.style.display = "flex";
+                        newTooltipBody.style.flexDirection = "column";
+                        newTooltipBody.style.alignItems = "center";
+
+                        // newTooltipBody.style.maxWidth = "85px";
+                        // newTooltipBody.style.whiteSpace = "break-spaces"
+
+                        tooltip.querySelector('.twipsy-inner')?.remove();
+                        tooltip.appendChild(newTooltipBody);
+
+                        const tooltipPaddingSum = 18;
+                        const imgWithPadding = imgElement.width + tooltipPaddingSum;
+
+                        if ( imgWithPadding > originalBodyWidth ) {
+                            const tooltipSizeChange  = imgWithPadding - originalBodyWidth;
+                            tooltip.style.left = `calc(${tooltip.style.left} - ${tooltipSizeChange/2}px)`;   
+                        }
+
+                        tooltip.style.top = `calc(${tooltip.style.top} - 100px)`;
+                    });
+
                 })
                 .catch((error) => {
                     console.error(`Error fetching ${crewLinkUrl}: ${error}`);
