@@ -373,7 +373,7 @@ export async function fetchFilmRating(filmSlug?: string) {
     if (!filmSlug) return;
 
     const parser = new DOMParser();
-    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
+    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/ratings-summary/`;
 
     const ratingHistogramDom = await fetch(movieRatingUrl)
         .then((response) => {
