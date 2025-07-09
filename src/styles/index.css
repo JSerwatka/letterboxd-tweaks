@@ -20,3 +20,9 @@ body.profile .js-metadatum > svg,
 .production-record  {
     grid-template-columns: max-content auto !important;
 }
+
+
+/* Fixes diary content not visible  */
+.diary.films-diary .diary-entry-row .td-film-details {
+    grid-template-columns: [poster] max-content [body] auto !important;
+}
