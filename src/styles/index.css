@@ -26,3 +26,8 @@ body.profile .js-metadatum > svg,
 .diary.films-diary .diary-entry-row .td-film-details {
     grid-template-columns: [poster] max-content [body] auto !important;
 }
+
+/* Fixes search posters not visible */
+.search-results .search-result .production-viewing {
+    grid-template-columns: max-content auto !important;
+}
