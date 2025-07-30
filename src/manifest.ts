@@ -1,6 +1,11 @@
-import { defineManifest } from "@crxjs/vite-plugin";
+import { defineManifest, ManifestV3Export } from "@crxjs/vite-plugin";
+import { TARGET } from "../consts";
 
-const manifest = defineManifest({
+if (!TARGET) {
+    throw new Error("TARGET is not defined");
+}
+
+const manifestBase: ManifestV3Export = {
     manifest_version: 3,
     name: "Letterboxd Tweaks",
     description:
@@ -12,10 +17,6 @@ const manifest = defineManifest({
         "32": "icons/logo-32.png",
         "48": "icons/logo-48.png",
         "128": "icons/logo-128.png"
-    },
-    background: {
-        service_worker: "src/pages/background/index.ts",
-        type: "module"
     },
     action: {
         default_popup: "src/pages/popup/index.html",
@@ -34,6 +35,28 @@ const manifest = defineManifest({
             matches: []
         }
     ]
-});
+};
+
+if (TARGET === "chrome") {
+    manifestBase.background = {
+        service_worker: "src/pages/background/index.ts",
+        type: "module"
+    };
+} else {
+    // FIREFOX
+    (manifestBase as any).browser_specific_settings = {
+        gecko: {
+            id: "letterboxd-tweaks@example.com",
+            strict_min_version: "112.0"
+        }
+    };
+
+    manifestBase.background = {
+        scripts: ["src/pages/background/index.ts"],
+        type: "module"
+    };
+}
+
+const manifest = defineManifest(manifestBase);
 
 export default manifest;
