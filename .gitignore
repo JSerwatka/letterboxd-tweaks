@@ -6,6 +6,7 @@
 
 # build
 /build
+/build.firefox
 
 # etc
 .DS_Store
