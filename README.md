@@ -3,8 +3,8 @@
 <a href="https://www.buymeacoffee.com/jserwatka" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 50px !important;width: auto !important;" ></a>
 
 # Letterboxd Tweaks
-<a href="https://addons.mozilla.org/pl/firefox/addon/letterboxd-tweaks/" target="_blank"><img src="https://user-images.githubusercontent.com/585534/107280546-7b9b2a00-6a26-11eb-8f9f-f95932f4bfec.png" alt="Get Letterboxd Extras for Firefox"></a>
-<a href="https://chromewebstore.google.com/detail/letterboxd-tweaks/hopfbphfhmjgdnedoldfpbhepohibfkj" target="_blank"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get Letterboxd Extras for Chromium"></a>
+<a href="https://addons.mozilla.org/pl/firefox/addon/letterboxd-tweaks/" target="_blank"><img src="https://user-images.githubusercontent.com/585534/107280546-7b9b2a00-6a26-11eb-8f9f-f95932f4bfec.png" alt="Get Letterboxd Tweaks for Firefox"></a>
+<a href="https://chromewebstore.google.com/detail/letterboxd-tweaks/hopfbphfhmjgdnedoldfpbhepohibfkj" target="_blank"><img src="https://user-images.githubusercontent.com/585534/107280622-91a8ea80-6a26-11eb-8d07-77c548b28665.png" alt="Get Letterboxd Tweaks for Chromium"></a>
 
 ## Description
 This Chrome extension/Firefox add-on enhances the Letterboxd website with cleaner movie cards, a more efficient search bar featuring instant movie suggestions, and an improved user interface that hides unnecessary filters, navbar items, and sort options, along with other quality of life improvements.
@@ -60,4 +60,5 @@ If you have ideas for further improvements, please email them to jserwatka.dev@g
 - Chrome Extension with Vite template from [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
 
 - SolidJS
+
 
