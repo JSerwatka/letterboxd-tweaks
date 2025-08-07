@@ -17,13 +17,12 @@ body.profile .js-metadatum > svg,
     display: inline-block;
 }
 
-.production-record  {
+.production-record {
     grid-template-columns: max-content auto !important;
 }
 
-
 /* Fixes diary content not visible  */
-.diary.films-diary .diary-entry-row .td-film-details {
+.diary.films-diary .diary-entry-row .productiondetails {
     grid-template-columns: [poster] max-content [body] auto !important;
 }
 
