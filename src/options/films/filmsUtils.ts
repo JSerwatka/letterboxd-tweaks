@@ -236,9 +236,11 @@ export class Film {
 
         const friendElement = this.filmElement.querySelector("div.js-poster-attribution");
         const friendAvatarLink = (friendElement?.querySelector(".avatar > img") as HTMLImageElement | undefined)?.src;
-        const friendName = friendElement?.querySelector(".name > a")?.textContent ?? undefined;
+        const friendName = friendElement?.querySelector(".displayname")?.textContent ?? undefined;
 
         let friendData: FriendData | undefined;
+        console.log({friendAvatarLink, friendName})
+
         if (friendAvatarLink && friendName) {
             friendElement?.remove();
             friendData = {
