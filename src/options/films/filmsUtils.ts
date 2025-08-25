@@ -32,7 +32,7 @@ export class Film {
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
-        this.title = filmElement.dataset.filmName;
+        this.title = filmElement.dataset.itemName;
         this.extraData = {};
     }
 
@@ -52,7 +52,10 @@ export class Film {
         filmInstance.setFilmReleaseYear();
         await filmInstance.setFilmRating();
         filmInstance.setExtraData();
+        // console.log("filmInstance after setExtraData", filmInstance);
         filmInstance.applyStylesToFilmPoster();
+        // console.log("filmInstance after applyStylesToFilmPoster", filmInstance);
+
 
         return filmInstance;
     }
@@ -96,8 +99,7 @@ export class Film {
     }
 
     private setFilmReleaseYear() {
-        const filmLink = this.filmElement.querySelector("a[data-original-title]") as HTMLAnchorElement | undefined;
-        const originalTitle = filmLink?.dataset.originalTitle;
+        const originalTitle = this.filmElement?.dataset.itemFullDisplayName;
         const releaseYear = originalTitle?.match(/\((\d{4})\)/)?.at(1);
 
         if (!releaseYear || Number.isNaN(releaseYear)) return;
@@ -115,7 +117,7 @@ export class Film {
         }
 
         // For all other pages - watched, watchlist, list
-        const filmSlug = this.filmElement.dataset.filmSlug;
+        const filmSlug = this.filmElement.dataset.itemSlug;
         rating = await fetchFilmRating(filmSlug);
 
         this.rating = rating;
@@ -386,6 +388,8 @@ export async function fetchFilmRating(filmSlug?: string) {
             console.log(error);
             return;
         });
+
+    console.log({ratingHistogramDom})
     if (!ratingHistogramDom) return;
 
     const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");

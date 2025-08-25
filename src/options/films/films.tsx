@@ -9,9 +9,11 @@ import { Film } from "./filmsUtils";
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
     let specialCaseHandled = false;
-    observeElement(document, "[data-film-name]", async (element) => {
+
+    observeElement(document, "[data-item-name]", async (element) => {
         try {
             const film = await Film.build(element as HTMLElement);
+
             if (!film) return;
 
             // special cases should run only once, because they change containers
