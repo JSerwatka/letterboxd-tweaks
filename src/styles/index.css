@@ -23,10 +23,11 @@ body.profile .js-metadatum > svg,
 
 /* Fixes diary content not visible  */
 .diary.films-diary .diary-entry-row .productiondetails {
-    grid-template-columns: [poster] max-content [body] auto !important;
+    grid-template-columns: [figure] max-content [body] auto !important;
 }
 
 /* Fixes search posters not visible */
 .search-results .search-result .production-viewing {
     grid-template-columns: max-content auto !important;
 }
+
