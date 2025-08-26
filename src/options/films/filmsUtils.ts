@@ -84,7 +84,7 @@ export class Film {
                 "body.list-page div.viewing-list",
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
-                "body.search-results ul.results article.production-viewing div.film-poster", 
+                "body.search-results ul.results article.production-viewing div.film-poster",
             ]
         };
 
@@ -326,6 +326,20 @@ export class Film {
                     carouselMask.style.height = "465px";
                     posterList.style.height = "500px";
                 }
+
+                styleElement.innerHTML = `
+                    [data-item-name] .film-poster { 
+                        width: auto !important;
+                    }
+
+                    [data-item-name] {
+                        max-width: initial !important;
+                    }
+                `;
+
+                document.head.appendChild(styleElement);
+
+
                 return true;
             case "SMALL_GRID":
                 styleElement.innerHTML = `
