@@ -1,4 +1,5 @@
 import CSS from "csstype";
+import { waitForElement } from "../../utils/element-observers";
 
 export type CardType = "large" | "small" | "micro";
 
@@ -52,7 +53,7 @@ export class Film {
         filmInstance.setFilmReleaseYear();
         await filmInstance.setFilmRating();
         filmInstance.setExtraData();
-        filmInstance.applyStylesToFilmPoster();
+        await filmInstance.applyStylesToFilmPoster();
 
         return filmInstance;
     }
@@ -174,7 +175,8 @@ export class Film {
                 filmStyles = {
                     ...filmStyles,
                     padding: "12px",
-                    height: "auto"
+                    height: "auto",
+                    maxWidth: "150px"
                 };
 
                 overlayStyles = {
@@ -263,14 +265,18 @@ export class Film {
      * This method applies various styles to different elements of the film poster, such as the film container, the anchor tag, the overlay, the overlay actions, the image element, and a cloned blurred image element. The styles are determined based on the card type of the film poster.
      * @throws {Error} - If the card type is not defined.
      */
-    applyStylesToFilmPoster() {
+    async applyStylesToFilmPoster() {
         if (!this.posterCardType) {
             throw new CardTypeNotDefinedError("applyStylesToFilmPoster");
         }
-        const aTag = this.filmElement.querySelector("a.frame") as HTMLElement;
-        const overlay = this.filmElement.querySelector("span.overlay") as HTMLElement;
-        const overlayActions = this.filmElement.querySelector("span.overlay-actions") as HTMLElement;
-        const imgElement = this.filmElement.querySelector("img.image") as HTMLElement;
+        const aTag = (await waitForElement(this.filmElement, "a.frame")) as HTMLElement | undefined;
+        const overlay = (await waitForElement(this.filmElement, "span.overlay")) as HTMLElement | undefined;
+        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions")) as HTMLElement | undefined;
+        const imgElement = (await waitForElement(this.filmElement, "img.image")) as HTMLElement | undefined;
+
+        if (!aTag || !overlay || !overlayActions || !imgElement) {
+            return;
+        }
         const clonedImg = imgElement.cloneNode(true) as HTMLElement;
 
         const { filmStyles, aTagStyles, overlayStyles, overlayActionsStyles, imgStyles, blurredImgStyles } =

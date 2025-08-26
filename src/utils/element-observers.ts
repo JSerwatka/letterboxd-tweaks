@@ -12,7 +12,12 @@ export function observeElement(
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
                 if (node instanceof Element && node.matches(selector)) {
-                    callback(node);
+                    if (node.querySelector(selector)) {
+                        node.querySelectorAll(selector).forEach(callback);
+                    }   
+                    else if (node.matches(selector)) {
+                        callback(node);
+                    }
                 }
             });
         });
