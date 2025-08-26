@@ -52,10 +52,7 @@ export class Film {
         filmInstance.setFilmReleaseYear();
         await filmInstance.setFilmRating();
         filmInstance.setExtraData();
-        // console.log("filmInstance after setExtraData", filmInstance);
         filmInstance.applyStylesToFilmPoster();
-        // console.log("filmInstance after applyStylesToFilmPoster", filmInstance);
-
 
         return filmInstance;
     }
@@ -149,14 +146,15 @@ export class Film {
         };
 
         let overlayStyles: CSS.Properties = {
-            borderColor: "none",
+            border: "none",
             zIndex: "10",
             borderRadius: "8px",
             boxShadow: "none"
         };
 
         let overlayActionsStyles: CSS.Properties = {
-            zIndex: "20"
+            zIndex: "20",
+            bottom: "15px"
         };
 
         let blurredImgStyles: CSS.Properties = {
@@ -239,7 +237,6 @@ export class Film {
         const friendName = friendElement?.querySelector(".displayname")?.textContent ?? undefined;
 
         let friendData: FriendData | undefined;
-        console.log({friendAvatarLink, friendName})
 
         if (friendAvatarLink && friendName) {
             friendElement?.remove();
@@ -340,6 +337,14 @@ export class Film {
             // it reverts the changes made by letterboxd
             case "NEW_FROM_FRIENDS":
                 styleElement.innerHTML = `
+                    #recent-from-friends .poster-list {
+                        flex-wrap: nowrap;
+                    }
+
+                    #popular-with-friends .poster-list {
+                        flex-wrap: nowrap;
+                    }
+
                     .poster.-attributed > div {
                         padding-bottom: 0;
                         border-radius: 0;
@@ -391,7 +396,6 @@ export async function fetchFilmRating(filmSlug?: string) {
             return;
         });
 
-    console.log({ratingHistogramDom})
     if (!ratingHistogramDom) return;
 
     const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");

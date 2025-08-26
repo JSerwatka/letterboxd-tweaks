@@ -14,7 +14,7 @@ export const FilmDataLarge = ({ film }: FilmDataProps) => {
         <div
             class={`css-film-data-large text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}
         >
-            <div class="line-clamp-2 text-lg leading-tight text-white" title={filmTitle}>
+            <div class="line-clamp-2 text-lg leading-tight max-w-[126px] text-white" title={filmTitle}>
                 {filmTitle}
             </div>
             <div>
