@@ -22,7 +22,7 @@ body.profile .js-metadatum > svg,
 }
 
 /* Fixes diary content not visible  */
-.diary.films-diary .diary-entry-row .productiondetails {
+.diary.films-diary .diary-entry-row .productiondetails, .list-detailed-entries-list .list-detailed-entry {
     grid-template-columns: [figure] max-content [body] auto !important;
 }
 

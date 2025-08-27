@@ -85,7 +85,8 @@ export class Film {
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
                 "body.search-results ul.results article.production-viewing div.film-poster",
-                ".showdown-header+section.section ul.poster-list.-p110" // /showdown/...
+                ".showdown-header+section.section ul.poster-list.-p110", // /showdown/...
+                "body.list-page .list-detailed-entries-list" // list small card view
             ]
         };
 
