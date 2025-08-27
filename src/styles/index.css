@@ -17,7 +17,7 @@ body.profile .js-metadatum > svg,
     display: inline-block;
 }
 
-.production-record {
+.production-record, .production-viewing  {
     grid-template-columns: max-content auto !important;
 }
 
