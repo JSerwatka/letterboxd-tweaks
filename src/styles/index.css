@@ -42,3 +42,13 @@ body.profile .js-metadatum > svg,
     justify-content: flex-start !important;
 }
 
+
+.films-watched .poster-grid>.grid.-p70 {
+    --poster-grid-col-size: 260px !important;
+    justify-content: space-between !important;
+}
+
+.films-watched .film-poster{
+    width: auto !important;
+}
+
