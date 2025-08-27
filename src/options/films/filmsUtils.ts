@@ -77,7 +77,7 @@ export class Film {
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70:not(.-overlapped)" // /<user>/likes/films/ page
+                "div.likes-page-content ul.-p70:not(.-overlapped)", // /<user>/likes/films/ page
             ],
             micro: [
                 "[data-object-name='review']",
@@ -85,6 +85,7 @@ export class Film {
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
                 "body.search-results ul.results article.production-viewing div.film-poster",
+                ".showdown-header+section.section ul.poster-list.-p110" // /showdown/...
             ]
         };
 
