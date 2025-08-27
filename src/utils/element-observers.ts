@@ -14,8 +14,8 @@ export function observeElement(
                 if (node instanceof Element && node.matches(selector)) {
                     if (node.querySelector(selector)) {
                         node.querySelectorAll(selector).forEach(callback);
-                    }   
-                    else if (node.matches(selector)) {
+                    }
+                    if (node.matches(selector)) {
                         callback(node);
                     }
                 }
@@ -67,7 +67,7 @@ export async function waitForElement(
 export async function waitForElementData(
     baseElement: HTMLElement | Document,
     selector: string,
-    dataToObserve: { dataAttribute?: string; textContent?: boolean; titleAttribute?: boolean },
+    dataToObserve: { dataAttribute?: string; textContent?: boolean; titleAttribute?: boolean; },
     timeout = 3000
 ) {
     const { dataAttribute, textContent, titleAttribute } = dataToObserve;
