@@ -77,7 +77,7 @@ export class Film {
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70:not(.-overlapped)", // /<user>/likes/films/ page
+                "body.likes ul.poster-list.-p70:not(.-overlapped)", // /<user>/likes/films/ page
             ],
             micro: [
                 "[data-object-name='review']",
