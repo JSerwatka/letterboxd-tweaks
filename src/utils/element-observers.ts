@@ -11,8 +11,12 @@ export function observeElement(
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                if (node instanceof Element && node.matches(selector)) {
-                    callback(node);
+                if (node instanceof Element) {
+                    if (node.matches(selector)) {
+                        callback(node);
+                    } else if (node.querySelector(selector)) {
+                        node.querySelectorAll(selector).forEach(callback);
+                    }
                 }
             });
         });
@@ -62,7 +66,7 @@ export async function waitForElement(
 export async function waitForElementData(
     baseElement: HTMLElement | Document,
     selector: string,
-    dataToObserve: { dataAttribute?: string; textContent?: boolean; titleAttribute?: boolean },
+    dataToObserve: { dataAttribute?: string; textContent?: boolean; titleAttribute?: boolean; },
     timeout = 3000
 ) {
     const { dataAttribute, textContent, titleAttribute } = dataToObserve;

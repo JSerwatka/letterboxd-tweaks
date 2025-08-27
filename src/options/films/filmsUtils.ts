@@ -1,10 +1,12 @@
 import CSS from "csstype";
+import { waitForElement } from "../../utils/element-observers";
 
 export type CardType = "large" | "small" | "micro";
 
 export interface FriendData {
     name: string;
     avatarLink: string;
+    friendProfilLink?: string;
 }
 
 interface ExtraFilmData {
@@ -32,7 +34,7 @@ export class Film {
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
-        this.title = filmElement.dataset.filmName;
+        this.title = filmElement.dataset.itemName?.replace(/\s*\(\d{4}\)\s*$/, '').trim();
         this.extraData = {};
     }
 
@@ -52,7 +54,7 @@ export class Film {
         filmInstance.setFilmReleaseYear();
         await filmInstance.setFilmRating();
         filmInstance.setExtraData();
-        filmInstance.applyStylesToFilmPoster();
+        await filmInstance.applyStylesToFilmPoster();
 
         return filmInstance;
     }
@@ -76,14 +78,16 @@ export class Film {
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "div.likes-page-content ul.-p70:not(.-overlapped)" // /<user>/likes/films/ page
+                "body.likes ul.poster-list.-p70:not(.-overlapped)", // /<user>/likes/films/ page
             ],
             micro: [
                 "[data-object-name='review']",
                 "body.list-page div.viewing-list",
                 "section#live-feed ul.-p70",
                 "section#crew-picks-sidebar ul.-p70",
-                "body.search-results ul.results article.production-viewing div.film-poster", 
+                "body.search-results ul.results article.production-viewing div.film-poster",
+                ".showdown-header+section.section ul.poster-list.-p110", // /showdown/...
+                "body.list-page .list-detailed-entries-list" // list small card view
             ]
         };
 
@@ -96,8 +100,7 @@ export class Film {
     }
 
     private setFilmReleaseYear() {
-        const filmLink = this.filmElement.querySelector("a[data-original-title]") as HTMLAnchorElement | undefined;
-        const originalTitle = filmLink?.dataset.originalTitle;
+        const originalTitle = this.filmElement?.dataset.itemFullDisplayName;
         const releaseYear = originalTitle?.match(/\((\d{4})\)/)?.at(1);
 
         if (!releaseYear || Number.isNaN(releaseYear)) return;
@@ -115,7 +118,7 @@ export class Film {
         }
 
         // For all other pages - watched, watchlist, list
-        const filmSlug = this.filmElement.dataset.filmSlug;
+        const filmSlug = this.filmElement.dataset.itemSlug;
         rating = await fetchFilmRating(filmSlug);
 
         this.rating = rating;
@@ -147,14 +150,15 @@ export class Film {
         };
 
         let overlayStyles: CSS.Properties = {
-            borderColor: "none",
+            border: "none",
             zIndex: "10",
             borderRadius: "8px",
             boxShadow: "none"
         };
 
         let overlayActionsStyles: CSS.Properties = {
-            zIndex: "20"
+            zIndex: "20",
+            bottom: "15px"
         };
 
         let blurredImgStyles: CSS.Properties = {
@@ -174,7 +178,8 @@ export class Film {
                 filmStyles = {
                     ...filmStyles,
                     padding: "12px",
-                    height: "auto"
+                    height: "auto",
+                    maxWidth: "150px"
                 };
 
                 overlayStyles = {
@@ -234,14 +239,18 @@ export class Film {
 
         const friendElement = this.filmElement.querySelector("div.js-poster-attribution");
         const friendAvatarLink = (friendElement?.querySelector(".avatar > img") as HTMLImageElement | undefined)?.src;
-        const friendName = friendElement?.querySelector(".name > a")?.textContent ?? undefined;
+        const friendName = friendElement?.querySelector(".displayname")?.textContent ?? undefined;
+        const friendProfilLink = (friendElement?.querySelector("a.owner") as HTMLAnchorElement | undefined)?.href;
 
         let friendData: FriendData | undefined;
+
+
         if (friendAvatarLink && friendName) {
             friendElement?.remove();
             friendData = {
                 name: friendName,
-                avatarLink: friendAvatarLink
+                avatarLink: friendAvatarLink,
+                friendProfilLink: friendProfilLink
             };
         }
 
@@ -262,14 +271,18 @@ export class Film {
      * This method applies various styles to different elements of the film poster, such as the film container, the anchor tag, the overlay, the overlay actions, the image element, and a cloned blurred image element. The styles are determined based on the card type of the film poster.
      * @throws {Error} - If the card type is not defined.
      */
-    applyStylesToFilmPoster() {
+    async applyStylesToFilmPoster() {
         if (!this.posterCardType) {
             throw new CardTypeNotDefinedError("applyStylesToFilmPoster");
         }
-        const aTag = this.filmElement.querySelector("a.frame") as HTMLElement;
-        const overlay = this.filmElement.querySelector("span.overlay") as HTMLElement;
-        const overlayActions = this.filmElement.querySelector("span.overlay-actions") as HTMLElement;
-        const imgElement = this.filmElement.querySelector("img.image") as HTMLElement;
+        const aTag = (await waitForElement(this.filmElement, "a.frame")) as HTMLElement | undefined;
+        const overlay = (await waitForElement(this.filmElement, "span.overlay")) as HTMLElement | undefined;
+        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions")) as HTMLElement | undefined;
+        const imgElement = (await waitForElement(this.filmElement, "img.image")) as HTMLElement | undefined;
+
+        if (!aTag || !overlay || !overlayActions || !imgElement) {
+            return;
+        }
         const clonedImg = imgElement.cloneNode(true) as HTMLElement;
 
         const { filmStyles, aTagStyles, overlayStyles, overlayActionsStyles, imgStyles, blurredImgStyles } =
@@ -319,6 +332,20 @@ export class Film {
                     carouselMask.style.height = "465px";
                     posterList.style.height = "500px";
                 }
+
+                styleElement.innerHTML = `
+                    [data-item-name] .film-poster { 
+                        width: auto !important;
+                    }
+
+                    [data-item-name] {
+                        max-width: initial !important;
+                    }
+                `;
+
+                document.head.appendChild(styleElement);
+
+
                 return true;
             case "SMALL_GRID":
                 styleElement.innerHTML = `
@@ -336,6 +363,14 @@ export class Film {
             // it reverts the changes made by letterboxd
             case "NEW_FROM_FRIENDS":
                 styleElement.innerHTML = `
+                    #recent-from-friends .poster-list {
+                        flex-wrap: nowrap;
+                    }
+
+                    #popular-with-friends .poster-list {
+                        flex-wrap: nowrap;
+                    }
+
                     .poster.-attributed > div {
                         padding-bottom: 0;
                         border-radius: 0;
@@ -386,6 +421,7 @@ export async function fetchFilmRating(filmSlug?: string) {
             console.log(error);
             return;
         });
+
     if (!ratingHistogramDom) return;
 
     const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");

@@ -14,7 +14,7 @@ export const FilmDataLarge = ({ film }: FilmDataProps) => {
         <div
             class={`css-film-data-large text-gray-400 w-full rounded-md text-lg mt-4 flex flex-col justify-between ${cardHight}`}
         >
-            <div class="line-clamp-2 text-lg leading-tight text-white" title={filmTitle}>
+            <div class="line-clamp-2 text-lg leading-tight max-w-[126px] text-white" title={filmTitle}>
                 {filmTitle}
             </div>
             <div>
@@ -42,14 +42,14 @@ export const FilmDataLarge = ({ film }: FilmDataProps) => {
                 </div>
 
                 {filmExtraData.friendData && (
-                    <div class="text-sm mt-4 flex flex-row items-center">
+                    <a href={filmExtraData.friendData.friendProfilLink} class="text-sm mt-4 flex flex-row items-center text-grey font-bold">
                         <img
                             src={filmExtraData.friendData.avatarLink}
                             title={`${filmExtraData.friendData.name}'s profile picture`}
                             class="w-6 rounded-full inline mr-3"
                         />
                         <span>{filmExtraData.friendData.name}</span>
-                    </div>
+                    </a>
                 )}
             </div>
         </div>

@@ -1,1 +1,1 @@
-export const projectTime = "118 hours";
+export const projectTime = "123 hours";

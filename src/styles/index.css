@@ -17,16 +17,47 @@ body.profile .js-metadatum > svg,
     display: inline-block;
 }
 
-.production-record {
+.production-record, .production-viewing  {
     grid-template-columns: max-content auto !important;
 }
 
 /* Fixes diary content not visible  */
-.diary.films-diary .diary-entry-row .productiondetails {
-    grid-template-columns: [poster] max-content [body] auto !important;
+.diary.films-diary .diary-entry-row .productiondetails, .list-detailed-entries-list .list-detailed-entry {
+    grid-template-columns: [figure] max-content [body] auto !important;
 }
 
 /* Fixes search posters not visible */
 .search-results .search-result .production-viewing {
     grid-template-columns: max-content auto !important;
+}
+
+/* --- List fixes --- */
+
+/* Fix last line of lists with large cards is incorrectly spaced */
+.poster-list.-grid:after {
+    content: none !important;
+}
+
+.poster-list.-p70 {
+    justify-content: flex-start !important;
+    column-gap: 30px !important;
+}
+
+
+.films-watched .poster-grid>.grid.-p70 {
+    --poster-grid-col-size: 260px !important;
+    justify-content: space-between !important;
+}
+
+.films-watched .film-poster{
+    width: auto !important;
+    max-width: 66px;
+}
+
+/* Fix: only movie's posters is faded out when  "fade watched movies" is enabled */
+.hide-films-seen [data-item-name]:has([data-watched="true"]) {   
+    opacity: 0.7;
+}
+.hide-films-seen [data-watched="true"] + .css-film-badge {
+    filter: grayscale(30%);
 }

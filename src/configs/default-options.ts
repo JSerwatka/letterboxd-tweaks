@@ -265,7 +265,7 @@ export const defaultOptions: OptionType[] = [
         section: "navbar",
         function: "navbarMenuActions",
         checked: false,
-        config: { toRedirect: { Films: { redirectTo: "size/large" } } },
+        config: { toRedirect: { Films: { redirectTo: "popular/this/week/size/large/" } } },
     },
     {
         id: "515d2ac4-9a2e-427f-b59a-338126065e75",
