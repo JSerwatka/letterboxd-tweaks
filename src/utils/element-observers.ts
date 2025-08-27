@@ -11,12 +11,11 @@ export function observeElement(
     const observer = new MutationObserver((mutations) => {
         mutations.forEach((mutation) => {
             mutation.addedNodes.forEach((node) => {
-                if (node instanceof Element && node.matches(selector)) {
-                    if (node.querySelector(selector)) {
-                        node.querySelectorAll(selector).forEach(callback);
-                    }
+                if (node instanceof Element) {
                     if (node.matches(selector)) {
                         callback(node);
+                    } else if (node.querySelector(selector)) {
+                        node.querySelectorAll(selector).forEach(callback);
                     }
                 }
             });

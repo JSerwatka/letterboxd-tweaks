@@ -13,7 +13,6 @@ export const showFilmData = async () => {
     observeElement(document, "[data-item-name]", async (element) => {
         try {
             const film = await Film.build(element as HTMLElement);
-
             if (!film) return;
 
             // special cases should run only once, because they change containers
