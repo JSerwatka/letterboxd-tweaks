@@ -6,6 +6,7 @@ export type CardType = "large" | "small" | "micro";
 export interface FriendData {
     name: string;
     avatarLink: string;
+    friendProfilLink?: string;
 }
 
 interface ExtraFilmData {
@@ -33,7 +34,7 @@ export class Film {
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
-        this.title = filmElement.dataset.itemName;
+        this.title = filmElement.dataset.itemName?.replace(/\s*\(\d{4}\)\s*$/, '').trim();
         this.extraData = {};
     }
 
@@ -239,14 +240,17 @@ export class Film {
         const friendElement = this.filmElement.querySelector("div.js-poster-attribution");
         const friendAvatarLink = (friendElement?.querySelector(".avatar > img") as HTMLImageElement | undefined)?.src;
         const friendName = friendElement?.querySelector(".displayname")?.textContent ?? undefined;
+        const friendProfilLink = (friendElement?.querySelector("a.owner") as HTMLAnchorElement | undefined)?.href;
 
         let friendData: FriendData | undefined;
+
 
         if (friendAvatarLink && friendName) {
             friendElement?.remove();
             friendData = {
                 name: friendName,
-                avatarLink: friendAvatarLink
+                avatarLink: friendAvatarLink,
+                friendProfilLink: friendProfilLink
             };
         }
 

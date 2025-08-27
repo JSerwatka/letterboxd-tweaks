@@ -34,12 +34,13 @@ body.profile .js-metadatum > svg,
 // --- List fixes ---
 
 // Fix last line of lists with large cards is incorrectly spaced
-.list-page .poster-list.-grid:after {
+.poster-list.-grid:after {
     content: none !important;
 }
 
-.list-page .poster-list {
+.poster-list.-p70 {
     justify-content: flex-start !important;
+    column-gap: 30px !important;
 }
 
 
