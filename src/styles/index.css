@@ -31,3 +31,14 @@ body.profile .js-metadatum > svg,
     grid-template-columns: max-content auto !important;
 }
 
+// --- List fixes ---
+
+// Fix last line of lists with large cards is incorrectly spaced
+.list-page .poster-list.-grid:after {
+    content: none !important;
+}
+
+.list-page .poster-list {
+    justify-content: flex-start !important;
+}
+
