@@ -57,7 +57,7 @@ const Popup = () => {
                                 <a
                                     class="no-underline text-fuchsia-700 font-semibold"
                                     target="_blank"
-                                    href={`chrome-extension://${chrome.runtime.id}/src/pages/options/index.html`}
+                                    href={chrome.runtime.getURL("/src/pages/options/index.html")}
                                 >
                                     Click here
                                 </a>{" "}

@@ -5,10 +5,10 @@
   "description": "",
   "license": "MIT",
   "scripts": {
-    "dev": "vite build -w",
+    "dev": "vite",
     "build": "npm run build:chrome && npm run build:firefox",
     "build:chrome": "cross-env TARGET=chrome vite build",
-    "build:firefox": "cross-env TARGET=firefox vite build" 
+    "build:firefox": "cross-env TARGET=firefox vite build"
   },
   "type": "module",
   "dependencies": {
@@ -16,7 +16,7 @@
     "solid-js": "^1.9.2"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.25",
+    "@crxjs/vite-plugin": "^2.2.0",
     "@types/chrome": "0.0.203",
     "@types/lodash.groupby": "^4.6.9",
     "@types/node": "18.11.10",
