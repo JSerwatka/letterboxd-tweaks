@@ -34,7 +34,7 @@ export class Film {
 
     constructor(filmElement: HTMLElement) {
         this.filmElement = filmElement;
-        this.title = filmElement.dataset.itemName?.replace(/\s*\(\d{4}\)\s*$/, '').trim();
+        this.title = filmElement.dataset.itemName?.replace(/\s*\(\d{4}\)\s*$/, "").trim();
         this.extraData = {};
     }
 
@@ -78,7 +78,7 @@ export class Film {
             small: [
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
-                "body.likes ul.poster-list.-p70:not(.-overlapped)", // /<user>/likes/films/ page
+                "body.likes ul.poster-list.-p70:not(.-overlapped)" // /<user>/likes/films/ page
             ],
             micro: [
                 "[data-object-name='review']",
@@ -237,20 +237,17 @@ export class Film {
         const isLiked = viewingDataElement?.contains(viewingDataElement.querySelector(".icon-liked"));
         const dateOfView = viewingDataElement?.querySelector("time")?.textContent ?? undefined;
 
-        const friendElement = this.filmElement.querySelector("div.js-poster-attribution");
-        const friendAvatarLink = (friendElement?.querySelector(".avatar > img") as HTMLImageElement | undefined)?.src;
-        const friendName = friendElement?.querySelector(".displayname")?.textContent ?? undefined;
-        const friendProfilLink = (friendElement?.querySelector("a.owner") as HTMLAnchorElement | undefined)?.href;
+        const friendElement = this.filmElement.querySelector("div.attribution > .attribution-block");
+        const friendAvatarLink = this.filmElement.dataset.attributedPersonAvatar;
+        const friendName = this.filmElement.dataset.attributedPersonDisplayName;
 
         let friendData: FriendData | undefined;
-
 
         if (friendAvatarLink && friendName) {
             friendElement?.remove();
             friendData = {
                 name: friendName,
-                avatarLink: friendAvatarLink,
-                friendProfilLink: friendProfilLink
+                avatarLink: friendAvatarLink
             };
         }
 
@@ -277,7 +274,9 @@ export class Film {
         }
         const aTag = (await waitForElement(this.filmElement, "a.frame")) as HTMLElement | undefined;
         const overlay = (await waitForElement(this.filmElement, "span.overlay")) as HTMLElement | undefined;
-        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions")) as HTMLElement | undefined;
+        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions")) as
+            | HTMLElement
+            | undefined;
         const imgElement = (await waitForElement(this.filmElement, "img.image")) as HTMLElement | undefined;
 
         if (!aTag || !overlay || !overlayActions || !imgElement) {
@@ -344,7 +343,6 @@ export class Film {
                 `;
 
                 document.head.appendChild(styleElement);
-
 
                 return true;
             case "SMALL_GRID":
