@@ -10,13 +10,9 @@ const manifestBase: ManifestV3Export = {
     name: "Letterboxd Tweaks",
     description:
         "Enhance Letterboxd with cleaner movie cards, instant search suggestions, and various quality of life improvements.",
-    version: "0.0.13",
+    version: "0.0.15",
     permissions: ["storage"],
-    host_permissions: [
-        "https://letterboxd.com/*",
-        "https://*.letterboxd.com/*",
-        "https://*.ltrbxd.com/*",
-    ],
+    host_permissions: ["https://letterboxd.com/*", "https://*.letterboxd.com/*", "https://*.ltrbxd.com/*"],
     icons: {
         "16": "icons/logo-16.png",
         "32": "icons/logo-32.png",

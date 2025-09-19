@@ -13,6 +13,18 @@ if (!TARGET) {
 }
 
 export default defineConfig({
+    server: {
+        cors: true,
+        headers: {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,OPTIONS",
+            "Access-Control-Allow-Headers": "*"
+        },
+        hmr: {
+            // Helps HMR/connect from a chrome-extension:// origin during dev
+            clientPort: 5173
+        }
+    },
     plugins: [tsconfigPaths(), solidPlugin(), crx({ manifest, browser: TARGET as any })],
     build: {
         emptyOutDir: true,
