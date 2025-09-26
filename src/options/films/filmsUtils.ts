@@ -368,6 +368,10 @@ export class Film {
                     #popular-with-friends .poster-list {
                         flex-wrap: nowrap;
                     }
+                    
+                    .poster.-attributed {
+                        padding: 0;
+                    }
 
                     .poster.-attributed > div {
                         padding-bottom: 0;
