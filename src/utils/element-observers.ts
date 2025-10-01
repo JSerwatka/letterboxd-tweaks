@@ -31,23 +31,49 @@ export function observeElement(
     }
 }
 
+type WaitForElementOptions = {
+    timeout?: number;
+    /**
+     * When true, the timeout will pause while the document is hidden
+     * (background tab) and resume when it becomes visible again.
+     */
+    pauseTimeoutWhileHidden?: boolean;
+};
+
 export async function waitForElement(
     baseElement: HTMLElement | Document,
     selector: string,
-    timeout = 5000
+    timeoutOrOptions: number | WaitForElementOptions = 5000
 ): Promise<Element | null | undefined> {
-    let timeoutId: NodeJS.Timeout;
+    const { timeout, pauseTimeoutWhileHidden } =
+        typeof timeoutOrOptions === "number"
+            ? { timeout: timeoutOrOptions, pauseTimeoutWhileHidden: false }
+            : {
+                timeout: timeoutOrOptions.timeout ?? 5000,
+                pauseTimeoutWhileHidden: Boolean(timeoutOrOptions.pauseTimeoutWhileHidden)
+            };
+
+    let timeoutId: NodeJS.Timeout | undefined;
+    let remainingMs = timeout;
+    let lastStart = Date.now();
 
     return new Promise((resolve) => {
-        if (baseElement.querySelector(selector)) {
-            return resolve(baseElement.querySelector(selector));
+        const resolveOnce = (value: Element | null | undefined) => {
+            if (timeoutId) clearTimeout(timeoutId);
+            document.removeEventListener("visibilitychange", onVisibilityChange);
+            observer.disconnect();
+            resolve(value);
+        };
+
+        const immediate = baseElement.querySelector(selector);
+        if (immediate) {
+            return resolve(immediate);
         }
 
-        const observer = new MutationObserver((mutations) => {
-            if (baseElement.querySelector(selector)) {
-                timeoutId && clearTimeout(timeoutId);
-                observer.disconnect();
-                resolve(baseElement.querySelector(selector));
+        const observer = new MutationObserver(() => {
+            const found = baseElement.querySelector(selector);
+            if (found) {
+                resolveOnce(found);
             }
         });
 
@@ -56,10 +82,48 @@ export async function waitForElement(
             subtree: true
         });
 
-        timeoutId = setTimeout(() => {
-            observer.disconnect();
-            resolve(undefined);
-        }, timeout);
+        const startTimer = () => {
+            lastStart = Date.now();
+            timeoutId = setTimeout(() => {
+                resolveOnce(undefined);
+            }, Math.max(0, remainingMs));
+        };
+
+        const stopTimer = () => {
+            if (!timeoutId) return;
+            clearTimeout(timeoutId);
+            timeoutId = undefined;
+            const elapsed = Date.now() - lastStart;
+            remainingMs = Math.max(0, remainingMs - elapsed);
+        };
+
+        const onVisibilityChange = () => {
+            if (!pauseTimeoutWhileHidden) return;
+            if (document.visibilityState === "hidden") {
+                stopTimer();
+            } else {
+                // Re-check immediately on visibility gain
+                const found = baseElement.querySelector(selector);
+                if (found) {
+                    resolveOnce(found);
+                    return;
+                }
+                startTimer();
+            }
+        };
+
+        if (pauseTimeoutWhileHidden) {
+            document.addEventListener("visibilitychange", onVisibilityChange);
+            if (document.visibilityState === "hidden") {
+                // Don't start the timer while hidden; wait until visible
+                // but still keep observing DOM mutations (in case of virtualized updates)
+                // Timer will start on first visibilitychange → visible
+            } else {
+                startTimer();
+            }
+        } else {
+            startTimer();
+        }
     });
 }
 
