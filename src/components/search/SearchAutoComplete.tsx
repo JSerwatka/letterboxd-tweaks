@@ -19,6 +19,7 @@ interface FilmSearchResponse
     name: string;
     directors: Array<{ name: string }>;
     originalName: string | null;
+    slug: string;
 }
 
 const [controller, setController] = createSignal<AbortController | null>(null);
@@ -234,22 +235,13 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
     // get poster img and rating
     return Promise.all(
         filmList.data.map(async (film: FilmSearchResponse) => {
-            const posterPageResponse = await fetch(`https://letterboxd.com/ajax/poster${film.url}std/110x165/`, {
+            const postersResponse = await fetch(`https://letterboxd.com/film/${film.slug}/poster/std/150/`, {
                 signal
             });
+            const postersJson = (await postersResponse.json().catch(() => null)) as { url?: string, url2x?: string, shouldObjuscate?: boolean } | null;
+            const posterUrl = postersJson?.url as string | undefined;
+            const rating = await fetchFilmRating(film.slug);
 
-            const posterPageText = await posterPageResponse.text();
-
-            const parser = new DOMParser();
-            const posterPageHTML = parser.parseFromString(posterPageText, "text/html");
-            const posterImgElement = posterPageHTML.querySelector("img.image:not(.empty-poster-image)") as
-                | HTMLImageElement
-                | null
-                | undefined;
-
-            const posterContainerElement = posterPageHTML.querySelector("div.film-poster") as HTMLElement | undefined;
-            const slug = posterContainerElement?.dataset.filmSlug;
-            const rating = await fetchFilmRating(slug);
 
             return {
                 url: film.url,
@@ -257,7 +249,7 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
                 originalTitle: film.originalName,
                 releaseYear: film.releaseYear,
                 directors: film.directors.map((directorObject) => directorObject.name),
-                poster: posterImgElement?.src,
+                poster: posterUrl,
                 rating: rating
             };
         })
