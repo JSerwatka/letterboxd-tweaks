@@ -269,15 +269,16 @@ export class Film {
      * @throws {Error} - If the card type is not defined.
      */
     async applyStylesToFilmPoster() {
+
         if (!this.posterCardType) {
             throw new CardTypeNotDefinedError("applyStylesToFilmPoster");
         }
-        const aTag = (await waitForElement(this.filmElement, "a.frame")) as HTMLElement | undefined;
-        const overlay = (await waitForElement(this.filmElement, "span.overlay")) as HTMLElement | undefined;
-        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions")) as
+        const aTag = (await waitForElement(this.filmElement, "a.frame", { timeout: 15000, pauseTimeoutWhileHidden: true })) as HTMLElement | undefined;
+        const overlay = (await waitForElement(this.filmElement, "span.overlay", { timeout: 15000, pauseTimeoutWhileHidden: true })) as HTMLElement | undefined;
+        const overlayActions = (await waitForElement(this.filmElement, "span.overlay-actions", { timeout: 15000, pauseTimeoutWhileHidden: true })) as
             | HTMLElement
             | undefined;
-        const imgElement = (await waitForElement(this.filmElement, "img.image")) as HTMLElement | undefined;
+        const imgElement = (await waitForElement(this.filmElement, "img.image", { timeout: 15000, pauseTimeoutWhileHidden: true })) as HTMLElement | undefined;
 
         if (!aTag || !overlay || !overlayActions || !imgElement) {
             return;
