@@ -30,3 +30,22 @@ export const syncWithOptionChromeStorage = (
         setStoreFunction(defaultOptionsCopy);
     });
 };
+
+export async function isOptionEnabled(optionId: string): Promise<boolean> {
+    return new Promise((resolve) => {
+        try {
+            chrome.storage.sync.get(optionId, (result) => {
+                // Handle Chrome runtime errors
+                if (chrome.runtime.lastError) {
+                    console.warn(`Storage access error for option ${optionId}:`, chrome.runtime.lastError);
+                    resolve(false);
+                    return;
+                }
+                resolve(result[optionId] === true);
+            });
+        } catch (error) {
+            console.warn(`Error checking option ${optionId}:`, error);
+            resolve(false);
+        }
+    });
+}

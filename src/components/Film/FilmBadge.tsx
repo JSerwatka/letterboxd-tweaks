@@ -1,6 +1,9 @@
+import { convertRatingTo10Scale } from "@options/films/filmsUtils";
+
 interface FilmBadgeProps {
     rating?: string;
     isColorfulBadge: boolean;
+    useScale10?: boolean;
 }
 
 function getRatingColor(rating: FilmBadgeProps["rating"]) {
@@ -26,14 +29,17 @@ function getRatingColor(rating: FilmBadgeProps["rating"]) {
     return "bg-gray-400/80";
 }
 
-const FilmBadge = ({ rating, isColorfulBadge }: FilmBadgeProps) => {
+const FilmBadge = ({ rating, isColorfulBadge, useScale10 }: FilmBadgeProps) => {
+    // Always use original rating for color determination
     const ratingColor = isColorfulBadge ? getRatingColor(rating) : "bg-gray-400/80";
+
+    const displayRating = useScale10 && rating ? convertRatingTo10Scale(rating) : rating;
 
     return (
         <div
             class={`css-film-badge absolute text-black flex flex-col items-center text-base gap-1 p-2 min-w-[32px] right-0 top-0 rounded-tl-sm rounded-br-sm rounded-tr-lg rounded-bl-lg ${ratingColor}`}
         >
-            {rating ? Number(rating).toFixed(1) : "?"}
+            {displayRating ? Number(displayRating).toFixed(1) : "?"}
         </div>
     );
 };

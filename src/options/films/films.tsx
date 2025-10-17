@@ -4,10 +4,14 @@ import { observeElement, waitForElement } from "@utils/element-observers";
 import { GenreBadgesList } from "@components/Film/GenreBadge";
 import FilmBadge from "@components/Film/FilmBadge";
 import { FilmReviewComments } from "@components/Film/FilmIcons";
-import { Film } from "./filmsUtils";
+import { convertRatingTo10Scale, Film } from "@options/films/filmsUtils";
+import { isOptionEnabled } from "@utils/chrome-storage";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
+    // Check if rating scale conversion is enabled
+    const useScale10 = await isOptionEnabled("5520bd3a-d90b-4cbf-9fa7-84888f077751");
+
     let specialCaseHandled = false;
 
     observeElement(document, "[data-item-name]", async (element) => {
@@ -22,7 +26,10 @@ export const showFilmData = async () => {
 
             switch (film.posterCardType) {
                 case "micro":
-                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={false} />, film.filmElement);
+                    render(
+                        () => <FilmBadge rating={film.rating} isColorfulBadge={false} useScale10={useScale10} />,
+                        film.filmElement
+                    );
                     break;
                 case "small":
                     if (film.extraData.commentsLink && film.extraData.commentsLink.href) {
@@ -36,7 +43,10 @@ export const showFilmData = async () => {
                             film.filmElement
                         );
                     }
-                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={true} />, film.filmElement);
+                    render(
+                        () => <FilmBadge rating={film.rating} isColorfulBadge={true} useScale10={useScale10} />,
+                        film.filmElement
+                    );
                     render(() => <FilmDataSmall film={film} />, film.filmElement);
                     break;
                 case "large":
@@ -51,7 +61,10 @@ export const showFilmData = async () => {
                             film.filmElement
                         );
                     }
-                    render(() => <FilmBadge rating={film.rating} isColorfulBadge={true} />, film.filmElement);
+                    render(
+                        () => <FilmBadge rating={film.rating} isColorfulBadge={true} useScale10={useScale10} />,
+                        film.filmElement
+                    );
                     render(() => <FilmDataLarge film={film} />, film.filmElement);
                 default:
                     break;

@@ -441,3 +441,16 @@ export async function fetchFilmRating(filmSlug?: string) {
 
     return rating;
 }
+
+export function convertRatingTo10Scale(rating: string | undefined): string | undefined {
+    if (!rating) return rating;
+
+    const trimmedRating = rating.trim();
+    if (trimmedRating === "") return rating;
+
+    const numericRating = parseFloat(trimmedRating);
+    if (isNaN(numericRating)) return rating;
+
+    const converted = numericRating * 2;
+    return converted.toFixed(1);
+}
