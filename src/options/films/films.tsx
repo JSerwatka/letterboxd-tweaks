@@ -1,9 +1,9 @@
-import { FilmDataLarge, FilmDataSmall } from "@components/Film/FilmData";
+import { FilmDataLarge, FilmDataSmall } from "@components/film/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
-import { GenreBadgesList } from "@components/Film/GenreBadge";
-import FilmBadge from "@components/Film/FilmBadge";
-import { FilmReviewComments } from "@components/Film/FilmIcons";
+import { GenreBadgesList } from "@components/film/GenreBadge";
+import FilmBadge from "@components/film/FilmBadge";
+import { FilmReviewComments } from "@components/film/FilmIcons";
 import { convertRatingTo10Scale, Film } from "@options/films/filmsUtils";
 import { isOptionEnabled } from "@utils/chrome-storage";
 
