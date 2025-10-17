@@ -3,7 +3,6 @@ import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
 import { fetchFilmRating } from "@options/films/filmsUtils";
 import FilmBadge from "@components/film/FilmBadge";
-import { isOptionEnabled } from "@utils/chrome-storage";
 
 interface FilmSearchResult {
     url: string;

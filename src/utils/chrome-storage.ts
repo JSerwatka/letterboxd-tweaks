@@ -35,7 +35,6 @@ export async function isOptionEnabled(optionId: string): Promise<boolean> {
     return new Promise((resolve) => {
         try {
             chrome.storage.sync.get(optionId, (result) => {
-                // Handle Chrome runtime errors
                 if (chrome.runtime.lastError) {
                     console.warn(`Storage access error for option ${optionId}:`, chrome.runtime.lastError);
                     resolve(false);

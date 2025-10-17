@@ -5,7 +5,6 @@ import { GenreBadgesList } from "@components/film/GenreBadge";
 import FilmBadge from "@components/film/FilmBadge";
 import { FilmReviewComments } from "@components/film/FilmIcons";
 import { convertRatingTo10Scale, Film } from "@options/films/filmsUtils";
-import { isOptionEnabled } from "@utils/chrome-storage";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
@@ -72,9 +71,7 @@ export const convertRatingScale = async () => {
         const ratingElement = await waitForElement(document, selector);
         if (!ratingElement) return;
 
-        // Convert and display
         const convertedRating = convertRatingTo10Scale(ratingElement.textContent);
-
         if (convertedRating) {
             ratingElement.textContent = convertedRating;
         }
