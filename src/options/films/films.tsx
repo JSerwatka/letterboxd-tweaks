@@ -1,10 +1,10 @@
-import { FilmDataLarge, FilmDataSmall } from "@components/Film/FilmData";
+import { FilmDataLarge, FilmDataSmall } from "@components/film/FilmData";
 import { render } from "solid-js/web";
 import { observeElement, waitForElement } from "@utils/element-observers";
-import { GenreBadgesList } from "@components/Film/GenreBadge";
-import FilmBadge from "@components/Film/FilmBadge";
-import { FilmReviewComments } from "@components/Film/FilmIcons";
-import { Film } from "./filmsUtils";
+import { GenreBadgesList } from "@components/film/GenreBadge";
+import FilmBadge from "@components/film/FilmBadge";
+import { FilmReviewComments } from "@components/film/FilmIcons";
+import { convertRatingTo10Scale, Film } from "@options/films/filmsUtils";
 
 // --- DESC: Shows better version of movie card + adds ratings ---
 export const showFilmData = async () => {
@@ -61,6 +61,23 @@ export const showFilmData = async () => {
             throw error;
         }
     });
+};
+
+// --- DESC: Converts rating scale on film page from 0.5-5 to 1-10 ---
+export const convertRatingScale = async () => {
+    try {
+        const selector = ".ratings-histogram-chart:not(.ratings-extras) .average-rating a.display-rating";
+
+        const ratingElement = await waitForElement(document, selector);
+        if (!ratingElement) return;
+
+        const convertedRating = convertRatingTo10Scale(ratingElement.textContent);
+        if (convertedRating) {
+            ratingElement.textContent = convertedRating;
+        }
+    } catch (error) {
+        console.error("Error in convertRatingScale:", error);
+    }
 };
 
 // --- DESC: Hides service tab on films list ---

@@ -2,7 +2,7 @@ import { For, Show, createEffect, createResource, createSignal, on, onMount } fr
 import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
 import { fetchFilmRating } from "@options/films/filmsUtils";
-import FilmBadge from "../Film/FilmBadge";
+import FilmBadge from "@components/film/FilmBadge";
 
 interface FilmSearchResult {
     url: string;
@@ -238,10 +238,13 @@ async function fetchFilms(userInput: string | null): Promise<FilmSearchResult[] 
             const postersResponse = await fetch(`https://letterboxd.com/film/${film.slug}/poster/std/150/`, {
                 signal
             });
-            const postersJson = (await postersResponse.json().catch(() => null)) as { url?: string, url2x?: string, shouldObjuscate?: boolean } | null;
+            const postersJson = (await postersResponse.json().catch(() => null)) as {
+                url?: string;
+                url2x?: string;
+                shouldObjuscate?: boolean;
+            } | null;
             const posterUrl = postersJson?.url as string | undefined;
             const rating = await fetchFilmRating(film.slug);
-
 
             return {
                 url: film.url,

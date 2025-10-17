@@ -17,11 +17,13 @@ export type SupportedPages =
     | "filmSingle"
     | "listNew";
 
-
-type OptionToPageMap = Record<FunctionName, {
-    acceptedPages: SupportedPages[];
-    typeOfSearch: "positive" | "negative";
-}>
+type OptionToPageMap = Record<
+    FunctionName,
+    {
+        acceptedPages: SupportedPages[];
+        typeOfSearch: "positive" | "negative";
+    }
+>;
 
 // https://stackoverflow.com/questions/2896626/switch-statement-for-string-matching-in-javascript
 export function getPageFromPathname(pathname: string): SupportedPages | undefined {
@@ -253,6 +255,10 @@ const optionToPageMap: OptionToPageMap = {
             "filmSingle"
         ],
         typeOfSearch: "negative"
+    },
+    convertRatingScale: {
+        acceptedPages: ["filmSingle"],
+        typeOfSearch: "positive"
     }
 };
 
