@@ -49,7 +49,7 @@ body.profile .js-metadatum > svg,
     justify-content: space-between !important;
 }
 
-.films-watched .film-poster{
+.films-watched .grid.-p70  .film-poster {
     width: auto !important;
     max-width: 66px;
 }
