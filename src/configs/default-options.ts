@@ -98,8 +98,8 @@ export const defaultOptions: OptionType[] = [
         description: "",
         section: "films",
         function: "convertRatingScale",
-        checked: false
-        // explanationImageName: "rating-scale-conversion"
+        checked: false,
+        explanationImageName: "rating-scale-conversion"
     },
     // ----- SEARCH -----
     {

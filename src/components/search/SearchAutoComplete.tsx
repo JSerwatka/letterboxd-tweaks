@@ -37,7 +37,6 @@ export function SearchAutoComplete({
     let timeoutId: NodeJS.Timeout | null = null;
     const [searchValue, setSearchValue] = createSignal<string | null>(null);
     const [isFieldFocused, setIsFieldFocused] = createSignal(false);
-    const [useScale10, setUseScale10] = createSignal(false);
     const [data] = createResource(searchValue, fetchFilms);
     const searchIcon = searchFieldForm.querySelector("input[type='submit']") as HTMLElement | undefined;
     let searchAutocompleteRef: HTMLDivElement | undefined;
@@ -64,10 +63,6 @@ export function SearchAutoComplete({
     };
 
     onMount(async () => {
-        // Check if rating scale conversion is enabled
-        const scaleEnabled = await isOptionEnabled("5520bd3a-d90b-4cbf-9fa7-84888f077751");
-        setUseScale10(scaleEnabled);
-
         searchInputField.addEventListener("keyup", async (event: Event) => {
             const searchField = event.target as HTMLInputElement;
 
@@ -167,11 +162,7 @@ export function SearchAutoComplete({
                                 <div class="flex flex-row py-3 gap-5">
                                     <div class="min-w-[75px] w-[75px] h-[112px] min-h-[112px] relative">
                                         <img src={film.poster} class="w-full object-contain rounded-md" />
-                                        <FilmBadge
-                                            rating={film.rating}
-                                            isColorfulBadge={true}
-                                            useScale10={useScale10()}
-                                        />
+                                        <FilmBadge rating={film.rating} isColorfulBadge={true} />
                                     </div>
                                     <div class="flex flex-col justify-between">
                                         <div>
