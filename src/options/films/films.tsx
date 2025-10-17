@@ -76,6 +76,25 @@ export const showFilmData = async () => {
     });
 };
 
+// --- DESC: Converts rating scale on film page from 0.5-5 to 1-10 ---
+export const convertRatingScale = async () => {
+    try {
+        const selector = ".ratings-histogram-chart:not(.ratings-extras) .average-rating a.display-rating";
+
+        const ratingElement = await waitForElement(document, selector);
+        if (!ratingElement) return;
+
+        // Convert and display
+        const convertedRating = convertRatingTo10Scale(ratingElement.textContent);
+
+        if (convertedRating) {
+            ratingElement.textContent = convertedRating;
+        }
+    } catch (error) {
+        console.error("Error in convertRatingScale:", error);
+    }
+};
+
 // --- DESC: Hides service tab on films list ---
 // WARNING: because there is no other selector, I have to use label with text "Service",
 // which means that this code will no work if the page is translated

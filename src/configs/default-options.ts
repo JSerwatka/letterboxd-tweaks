@@ -13,8 +13,8 @@ interface OptionBaseType {
 }
 
 // export type Option = OptionBase & (
-//     { function: FunctionName } | 
-//     { function: "hideSort", config: SortConfigType } | 
+//     { function: FunctionName } |
+//     { function: "hideSort", config: SortConfigType } |
 //     { function: "hideAdditionalOptions", config: AccountFilterConfigType } |
 //     { function: "hideAccountFilters", config: FilmFilterConfigType } |
 //     { function: "hideContentFilters", config: ContentFilterConfigType } |
@@ -23,13 +23,13 @@ interface OptionBaseType {
 //     { function: "navbarMenuActions", config: NavbarActionsConfig<NavbarLinksKeys> }
 // );
 
-export type OptionType = OptionBaseType &
-{
-    config?: SortConfigType |
-    AdditionalOptionConfigType |
-    AccountFilterConfigType |
-    ContentFilterConfigType |
-    NavbarActionsConfig<AccountLinksKeys | ProfileLinksKeys | NavbarLinksKeys>;
+export type OptionType = OptionBaseType & {
+    config?:
+        | SortConfigType
+        | AdditionalOptionConfigType
+        | AccountFilterConfigType
+        | ContentFilterConfigType
+        | NavbarActionsConfig<AccountLinksKeys | ProfileLinksKeys | NavbarLinksKeys>;
 };
 
 export type Section = "films" | "filter" | "lists" | "navbar" | "search" | "sort";
@@ -38,6 +38,7 @@ export type FunctionName =
     | "moveMovieDataToHeader"
     | "hideService"
     | "showFilmData"
+    | "convertRatingScale"
     | "hideAccountFilters"
     | "hideAdditionalOptions"
     | "hideContentFilters"
@@ -49,16 +50,18 @@ export type FunctionName =
     | "renderSearch"
     | "hideSort";
 
-
 // Type guards
-export function hasToRedirect(config: OptionType['config']): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"]; } {
-    return config !== undefined && 'toRedirect' in config;
+export function hasToRedirect(
+    config: OptionType["config"]
+): config is { toRedirect: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRedirect"] } {
+    return config !== undefined && "toRedirect" in config;
 }
 
-export function hasToRename(config: OptionType['config']): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"]; } {
-    return config !== undefined && 'toRename' in config;
+export function hasToRename(
+    config: OptionType["config"]
+): config is { toRename: NavbarActionsConfig<NavbarLinksKeys | ProfileLinksKeys | AccountLinksKeys>["toRename"] } {
+    return config !== undefined && "toRename" in config;
 }
-
 
 export const defaultOptions: OptionType[] = [
     // ----- FILMS -----
@@ -88,6 +91,15 @@ export const defaultOptions: OptionType[] = [
         function: "showFilmData",
         checked: true,
         explanationImageName: "show-film-data"
+    },
+    {
+        id: "5520bd3a-d90b-4cbf-9fa7-84888f077751",
+        title: "Change rating from 0.5-5 to 1-10",
+        description: "",
+        section: "films",
+        function: "convertRatingScale",
+        checked: false
+        // explanationImageName: "rating-scale-conversion"
     },
     // ----- SEARCH -----
     {
@@ -256,7 +268,7 @@ export const defaultOptions: OptionType[] = [
         section: "navbar",
         function: "profileMenuActions",
         checked: false,
-        config: { toHide: ["Invitations"] },
+        config: { toHide: ["Invitations"] }
     },
     {
         id: "48965f26-31cf-4f6a-b8c8-7993ec122116",
@@ -265,7 +277,7 @@ export const defaultOptions: OptionType[] = [
         section: "navbar",
         function: "navbarMenuActions",
         checked: false,
-        config: { toRedirect: { Films: { redirectTo: "popular/this/week/size/large/" } } },
+        config: { toRedirect: { Films: { redirectTo: "popular/this/week/size/large/" } } }
     },
     {
         id: "515d2ac4-9a2e-427f-b59a-338126065e75",

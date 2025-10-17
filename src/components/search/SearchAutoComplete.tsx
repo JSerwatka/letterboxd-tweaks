@@ -2,7 +2,7 @@ import { For, Show, createEffect, createResource, createSignal, on, onMount } fr
 import { onCleanup } from "solid-js";
 import { Divider } from "@components/Divider";
 import { fetchFilmRating } from "@options/films/filmsUtils";
-import FilmBadge from "../Film/FilmBadge";
+import FilmBadge from "@components/film/FilmBadge";
 import { isOptionEnabled } from "@utils/chrome-storage";
 
 interface FilmSearchResult {
