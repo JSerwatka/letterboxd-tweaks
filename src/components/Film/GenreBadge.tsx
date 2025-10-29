@@ -21,7 +21,12 @@ export const GenreBadgesList = ({ genres }: GenreBadgesList) => {
 
 const GenreBadge = ({ genreName }: GenreBadgeProps) => {
     return (
-        <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 font-medium text-red-700 ring-1 ring-inset ring-red-600/10">
+        <span
+            style={{
+                "box-shadow": "inset 0 1px rgba(255, 255, 255, .05)"
+            }}
+            class="text-[12px] rounded-[3px] bg-[#283038] px-[6px] py-[3px] text-[#99aabb] space-x-4 "
+        >
             {genreName}
         </span>
     );
