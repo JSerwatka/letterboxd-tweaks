@@ -308,15 +308,22 @@ export class Film {
     }
 
     handleSpecialCases() {
-        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID" | "NEW_FROM_FRIENDS";
+        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID" | "NEW_FROM_FRIENDS" | "LIST_GRID" | "LARGE_GRID";
         const getSpecialCase = (): SpecialCases | undefined => {
             if (this.filmElement.closest("section#popular-films ul.-p230")) {
                 return "POPULAR_THIS_WEEK";
             }
 
-            const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
-            if (gridContainer && gridContainer.childElementCount > 3) {
+            if (this.filmElement.closest("ul.poster-list.-p70.-grid")) {
                 return "SMALL_GRID";
+            }
+
+            if (this.filmElement.closest("ul.poster-list.-p125.-grid")) {
+                return "LIST_GRID";
+            }
+
+            if (this.filmElement.closest("ul.poster-list.-p150.-grid")) {
+                return "LARGE_GRID";
             }
 
             if (this.filmElement.closest("section#recent-from-friends")) {
@@ -357,6 +364,11 @@ export class Film {
                 return true;
             case "SMALL_GRID":
                 styleElement.innerHTML = `
+                    .poster-list.-p70 {
+                        justify-content: flex-start !important;
+                        column-gap: 30px !important;
+                    }
+
                     ul.poster-list.no-after::after {
                         content: none !important;
                     }
@@ -365,6 +377,24 @@ export class Film {
 
                 const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
                 gridContainer?.classList?.add("no-after");
+                return true;
+            case "LIST_GRID":
+                styleElement.innerHTML = `
+                    ul.poster-list.-p125.-grid {
+                        justify-content: flex-start !important;
+                        gap: 10px;                    
+                    }
+                `;
+                document.head.appendChild(styleElement);
+                return true;
+            case "LARGE_GRID":
+                styleElement.innerHTML = `
+                    ul.poster-list.-p150.-grid {
+                        justify-content: flex-start !important;
+                        gap: 10px;                    
+                    }
+                `;
+                document.head.appendChild(styleElement);
                 return true;
 
             // Fix for layout shift cause by some changes in letterboxd html structure (check issue #35)
