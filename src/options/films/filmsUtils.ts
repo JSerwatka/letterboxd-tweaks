@@ -73,7 +73,8 @@ export class Film {
                 "section#popular-films ul.-p230",
                 "body.similar-films ul.-p125",
                 "body.similar-films section.poster-list.-p230",
-                "body.filmography-page ul.-p125"
+                "body.filmography-page ul.-p125",
+                "body.list-page ul.-p125" // list page (e.g. https://letterboxd.com/official/list/letterboxds-top-500-films/)
             ],
             small: [
                 "body.films-page ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
