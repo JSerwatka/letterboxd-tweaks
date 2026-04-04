@@ -73,9 +73,11 @@ export class Film {
                 "section#popular-films ul.-p230",
                 "body.similar-films ul.-p125",
                 "body.similar-films section.poster-list.-p230",
-                "body.filmography-page ul.-p125"
+                "body.filmography-page ul.-p125",
+                "body.list-page ul.-p125" // list page (e.g. https://letterboxd.com/official/list/letterboxds-top-500-films/)
             ],
             small: [
+                "body.films-page ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
                 "body.likes ul.poster-list.-p70:not(.-overlapped)" // /<user>/likes/films/ page
@@ -308,7 +310,13 @@ export class Film {
     }
 
     handleSpecialCases() {
-        type SpecialCases = "POPULAR_THIS_WEEK" | "SMALL_GRID" | "NEW_FROM_FRIENDS" | "LIST_GRID" | "LARGE_GRID";
+        type SpecialCases =
+            | "POPULAR_THIS_WEEK"
+            | "SMALL_GRID"
+            | "NEW_FROM_FRIENDS"
+            | "LIST_GRID"
+            | "LARGE_GRID"
+            | "SIMILAR_SIDEBAR";
         const getSpecialCase = (): SpecialCases | undefined => {
             if (this.filmElement.closest("section#popular-films ul.-p230")) {
                 return "POPULAR_THIS_WEEK";
@@ -328,6 +336,10 @@ export class Film {
 
             if (this.filmElement.closest("section#recent-from-friends")) {
                 return "NEW_FROM_FRIENDS";
+            }
+
+            if (this.filmElement.closest("body.similar-films section.poster-list.-p230")) {
+                return "SIMILAR_SIDEBAR";
             }
 
             return;
@@ -435,6 +447,24 @@ export class Film {
 
                     .poster.-attributed > div.css-film-data-large {
                         padding-bottom: 24px
+                    }
+                `;
+                document.head.appendChild(styleElement);
+                return true;
+
+            // for similar, nanogenres and themes sidebar - check https://github.com/JSerwatka/letterboxd-tweaks/issues/66
+            case "SIMILAR_SIDEBAR":
+                styleElement.innerHTML = `
+                    .similar-films aside.sidebar {
+                        width: auto !important;
+                    }
+
+                    .similar-films section.poster-list.-p230 [data-item-name] {
+                        max-width: initial !important;
+                    }
+
+                    .similar-films section.poster-list.-p230 [data-item-name] .film-poster {
+                        width: auto !important;
                     }
                 `;
                 document.head.appendChild(styleElement);
