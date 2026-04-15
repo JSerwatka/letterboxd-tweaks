@@ -480,7 +480,7 @@ export async function fetchFilmRating(filmSlug?: string) {
     if (!filmSlug) return;
 
     const parser = new DOMParser();
-    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/ratings-summary/`;
+    const movieRatingUrl = `https://letterboxd.com/csi/film/${filmSlug}/rating-histogram/`;
 
     const ratingHistogramDom = await fetch(movieRatingUrl)
         .then((response) => {
@@ -497,7 +497,7 @@ export async function fetchFilmRating(filmSlug?: string) {
     if (!ratingHistogramDom) return;
 
     const htmlDocument = parser.parseFromString(ratingHistogramDom, "text/html");
-    const rating = htmlDocument.querySelector(".average-rating > a.display-rating")?.textContent ?? undefined;
+    const rating = htmlDocument.querySelector(".averagerating")?.textContent ?? undefined;
 
     return rating;
 }
