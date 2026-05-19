@@ -114,7 +114,7 @@ export async function moveMovieDataToHeader() {
         filmHeaderSection?.appendChild(p);
     }
 
-    const genreSection = (await waitForElement(document, "#tab-genres a[href*='/films/genre']"))?.parentElement;
+    const genreSection = (await waitForElement(document, "#tab-panel-genres a[href*='/films/genre']"))?.parentElement;
     if (genreSection) {
         const genreLinks = Array.from(genreSection.children);
         const genreNames = genreLinks.map((genreLink) => genreLink?.textContent);

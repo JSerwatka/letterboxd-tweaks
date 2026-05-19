@@ -3,10 +3,12 @@
 @tailwind utilities;
 
 /* Fixes for issues with styling of some component because of taiwlind forced styles */
+
 .js-button-following,
 .micro-button,
 .film-poster-popmenu,
 .fm-rateit.instant-rating,
+label[class*="_star-trigger"],
 section.decade-browser > ul.bar-nav-with-arrows > li > a {
     box-sizing: content-box;
 }
