@@ -78,7 +78,7 @@ export class Film {
                 "body.list-page ul.-p125" // list page (e.g. https://letterboxd.com/official/list/letterboxds-top-500-films/)
             ],
             small: [
-                "body.films-page ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
+                "body.films-page .productions-browser-list ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
                 "body.likes ul.poster-list.-p70:not(.-overlapped)" // /<user>/likes/films/ page
