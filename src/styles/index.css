@@ -54,3 +54,15 @@ body.profile .js-metadatum > svg,
 .hide-films-seen [data-watched="true"] + .css-film-badge {
     filter: grayscale(30%);
 }
+
+
+/* Fix: on cast/contributor pages some posters have different sizes for some reason
+    this fix cause all of the to behave the same
+*/
+.screen-contributor .poster.film-poster {
+    width: 100px !important;
+    height: 149px !important;
+}
+.body.screen-contributor > .poster-grid > .grid {
+    --poster-grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+}
