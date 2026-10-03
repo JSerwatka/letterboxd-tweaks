@@ -74,6 +74,7 @@ export class Film {
                 "body.similar-films ul.-p125",
                 "body.similar-films section.poster-list.-p230",
                 "body.filmography-page ul.-p125",
+                "body.screen-contributor ul.-p125", // cast / contributor page - (e.g. https://letterboxd.com/director/pete-ohs/)
                 "body.list-page ul.-p125" // list page (e.g. https://letterboxd.com/official/list/letterboxds-top-500-films/)
             ],
             small: [
