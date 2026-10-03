@@ -74,10 +74,11 @@ export class Film {
                 "body.similar-films ul.-p125",
                 "body.similar-films section.poster-list.-p230",
                 "body.filmography-page ul.-p125",
+                "body.screen-contributor ul.-p125", // cast / contributor page - (e.g. https://letterboxd.com/director/pete-ohs/)
                 "body.list-page ul.-p125" // list page (e.g. https://letterboxd.com/official/list/letterboxds-top-500-films/)
             ],
             small: [
-                "body.films-page ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
+                "body.films-page .productions-browser-list ul.-p70", // https://letterboxd.com/films/popular/this/week/ (small cards)
                 "body.films-watched ul.-p70",
                 "div#films-browser-list-container ul.-p70",
                 "body.likes ul.poster-list.-p70:not(.-overlapped)" // /<user>/likes/films/ page
@@ -322,7 +323,7 @@ export class Film {
                 return "POPULAR_THIS_WEEK";
             }
 
-            if (this.filmElement.closest("ul.poster-list.-p70.-grid")) {
+            if (this.filmElement.closest("ul.poster-list.-p70.-grid") || this.filmElement.closest("ul.grid.-p70")) {
                 return "SMALL_GRID";
             }
 
@@ -376,18 +377,18 @@ export class Film {
                 return true;
             case "SMALL_GRID":
                 styleElement.innerHTML = `
-                    .poster-list.-p70 {
+                    .-p70 {
                         justify-content: flex-start !important;
                         column-gap: 30px !important;
                     }
 
-                    ul.poster-list.no-after::after {
+                    .no-after::after {
                         content: none !important;
                     }
                 `;
                 document.head.appendChild(styleElement);
 
-                const gridContainer = this.filmElement.closest("ul.poster-list.-p70.-grid");
+                const gridContainer = this.filmElement.closest(".-p70.-grid");
                 gridContainer?.classList?.add("no-after");
                 return true;
             case "LIST_GRID":

@@ -40,11 +40,24 @@ body.profile .js-metadatum > svg,
 .films-watched .poster-grid > .grid.-p70 {
     --poster-grid-col-size: 260px !important;
     justify-content: space-between !important;
+    grid-template-columns: repeat(3,1fr) !important;
 }
 
 .films-watched .grid.-p70 .film-poster {
-    width: auto !important;
-    max-width: 66px;
+    flex: none;                 /* never shrink */
+    align-self: flex-start;     /* never stretch, so the box height equals the image height */
+    width: 66px !important;
+}
+
+.films-watched .react-component {
+    height: 100%;
+}
+
+.films-watched .grid.-p70 .react-component > .w-\[200px\] {
+    flex: 1 1 0;
+    min-width: 0;               /* lets the text block shrink below its longest word */
+    width: auto;
+    overflow-wrap: anywhere;  
 }
 
 /* Fix: only movie's posters is faded out when  "fade watched movies" is enabled */
@@ -53,4 +66,16 @@ body.profile .js-metadatum > svg,
 }
 .hide-films-seen [data-watched="true"] + .css-film-badge {
     filter: grayscale(30%);
+}
+
+
+/* Fix: on cast/contributor pages some posters have different sizes for some reason
+    this fix cause all of the to behave the same
+*/
+.screen-contributor .poster.film-poster {
+    width: 100px !important;
+    height: 149px !important;
+}
+.body.screen-contributor > .poster-grid > .grid {
+    --poster-grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
 }
