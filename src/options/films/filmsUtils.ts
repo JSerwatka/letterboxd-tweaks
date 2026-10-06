@@ -379,7 +379,17 @@ export class Film {
                 styleElement.innerHTML = `
                     .-p70 {
                         justify-content: flex-start !important;
-                        column-gap: 30px !important;
+                        column-gap: 15px !important;
+                        row-gap: 5px;
+                    }
+
+                    .-p70 .posteritem {
+                        max-width: 300px;
+                        display: grid;
+                    }
+
+                    .-p70 .posteritem .film-poster {
+                        height: 100%;
                     }
 
                     .no-after::after {
