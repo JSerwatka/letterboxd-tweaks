@@ -49,8 +49,8 @@ body.profile .js-metadatum > svg,
     width: 66px !important;
 }
 
-.films-watched .react-component {
-    height: 100%;
+.films-watched .grid .griditem {
+    display: grid;
 }
 
 .films-watched .grid.-p70 .react-component > .w-\[200px\] {
