@@ -73,9 +73,8 @@ body.profile .js-metadatum > svg,
     this fix cause all of the to behave the same
 */
 .screen-contributor .poster.film-poster {
-    width: 100px !important;
     height: 149px !important;
 }
-.body.screen-contributor > .poster-grid > .grid {
+body.screen-contributor .grid {
     --poster-grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
 }
